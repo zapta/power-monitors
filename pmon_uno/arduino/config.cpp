@@ -30,8 +30,8 @@ void setup() {
 }
 
 void loop() {
-  // Read the 4 LSB pins, invert since they are active low.
-  const uint8 new_value = (~PINC) & kBitMask; 
+  // Each switch is active when high (open). No need to invert.
+  const uint8 new_value = PINC & kBitMask; 
   private_::byte_debouncer.update(new_value);
 }
 
