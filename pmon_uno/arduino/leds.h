@@ -19,17 +19,14 @@
 
 // Defines the three leds.
 namespace leds {
-  // STATUS LED - indicates custom module and injector events.
-  //extern io_pins::OutputPin activty;
+  // STATUS LED - indicates custom events.
+  extern io_pins::OutputPin status;
 
   // ACTIVITY LED - indicates normal activity.
   extern ActionLed activity;
 
   // ERRORS LED - blinks when detecting errors.
   extern ActionLed errors;
-  
-  // DEBUG LED
-  extern io_pins::OutputPin debug;
   
   // Called from the main loop()
   inline void loop() {

@@ -13,11 +13,12 @@
 #include "leds.h"
 
 namespace leds {
-  io_pins::OutputPin status(PORTD, 7);
-  ActionLed activity(PORTB, 0);
-  ActionLed errors(PORTB, 1);
-  io_pins::OutputPin debug(PORTB, 2);
+  // NOTE: can also be used as a PWM output pin for led intensity control (e.g. to 
+  // reflect the momentary current).
+  io_pins::OutputPin status(PORTD, 3);
 
+  ActionLed activity(PORTB, 1);
+  ActionLed errors(PORTB, 0);
 }  // namepsace leds
 
 

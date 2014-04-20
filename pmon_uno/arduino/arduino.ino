@@ -279,13 +279,10 @@ inline void StateError::loop() {
 // Arduino loop() method. Called after setup(). Never returns.
 // This is a quick loop that does not use delay() or other 'long' busy loops
 // or blocking calls. typical iteration is ~ 50usec with 16Mhz CPU.
-void loop()
-{
+void loop() {
   // Having our own loop shaves about 4 usec per iteration. It also eliminate
   // any underlying functionality that we may not want.
-  for(;;) {   
-     //leds::debug.high();
- 
+  for(;;) {
     // Periodic updates.
     system_clock::loop();  
     config::loop();  
@@ -310,8 +307,6 @@ void loop()
         StateError::enter();
         break;  
     }
-    
-   //leds::debug.low();
   }
 }
 

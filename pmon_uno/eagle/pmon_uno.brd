@@ -1483,8 +1483,8 @@ design rules under a new name.</description>
 </signal>
 <signal name="ERROR_LED">
 <contactref element="R9" pad="2"/>
-<contactref element="U4" pad="13"/>
-<wire x1="9.74" y1="8.255" x2="22.625" y2="15.3924" width="0" layer="19" extent="1-1"/>
+<contactref element="U4" pad="12"/>
+<wire x1="9.74" y1="8.255" x2="21.825" y2="15.3924" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="RESET">
 <contactref element="J4" pad="5"/>
@@ -1568,8 +1568,8 @@ design rules under a new name.</description>
 </signal>
 <signal name="ACTIVITY_LED">
 <contactref element="R10" pad="2"/>
-<contactref element="U4" pad="12"/>
-<wire x1="14.82" y1="8.255" x2="21.825" y2="15.3924" width="0" layer="19" extent="1-1"/>
+<contactref element="U4" pad="13"/>
+<wire x1="14.82" y1="8.255" x2="22.625" y2="15.3924" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$9">
 <contactref element="U3" pad="2"/>
@@ -1710,10 +1710,10 @@ design rules under a new name.</description>
 <wire x1="18.288" y1="8.255" x2="18.2" y2="8.255" width="0.2032" layer="1"/>
 <wire x1="19.05" y1="5.969" x2="19.05" y2="5.867" width="0.2032" layer="1"/>
 </signal>
-<signal name="DEBUG_LED">
+<signal name="STATUS_LED">
 <contactref element="R11" pad="2"/>
-<contactref element="U4" pad="14"/>
-<wire x1="19.9" y1="8.255" x2="23.425" y2="15.3924" width="0" layer="19" extent="1-1"/>
+<contactref element="U4" pad="1"/>
+<wire x1="19.9" y1="8.255" x2="17.9324" y2="22.485" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$22">
 <contactref element="R6" pad="1"/>
