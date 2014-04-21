@@ -145,6 +145,7 @@ by exp-lbrs-filter.ulp</description>
 <wire x1="8.37" y1="5.81" x2="8.37" y2="1.81" width="0.2032" layer="21"/>
 <wire x1="8.37" y1="1.81" x2="6.87" y2="1.81" width="0.2032" layer="21"/>
 <wire x1="6.87" y1="1.81" x2="6.87" y2="5.81" width="0.2032" layer="21"/>
+<wire x1="-1.295" y1="-0.2667" x2="-1.85" y2="-0.2667" width="0.2032" layer="21"/>
 <rectangle x1="-0.75" y1="1.81" x2="0.75" y2="3.31" layer="21"/>
 <rectangle x1="1.79" y1="1.81" x2="3.29" y2="3.31" layer="21"/>
 <rectangle x1="4.33" y1="1.81" x2="5.83" y2="3.31" layer="21"/>
@@ -163,7 +164,6 @@ by exp-lbrs-filter.ulp</description>
 <text x="2.34" y="0.96" size="0.6096" layer="21" rot="SR0">2</text>
 <text x="4.88" y="0.96" size="0.6096" layer="21" rot="SR0">3</text>
 <text x="7.42" y="0.96" size="0.6096" layer="21" rot="SR0">4</text>
-<wire x1="-1.295" y1="-0.2667" x2="-1.85" y2="-0.2667" width="0.2032" layer="21"/>
 </package>
 <package name="SSOP28DB">
 <description>&lt;b&gt;Small Shrink Outline Package&lt;/b&gt;</description>
@@ -747,6 +747,7 @@ Source: smt-pots.pdf</description>
 <package name="TLE1105">
 <description>&lt;b&gt;TACT SWITCH&lt;/b&gt; (EARTH TERMINAL)&lt;p&gt;
 Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%20Series.pdf</description>
+<circle x="0" y="0" radius="1.65" width="0.2032" layer="21"/>
 <wire x1="-2.9" y1="2.9" x2="-2.9" y2="-2.9" width="0.2032" layer="51"/>
 <wire x1="2.9" y1="2.9" x2="2.9" y2="-2.9" width="0.2032" layer="51"/>
 <wire x1="-2.9" y1="2.9" x2="2.9" y2="2.9" width="0.2032" layer="51"/>
@@ -755,19 +756,18 @@ Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%2
 <wire x1="-2.9" y1="2.265" x2="-2.9" y2="-2.265" width="0.2032" layer="21"/>
 <wire x1="0.995" y1="-2.9" x2="-0.995" y2="-2.9" width="0.2032" layer="21"/>
 <wire x1="2.9" y1="2.265" x2="2.9" y2="-2.265" width="0.2032" layer="21"/>
-<circle x="0" y="0" radius="1.65" width="0.2032" layer="21"/>
-<pad name="AX" x="-2.25" y="-3.25" drill="1" diameter="1.6764" rot="R90"/>
-<pad name="A" x="-2.25" y="3.25" drill="1" diameter="1.6764" rot="R90"/>
-<pad name="BX" x="2.25" y="-3.25" drill="1" diameter="1.6764" rot="R90"/>
-<pad name="B" x="2.25" y="3.25" drill="1" diameter="1.6764" rot="R90"/>
-<pad name="G" x="-4.1" y="0" drill="1" diameter="1.6764" rot="R90"/>
-<text x="-5.08" y="-2.54" size="1.27" layer="25" rot="R90">&gt;NAME</text>
-<text x="5.08" y="-2.54" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
 <rectangle x1="-2.55" y1="2.925" x2="-1.95" y2="3.85" layer="51"/>
 <rectangle x1="1.95" y1="2.925" x2="2.55" y2="3.85" layer="51"/>
 <rectangle x1="1.95" y1="-3.85" x2="2.55" y2="-2.925" layer="51" rot="R180"/>
 <rectangle x1="-2.55" y1="-3.85" x2="-1.95" y2="-2.925" layer="51" rot="R180"/>
 <rectangle x1="-4.6" y1="-0.625" x2="-2.95" y2="0.625" layer="51"/>
+<pad name="A" x="-2.25" y="3.25" drill="1" diameter="1.6764" rot="R90"/>
+<pad name="AX" x="-2.25" y="-3.25" drill="1" diameter="1.6764" rot="R90"/>
+<pad name="B" x="2.25" y="3.25" drill="1" diameter="1.6764" rot="R90"/>
+<pad name="BX" x="2.25" y="-3.25" drill="1" diameter="1.6764" rot="R90"/>
+<pad name="G" x="-4.1" y="0" drill="1" diameter="1.6764" rot="R90"/>
+<text x="-5.08" y="-2.54" size="1.27" layer="25" rot="R90">&gt;NAME</text>
+<text x="5.08" y="-2.54" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
 </package>
 <package name="1X03">
 <description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
@@ -793,41 +793,14 @@ Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%2
 <wire x1="3.81" y1="-0.635" x2="3.175" y2="-1.27" width="0.1524" layer="21"/>
 <wire x1="3.175" y1="-1.27" x2="1.905" y2="-1.27" width="0.1524" layer="21"/>
 <wire x1="1.905" y1="-1.27" x2="1.27" y2="-0.635" width="0.1524" layer="21"/>
+<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
+<rectangle x1="-2.794" y1="-0.254" x2="-2.286" y2="0.254" layer="51"/>
+<rectangle x1="2.286" y1="-0.254" x2="2.794" y2="0.254" layer="51"/>
 <pad name="1" x="-2.54" y="0" drill="1.016" shape="square" rot="R90"/>
 <pad name="2" x="0" y="0" drill="1.016" rot="R90"/>
 <pad name="3" x="2.54" y="0" drill="1.016" rot="R90"/>
 <text x="-3.8862" y="1.8288" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-3.81" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
-<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
-<rectangle x1="-2.794" y1="-0.254" x2="-2.286" y2="0.254" layer="51"/>
-<rectangle x1="2.286" y1="-0.254" x2="2.794" y2="0.254" layer="51"/>
-</package>
-<package name="1X03/90">
-<description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
-<wire x1="-3.81" y1="-1.905" x2="-1.27" y2="-1.905" width="0.1524" layer="21"/>
-<wire x1="-1.27" y1="-1.905" x2="-1.27" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="-1.27" y1="0.635" x2="-3.81" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="-3.81" y1="0.635" x2="-3.81" y2="-1.905" width="0.1524" layer="21"/>
-<wire x1="-2.54" y1="6.985" x2="-2.54" y2="1.27" width="0.762" layer="21"/>
-<wire x1="-1.27" y1="-1.905" x2="1.27" y2="-1.905" width="0.1524" layer="21"/>
-<wire x1="1.27" y1="-1.905" x2="1.27" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="1.27" y1="0.635" x2="-1.27" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="0" y1="6.985" x2="0" y2="1.27" width="0.762" layer="21"/>
-<wire x1="1.27" y1="-1.905" x2="3.81" y2="-1.905" width="0.1524" layer="21"/>
-<wire x1="3.81" y1="-1.905" x2="3.81" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="3.81" y1="0.635" x2="1.27" y2="0.635" width="0.1524" layer="21"/>
-<wire x1="2.54" y1="6.985" x2="2.54" y2="1.27" width="0.762" layer="21"/>
-<pad name="1" x="-2.54" y="-3.81" drill="1.016" shape="long" rot="R90"/>
-<pad name="2" x="0" y="-3.81" drill="1.016" shape="long" rot="R90"/>
-<pad name="3" x="2.54" y="-3.81" drill="1.016" shape="long" rot="R90"/>
-<text x="-4.445" y="-3.81" size="1.27" layer="25" ratio="10" rot="R90">&gt;NAME</text>
-<text x="5.715" y="-3.81" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
-<rectangle x1="-2.921" y1="0.635" x2="-2.159" y2="1.143" layer="21"/>
-<rectangle x1="-0.381" y1="0.635" x2="0.381" y2="1.143" layer="21"/>
-<rectangle x1="2.159" y1="0.635" x2="2.921" y2="1.143" layer="21"/>
-<rectangle x1="-2.921" y1="-2.921" x2="-2.159" y2="-1.905" layer="21"/>
-<rectangle x1="-0.381" y1="-2.921" x2="0.381" y2="-1.905" layer="21"/>
-<rectangle x1="2.159" y1="-2.921" x2="2.921" y2="-1.905" layer="21"/>
 </package>
 </packages>
 <symbols>
@@ -1211,22 +1184,22 @@ Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%2
 <wire x1="-2.032" y1="1.524" x2="-3.048" y2="1.524" width="0.254" layer="94"/>
 <wire x1="-3.048" y1="1.524" x2="-3.048" y2="-1.27" width="0.254" layer="94"/>
 <wire x1="-3.048" y1="-1.27" x2="-2.032" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="2.54" y1="2.54" x2="2.54" y2="-2.54" width="0.254" layer="94"/>
 <pin name="1" x="0" y="-5.08" visible="off" length="short" direction="pas" rot="R90"/>
 <pin name="2" x="0" y="5.08" visible="off" length="short" direction="pas" rot="R270"/>
-<text x="-10.16" y="3.81" size="1.778" layer="95">&gt;NAME</text>
-<wire x1="2.54" y1="2.54" x2="2.54" y2="-2.54" width="0.254" layer="94" style="shortdash"/>
 <pin name="G" x="2.54" y="-5.08" length="short" rot="R90"/>
+<text x="-10.16" y="3.81" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
 <symbol name="PINHD3">
 <wire x1="-6.35" y1="-5.08" x2="1.27" y2="-5.08" width="0.4064" layer="94"/>
 <wire x1="1.27" y1="-5.08" x2="1.27" y2="5.08" width="0.4064" layer="94"/>
 <wire x1="1.27" y1="5.08" x2="-6.35" y2="5.08" width="0.4064" layer="94"/>
 <wire x1="-6.35" y1="5.08" x2="-6.35" y2="-5.08" width="0.4064" layer="94"/>
-<text x="-6.35" y="5.715" size="1.778" layer="95">&gt;NAME</text>
-<text x="-6.35" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
 <pin name="1" x="-2.54" y="2.54" visible="pad" length="short" direction="pas" function="dot"/>
 <pin name="2" x="-2.54" y="0" visible="pad" length="short" direction="pas" function="dot"/>
 <pin name="3" x="-2.54" y="-2.54" visible="pad" length="short" direction="pas" function="dot"/>
+<text x="-6.35" y="5.715" size="1.778" layer="95">&gt;NAME</text>
+<text x="-6.35" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -1648,16 +1621,6 @@ Sourc: www.ctscorp.com</description>
 </gates>
 <devices>
 <device name="" package="1X03">
-<connects>
-<connect gate="A" pin="1" pad="1"/>
-<connect gate="A" pin="2" pad="2"/>
-<connect gate="A" pin="3" pad="3"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="/90" package="1X03/90">
 <connects>
 <connect gate="A" pin="1" pad="1"/>
 <connect gate="A" pin="2" pad="2"/>
