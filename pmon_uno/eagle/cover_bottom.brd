@@ -132,15 +132,6 @@
 <wire x1="4" y1="50" x2="0" y2="46" width="0" layer="48" style="shortdash" curve="90"/>
 <wire x1="50" y1="46" x2="46" y2="50" width="0" layer="48" style="shortdash" curve="90"/>
 <wire x1="46" y1="0" x2="50" y2="4" width="0" layer="48" style="shortdash" curve="90"/>
-<hole x="5.969" y="35.814" drill="4"/>
-<wire x1="32.6644" y1="6.9342" x2="40.4876" y2="6.9342" width="0.0254" layer="20"/>
-<wire x1="40.4876" y1="6.9342" x2="40.4876" y2="3.9878" width="0.0254" layer="20"/>
-<wire x1="40.4876" y1="3.9878" x2="32.6644" y2="3.9878" width="0.0254" layer="20"/>
-<wire x1="32.6644" y1="3.9878" x2="32.6644" y2="6.9342" width="0.0254" layer="20"/>
-<wire x1="2.794" y1="22.4282" x2="10.922" y2="22.4282" width="0.0254" layer="20"/>
-<wire x1="10.922" y1="22.4282" x2="10.922" y2="9.8298" width="0.0254" layer="20"/>
-<wire x1="10.922" y1="9.8298" x2="2.794" y2="9.8298" width="0.0254" layer="20"/>
-<wire x1="2.794" y1="9.8298" x2="2.794" y2="22.4282" width="0.0254" layer="20"/>
 </plain>
 <libraries>
 </libraries>
