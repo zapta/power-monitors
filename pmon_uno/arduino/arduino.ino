@@ -25,50 +25,68 @@
 
 // LTC293 consts.
 namespace ltc2943_consts {
-  // The value of the standard shunt resistor, in milli ohms.
+  // The value of the standard shunt resistor, in milliohms.
   static const double kStandardShuntResistorMilliOhms = 50.0;
-  // The max ticke prescaler (divider). 
+  // The max tick prescaler (divider). 
   static const uint16 kStandardChargePrescaler = 4096;
-  // The charge per post prescaler tick, in mah, when using the standard shunt resistor and the 
-  // standard tick prescaler.
+  // The charge per post-prescaler tick, in mah, when using the standard shunt resistor and the 
+  // max tick prescaler.
   static const double kStandardChargeLsbMilliAmpsHour = 0.34;
 }  
 
 // Board specific consts.
 namespace board_consts {
-  // The value of the actual shunt resistor installed on the board, in milli ohms.
+  // The value of the actual shunt resistor installed on the board, in milliohms.
   static const double kActualShuntResistorMilliOhms = 25.0;
-  // The charge actual tick prescaler used.
+  // The actual charge tick prescaler used.
   static const uint16 kActualChargePrescaler = 1;
   // The charge in mah per post prescaler charge tick using the actual shunt and prescaler. 
   static const double kTickChargeMilliAmpsHour = ltc2943_consts::kStandardChargeLsbMilliAmpsHour 
       * (ltc2943_consts::kStandardShuntResistorMilliOhms / kActualShuntResistorMilliOhms) 
       * (kActualChargePrescaler / (double)ltc2943_consts::kStandardChargePrescaler);
-  // Teh average current in micro amps when recieving one post scaler tick per second. 
+  // The average current in micro amps when recieving one post-scaler charge tick 
+  // per second. 
   static const double kAvgCurrentMicroAmpsPerTickPerSecond = kTickChargeMilliAmpsHour * 3600 * 1000;
 }
 
- // Consts for 10 samples per second mode.
- namespace fast_mode_consts {
+ // Consts for the 10 samples per second current reporting mode.
+ namespace mode_0_consts {
    static const uint16 kReportingPeriodMillis = 100;
    static const double kAvgCurrentMicroAmpsPerTickPerReportingPeriod = 
        board_consts::kAvgCurrentMicroAmpsPerTickPerSecond * 1000 / kReportingPeriodMillis;
  }
   
- // Consts per 1 sample per second mode
- namespace slow_mode_consts {
-    static const uint16 kReportingPeriodMillis = 1000;
-    static const double kAvgCurrentMicroAmpsPerTickPerReportingPeriod = 
-        board_consts::kAvgCurrentMicroAmpsPerTickPerSecond * 1000 / kReportingPeriodMillis;
+ // Consts for the 10 samples per second total charge reporting mode.
+ namespace mode_1_consts {
+   static const uint16 kReportingPeriodMillis = 100;
+   static const double kAvgCurrentMicroAmpsPerTickPerReportingPeriod = 
+       board_consts::kAvgCurrentMicroAmpsPerTickPerSecond * 1000 / kReportingPeriodMillis;
+ }
+  
+ // Consts for the 1 sample per second current reporting mode
+ namespace mode_2_consts {
+   static const uint16 kReportingPeriodMillis = 1000;
+   static const double kAvgCurrentMicroAmpsPerTickPerReportingPeriod = 
+       board_consts::kAvgCurrentMicroAmpsPerTickPerSecond * 1000 / kReportingPeriodMillis;
  } 
-
+ 
+ // Consts for the 1 sample per second total charge reporting mode
+ namespace mode_3_consts {
+   static const uint16 kReportingPeriodMillis = 1000;
+   static const double kAvgCurrentMicroAmpsPerTickPerReportingPeriod = 
+       board_consts::kAvgCurrentMicroAmpsPerTickPerSecond * 1000 / kReportingPeriodMillis;
+   static const bool report_total_charge = true;
+ } 
+ 
 // Represent a measurement mode.
 struct Mode {
+  const bool report_total_charge;
   const uint16 reporting_time_millis;
   const double avg_current_micro_amps_per_tick_per_reporting_period;
 
-  Mode(uint16 reporting_time_millis, double avg_current_micro_amps_per_tick_per_reporting_period)
+  Mode(bool report_total_charge, uint16 reporting_time_millis, double avg_current_micro_amps_per_tick_per_reporting_period)
   : 
+   report_total_charge(report_total_charge),
    reporting_time_millis(reporting_time_millis),
    avg_current_micro_amps_per_tick_per_reporting_period(avg_current_micro_amps_per_tick_per_reporting_period) {
   }
@@ -76,8 +94,10 @@ struct Mode {
 
 // Mode table. Indexed by config::modeIndex();
 static const Mode modes[] = {
-  Mode(slow_mode_consts::kReportingPeriodMillis, slow_mode_consts::kAvgCurrentMicroAmpsPerTickPerReportingPeriod),
-  Mode(fast_mode_consts::kReportingPeriodMillis, fast_mode_consts::kAvgCurrentMicroAmpsPerTickPerReportingPeriod),
+  Mode(false, mode_0_consts::kReportingPeriodMillis, mode_0_consts::kAvgCurrentMicroAmpsPerTickPerReportingPeriod),
+  Mode(true, mode_1_consts::kReportingPeriodMillis, mode_1_consts::kAvgCurrentMicroAmpsPerTickPerReportingPeriod),
+  Mode(true, mode_2_consts::kReportingPeriodMillis, mode_2_consts::kAvgCurrentMicroAmpsPerTickPerReportingPeriod),
+  Mode(false, mode_3_consts::kReportingPeriodMillis, mode_3_consts::kAvgCurrentMicroAmpsPerTickPerReportingPeriod),
 };
 
 // 8 bit enum with main states.
@@ -106,11 +126,19 @@ class StateReporting {
     static bool has_last_reading;
     static uint32 last_report_time_millis;
     static uint16 last_report_charge_reading;
+    // For accomulated reporting.
+    static uint32 accomulated_charge_ticks;
+    static uint32 accomulated_charge_ticks_start_time_millis;
+    // For restart button press detection
+    static bool last_action_button_state;
 };
 uint8 StateReporting::selected_mode_index;
 bool StateReporting::has_last_reading;
 uint32 StateReporting::last_report_time_millis;
 uint16 StateReporting::last_report_charge_reading;
+uint32 StateReporting::accomulated_charge_ticks;
+uint32 StateReporting::accomulated_charge_ticks_start_time_millis;
+bool StateReporting::last_action_button_state;
 
 // ERROR state declaration.
 class StateError {
@@ -192,6 +220,7 @@ void StateInit::loop() {
 void StateReporting::enter() {
   state = states::REPORTING;
   has_last_reading = false;
+  last_action_button_state = buttons:: isActionButtonPressed();
   // We switch modes only when entering the reporting state. If changed
   // while in the reporting state, we reenter it. This provides a graceful
   // transition.
@@ -205,13 +234,26 @@ void StateReporting::enter() {
 void StateReporting::loop() {
   // Check for mode change.
   if (config::modeIndex() != selected_mode_index) {
-     if (config::isDebug()) {
-        sio::printf(F("# Mode changed\n"));
-      }
-      // The switch is done when reentering the state. This provides graceful 
-      // transition.
-      StateReporting::enter();
+    if (config::isDebug()) {
+      sio::printf(F("# Mode changed\n"));
+    }
+    // The switch is done when reentering the state. This provides graceful 
+    // transition.
+    StateReporting::enter();
     return;
+  }
+  
+  // If button pressed (low to high transition, then reenter state.
+  const bool new_action_button_state = buttons:: isActionButtonPressed();
+  const bool button_click = !last_action_button_state && new_action_button_state;
+  last_action_button_state = new_action_button_state;
+  if (button_click) {
+    if (config::isDebug()) {
+      sio::printf(F("# Button pressed\n"));
+    }
+    // Reenter the state. This also resets the accomulated charge and time.
+    StateReporting::enter();
+    return;  
   }
   
   // Try first reading.
@@ -225,6 +267,8 @@ void StateReporting::loop() {
     }
     last_report_time_millis = system_clock::timeMillis();
     has_last_reading = true;
+    accomulated_charge_ticks = 0;
+    accomulated_charge_ticks_start_time_millis = last_report_time_millis;
     if (config::isDebug()) {
       sio::printf(F("# State: REPORTING.1\n"));
     }
@@ -259,19 +303,44 @@ void StateReporting::loop() {
   }
   
   // NOTE: this should handle correctly charge register wraps around.
-  const int16 charge_reading_diff = (current_report_charge_reading - last_report_charge_reading);
-  last_report_charge_reading = current_report_charge_reading;
-  const int32 avg_micro_amps = (int32)(charge_reading_diff * selected_mode.avg_current_micro_amps_per_tick_per_reporting_period);
+  const uint16 charge_reading_diff = (current_report_charge_reading - last_report_charge_reading);
+  const uint32 period_avg_micro_amps = 
+      (uint32)(charge_reading_diff * selected_mode.avg_current_micro_amps_per_tick_per_reporting_period);
   
+  last_report_charge_reading = current_report_charge_reading;
+  
+  accomulated_charge_ticks += charge_reading_diff;
+  const uint32 accomulated_time_millis = time_now_millis - accomulated_charge_ticks_start_time_millis;
+  const uint32 accomulated_micro_amps_hour = 
+      (uint32)(board_consts::kTickChargeMilliAmpsHour * accomulated_charge_ticks * 1000);
+
+  const uint32 total_avg_micro_amps = 
+      (uint32)(((double)accomulated_micro_amps_hour * (1000L  * 3600L)) / accomulated_time_millis);
+    
   // NOTE: since the stock Arduino printf does not support floating point, we break the 
-  // value into two integer values, the integer and the fraction in ppms.
-  const int16 amps = avg_micro_amps / 1000000L;
-  const int32 uamps = avg_micro_amps - (amps * 1000000L);
+  // floating points value into integer value and fraction value so we can print them
+  // as integers.
+  const uint16 period_amps = period_avg_micro_amps / 1000000L;
+  const uint32 period_micro_amps = period_avg_micro_amps - (period_amps * 1000000L);
+  
+  const uint16 total_amps_hour = accomulated_micro_amps_hour / 1000000L;
+  const uint32 total_micro_amps_hour = accomulated_micro_amps_hour - (total_amps_hour * 1000000L);
+  
+  const uint16 total_amps = total_avg_micro_amps / 1000000L;
+  const uint32 total_micro_amps = total_avg_micro_amps - (total_amps * 1000000L);
+ 
   
   if (config::isDebug()) {
-    sio::printf(F("%04x, %d, %d.%06ld\n"), last_report_charge_reading, charge_reading_diff, amps, uamps);
+    sio::printf(F("%04x, %u, %u.%06lu, %d.%06lu, %08lu %08lu %08lu\n"), 
+        last_report_charge_reading, charge_reading_diff, 
+        period_amps, period_micro_amps, total_amps_hour, total_micro_amps_hour, 
+        accomulated_time_millis, accomulated_micro_amps_hour, total_avg_micro_amps);
+  } else if (selected_mode.report_total_charge) {
+     sio::printf(F("T:%08lu I:%u.%06lu Q:%u.%06lu IAv:%u.%06lu\n"), 
+         accomulated_time_millis,  period_amps, period_micro_amps, 
+         total_amps_hour, total_micro_amps_hour, total_amps, total_micro_amps);  
   } else {
-    sio::printf(F("%08lu %d.%06ld\n"), time_now_millis, amps, uamps);  
+    sio::printf(F("%08lu %d.%06ld\n"), time_now_millis, period_amps, period_micro_amps);  
   }
   leds::activity.action(); 
 }

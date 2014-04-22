@@ -39,8 +39,9 @@ namespace config {
     return get() & H(3);  
   }
   
+  // Returns a [0,3] index of selected mode (two LSB switches).
   inline uint8 modeIndex() {
-    return (get() & H(0)) ? 1 : 0;
+    return get() & 0x03;
   }
 
 }  // namepsace config
