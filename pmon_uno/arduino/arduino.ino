@@ -20,45 +20,64 @@
 #include "sio.h"
 #include "system_clock.h"
 
-// The value of the shunt resistor, in ohms.
-static const float kShuntResistorOhms = 0.025;
+// IMPORTANT: when performing the various const calculations below, make sure not to introduce
+// truncation errors for example by integer division.
 
-namespace consts {
-  static const float kLtc2943ChargeLsb = 0.34E-3;
-  static const uint16 kChargePrescaler = 1;
-  // TODO: define const for 50e-3 (what is it).
-  static const float kAvgUaPerChargeTickPerSecond = (( kLtc2943ChargeLsb * kChargePrescaler * 50e-3 * 60 * 60 * 1000000L)/(kShuntResistorOhms * 4096));
-  
-  // 10 samples per second.
-  namespace fast_mode {
-    static const uint16 kReportingPeriodMillis = 100;
-    static const float kChargeToAvgUaConversion = kAvgUaPerChargeTickPerSecond * 1000 / kReportingPeriodMillis;
-  }
-  
+// LTC293 consts.
+namespace ltc2943_consts {
+  // The value of the standard shunt resistor, in milli ohms.
+  static const double kStandardShuntResistorMilliOhms = 50.0;
+  // The max ticke prescaler (divider). 
+  static const uint16 kStandardChargePrescaler = 4096;
+  // The charge per post prescaler tick, in mah, when using the standard shunt resistor and the 
+  // standard tick prescaler.
+  static const double kStandardChargeLsbMilliAmpsHour = 0.34;
+}  
 
-  // 1 sample per second.
-  namespace slow_mode {
-    static const uint16 kReportingPeriodMillis = 1000;
-    static const float kChargeToAvgUaConversion = kAvgUaPerChargeTickPerSecond * 1000 / kReportingPeriodMillis;
-  } 
+// Board specific consts.
+namespace board_consts {
+  // The value of the actual shunt resistor installed on the board, in milli ohms.
+  static const double kActualShuntResistorMilliOhms = 25.0;
+  // The charge actual tick prescaler used.
+  static const uint16 kActualChargePrescaler = 1;
+  // The charge in mah per post prescaler charge tick using the actual shunt and prescaler. 
+  static const double kTickChargeMilliAmpsHour = ltc2943_consts::kStandardChargeLsbMilliAmpsHour 
+      * (ltc2943_consts::kStandardShuntResistorMilliOhms / kActualShuntResistorMilliOhms) 
+      * (kActualChargePrescaler / (double)ltc2943_consts::kStandardChargePrescaler);
+  // Teh average current in micro amps when recieving one post scaler tick per second. 
+  static const double kAvgCurrentMicroAmpsPerTickPerSecond = kTickChargeMilliAmpsHour * 3600 * 1000;
 }
+
+ // Consts for 10 samples per second mode.
+ namespace fast_mode_consts {
+   static const uint16 kReportingPeriodMillis = 100;
+   static const double kAvgCurrentMicroAmpsPerTickPerReportingPeriod = 
+       board_consts::kAvgCurrentMicroAmpsPerTickPerSecond * 1000 / kReportingPeriodMillis;
+ }
+  
+ // Consts per 1 sample per second mode
+ namespace slow_mode_consts {
+    static const uint16 kReportingPeriodMillis = 1000;
+    static const double kAvgCurrentMicroAmpsPerTickPerReportingPeriod = 
+        board_consts::kAvgCurrentMicroAmpsPerTickPerSecond * 1000 / kReportingPeriodMillis;
+ } 
 
 // Represent a measurement mode.
 struct Mode {
   const uint16 reporting_time_millis;
-  const float charge_ticks_to_avg_ua_conversion;
+  const double avg_current_micro_amps_per_tick_per_reporting_period;
 
-  Mode(uint16 reporting_time_millis, float charge_ticks_to_avg_ua_conversion)
+  Mode(uint16 reporting_time_millis, double avg_current_micro_amps_per_tick_per_reporting_period)
   : 
    reporting_time_millis(reporting_time_millis),
-   charge_ticks_to_avg_ua_conversion(charge_ticks_to_avg_ua_conversion) {
+   avg_current_micro_amps_per_tick_per_reporting_period(avg_current_micro_amps_per_tick_per_reporting_period) {
   }
 };
 
 // Mode table. Indexed by config::modeIndex();
 static const Mode modes[] = {
-  Mode(consts::slow_mode::kReportingPeriodMillis, consts::slow_mode::kChargeToAvgUaConversion),
-  Mode(consts::fast_mode::kReportingPeriodMillis, consts::fast_mode::kChargeToAvgUaConversion),
+  Mode(slow_mode_consts::kReportingPeriodMillis, slow_mode_consts::kAvgCurrentMicroAmpsPerTickPerReportingPeriod),
+  Mode(fast_mode_consts::kReportingPeriodMillis, fast_mode_consts::kAvgCurrentMicroAmpsPerTickPerReportingPeriod),
 };
 
 // 8 bit enum with main states.
@@ -83,12 +102,12 @@ class StateReporting {
     static inline void loop();  
   private:
     // Index of modes table entry of current mode.
-    static uint8 current_mode_index;
+    static uint8 selected_mode_index;
     static bool has_last_reading;
     static uint32 last_report_time_millis;
     static uint16 last_report_charge_reading;
 };
-uint8 StateReporting::current_mode_index;
+uint8 StateReporting::selected_mode_index;
 bool StateReporting::has_last_reading;
 uint32 StateReporting::last_report_time_millis;
 uint16 StateReporting::last_report_charge_reading;
@@ -176,16 +195,16 @@ void StateReporting::enter() {
   // We switch modes only when entering the reporting state. If changed
   // while in the reporting state, we reenter it. This provides a graceful
   // transition.
-  current_mode_index = config::modeIndex();
+  selected_mode_index = config::modeIndex();
   if (config::isDebug()) {
-    sio::printf(F("# Mode: %d\n"), current_mode_index);
+    sio::printf(F("# Mode: %d\n"), selected_mode_index);
     sio::printf(F("# State: REPORTING.0\n"));
   }
 }
 
 void StateReporting::loop() {
   // Check for mode change.
-  if (config::modeIndex() != current_mode_index) {
+  if (config::modeIndex() != selected_mode_index) {
      if (config::isDebug()) {
         sio::printf(F("# Mode changed\n"));
       }
@@ -215,8 +234,8 @@ void StateReporting::loop() {
   // Here when successive reading. If not time yet to next reading do nothing.
   // NOTE: the time check below should handle correctly 52 days wraparound of the uint32
   // time in millis.
-  const Mode& current_mode = modes[current_mode_index];
-  const uint16 current_reporting_time_millis = current_mode.reporting_time_millis;
+  const Mode& selected_mode = modes[selected_mode_index];
+  const uint16 current_reporting_time_millis = selected_mode.reporting_time_millis;
   
   const uint32 time_now_millis = system_clock::timeMillis();
   const int32 time_diff_millis = time_now_millis - last_report_time_millis;
@@ -233,7 +252,7 @@ void StateReporting::loop() {
   uint16 current_report_charge_reading;
   if (!ltc2943::readAccumCharge(&current_report_charge_reading)) {
       if (config::isDebug()) {
-        sio::printf(F("# successive reading failed\n"));
+        sio::printf(F("# Charge reading failed\n"));
       }
       StateError::enter();
       return;
@@ -242,9 +261,9 @@ void StateReporting::loop() {
   // NOTE: this should handle correctly charge register wraps around.
   const int16 charge_reading_diff = (current_report_charge_reading - last_report_charge_reading);
   last_report_charge_reading = current_report_charge_reading;
-  const int32 avg_micro_amps = (int32)(charge_reading_diff * current_mode.charge_ticks_to_avg_ua_conversion);
+  const int32 avg_micro_amps = (int32)(charge_reading_diff * selected_mode.avg_current_micro_amps_per_tick_per_reporting_period);
   
-  // NOTE: since the stock Arduino printf does not support floats, we break the 
+  // NOTE: since the stock Arduino printf does not support floating point, we break the 
   // value into two integer values, the integer and the fraction in ppms.
   const int16 amps = avg_micro_amps / 1000000L;
   const int32 uamps = avg_micro_amps - (amps * 1000000L);
