@@ -712,7 +712,7 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <vertex x="0.0635" y="-0.889"/>
 </polygon>
 </package>
-<package name="SHUNT">
+<package name="KELVIN-6432">
 <description>&lt;b&gt;SMD SHUNT RESISTOR&lt;/b&gt;</description>
 <wire x1="-2.6038" y1="7.0836" x2="2.6038" y2="7.0836" width="0.2032" layer="21"/>
 <wire x1="2.6038" y1="7.0836" x2="2.6038" y2="-0.4796" width="0.2032" layer="21"/>
@@ -1353,7 +1353,7 @@ Sourc: www.ctscorp.com</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="C-US" prefix="C" uservalue="yes">
+<deviceset name="CAP-" prefix="C" uservalue="yes">
 <description>&lt;B&gt;CAPACITOR&lt;/B&gt;, American symbol</description>
 <gates>
 <gate name="G$1" symbol="C-US" x="0" y="0"/>
@@ -1411,7 +1411,7 @@ Sourc: www.ctscorp.com</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="R-US_" prefix="R" uservalue="yes">
+<deviceset name="RES-" prefix="R" uservalue="yes">
 <description>&lt;B&gt;RESISTOR&lt;/B&gt;, American symbol</description>
 <gates>
 <gate name="G$1" symbol="R-US" x="0" y="0"/>
@@ -1433,7 +1433,7 @@ Sourc: www.ctscorp.com</description>
 <gate name="G$1" symbol="LED" x="0" y="0"/>
 </gates>
 <devices>
-<device name="" package="1206-LED">
+<device name="1206" package="1206-LED">
 <connects>
 <connect gate="G$1" pin="A" pad="A"/>
 <connect gate="G$1" pin="C" pad="C"/>
@@ -1560,13 +1560,13 @@ Sourc: www.ctscorp.com</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="SHUNT" prefix="R" uservalue="yes">
+<deviceset name="RES-SHUNT-" prefix="R" uservalue="yes">
 <description>&lt;b&gt;SMD SHUNT RESISTOR&lt;/b&gt;</description>
 <gates>
 <gate name="G$1" symbol="SHUNT" x="0" y="0"/>
 </gates>
 <devices>
-<device name="" package="SHUNT">
+<device name="6432" package="KELVIN-6432">
 <connects>
 <connect gate="G$1" pin="I1" pad="I1"/>
 <connect gate="G$1" pin="I2" pad="I2"/>
@@ -1646,29 +1646,29 @@ Sourc: www.ctscorp.com</description>
 </class>
 </classes>
 <parts>
-<part name="R9" library="pmon_uno" deviceset="R-US_" device="R0603" value="3.3K"/>
-<part name="R10" library="pmon_uno" deviceset="R-US_" device="R0603" value="3.3K"/>
+<part name="R9" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K"/>
+<part name="R10" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K"/>
 <part name="GND3" library="pmon_uno" deviceset="GND" device=""/>
-<part name="C7" library="pmon_uno" deviceset="C-US" device="C0603" value="0.1uF"/>
+<part name="C7" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.1uF"/>
 <part name="P+2" library="pmon_uno" deviceset="+5V" device=""/>
 <part name="GND2" library="pmon_uno" deviceset="GND" device=""/>
 <part name="GND16" library="pmon_uno" deviceset="GND" device=""/>
-<part name="J4" library="pmon_uno" deviceset="PINHD-2X3" device=""/>
+<part name="J4" library="pmon_uno" deviceset="PINHD-2X3" device="" value="PINHD-2X3"/>
 <part name="GND14" library="pmon_uno" deviceset="GND" device=""/>
 <part name="P+5" library="pmon_uno" deviceset="+5V" device=""/>
 <part name="GND8" library="pmon_uno" deviceset="GND" device=""/>
-<part name="D1" library="pmon_uno" deviceset="LED" device="" value="RED"/>
-<part name="D2" library="pmon_uno" deviceset="LED" device="" value="GREEN"/>
-<part name="R8" library="pmon_uno" deviceset="R-US_" device="R0603" value="10K"/>
+<part name="D1" library="pmon_uno" deviceset="LED" device="1206" value="RED"/>
+<part name="D2" library="pmon_uno" deviceset="LED" device="1206" value="GREEN"/>
+<part name="R8" library="pmon_uno" deviceset="RES-" device="R0603" value="10K"/>
 <part name="P+1" library="pmon_uno" deviceset="+5V" device=""/>
-<part name="C10" library="pmon_uno" deviceset="C-US" device="C0603" value="0.1uF"/>
+<part name="C10" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.1uF"/>
 <part name="C3" library="pmon_uno" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
 <part name="GND1" library="pmon_uno" deviceset="GND" device=""/>
-<part name="D4" library="pmon_uno" deviceset="LED" device="" value="BLUE"/>
-<part name="R12" library="pmon_uno" deviceset="R-US_" device="R0603" value="3.3K"/>
+<part name="D4" library="pmon_uno" deviceset="LED" device="1206" value="BLUE"/>
+<part name="R12" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K"/>
 <part name="P+4" library="pmon_uno" deviceset="+5V" device=""/>
-<part name="C8" library="pmon_uno" deviceset="C-US" device="C0603" value="0.1uF"/>
-<part name="C5" library="pmon_uno" deviceset="C-US" device="C0603" value="0.1uF"/>
+<part name="C8" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.1uF"/>
+<part name="C5" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.1uF"/>
 <part name="U$3" library="pmon_uno" deviceset="NC" device=""/>
 <part name="GND5" library="pmon_uno" deviceset="GND" device=""/>
 <part name="GND6" library="pmon_uno" deviceset="GND" device=""/>
@@ -1694,22 +1694,22 @@ Sourc: www.ctscorp.com</description>
 <part name="GND19" library="pmon_uno" deviceset="GND" device=""/>
 <part name="GND20" library="pmon_uno" deviceset="GND" device=""/>
 <part name="GND21" library="pmon_uno" deviceset="GND" device=""/>
-<part name="R6" library="pmon_uno" deviceset="R-US_" device="R0603" value="8K2 1%"/>
-<part name="R7" library="pmon_uno" deviceset="R-US_" device="R0603" value="3.3K 1%"/>
+<part name="R6" library="pmon_uno" deviceset="RES-" device="R0603" value="8K2 1%"/>
+<part name="R7" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K 1%"/>
 <part name="GND23" library="pmon_uno" deviceset="GND" device=""/>
 <part name="C6" library="pmon_uno" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
 <part name="C1" library="pmon_uno" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
 <part name="GND24" library="pmon_uno" deviceset="GND" device=""/>
-<part name="C4" library="pmon_uno" deviceset="C-US" device="C0603" value="0.1uF"/>
+<part name="C4" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.1uF"/>
 <part name="GND25" library="pmon_uno" deviceset="GND" device=""/>
-<part name="C9" library="pmon_uno" deviceset="C-US" device="C0603" value="0.1uF"/>
+<part name="C9" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.1uF"/>
 <part name="GND26" library="pmon_uno" deviceset="GND" device=""/>
 <part name="GND27" library="pmon_uno" deviceset="GND" device=""/>
-<part name="C2" library="pmon_uno" deviceset="C-US" device="C0603" value="1uF"/>
+<part name="C2" library="pmon_uno" deviceset="CAP-" device="C0603" value="1uF"/>
 <part name="P+9" library="pmon_uno" deviceset="V+" device=""/>
-<part name="R4" library="pmon_uno" deviceset="SHUNT" device="" value="0.025R 1%"/>
-<part name="R2" library="pmon_uno" deviceset="R-US_" device="R0603" value="4.7K"/>
-<part name="R3" library="pmon_uno" deviceset="R-US_" device="R0603" value="4.7K"/>
+<part name="R4" library="pmon_uno" deviceset="RES-SHUNT-" device="6432" value="0.025R 1%"/>
+<part name="R2" library="pmon_uno" deviceset="RES-" device="R0603" value="4.7K"/>
+<part name="R3" library="pmon_uno" deviceset="RES-" device="R0603" value="4.7K"/>
 <part name="P+11" library="pmon_uno" deviceset="+5V" device=""/>
 <part name="P+12" library="pmon_uno" deviceset="+5V" device=""/>
 <part name="GND29" library="pmon_uno" deviceset="GND" device=""/>
@@ -1719,21 +1719,21 @@ Sourc: www.ctscorp.com</description>
 <part name="R5" library="pmon_uno" deviceset="TRIM_US-" device="SM-42/43A" value="1K"/>
 <part name="U1" library="pmon_uno" deviceset="LTC2943" device="" value="LTC2943"/>
 <part name="GND17" library="pmon_uno" deviceset="GND" device=""/>
-<part name="D5" library="pmon_uno" deviceset="LED" device="" value="BLUE"/>
-<part name="R13" library="pmon_uno" deviceset="R-US_" device="R0603" value="3.3K"/>
+<part name="D5" library="pmon_uno" deviceset="LED" device="1206" value="BLUE"/>
+<part name="R13" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K"/>
 <part name="GND28" library="pmon_uno" deviceset="GND" device=""/>
 <part name="P+8" library="pmon_uno" deviceset="V+" device=""/>
 <part name="GND31" library="pmon_uno" deviceset="GND" device=""/>
-<part name="R1" library="pmon_uno" deviceset="R-US_" device="R0603" value="10K"/>
+<part name="R1" library="pmon_uno" deviceset="RES-" device="R0603" value="10K"/>
 <part name="P+10" library="pmon_uno" deviceset="+5V" device=""/>
-<part name="D3" library="pmon_uno" deviceset="LED" device="" value="GREEN"/>
+<part name="D3" library="pmon_uno" deviceset="LED" device="1206" value="GREEN"/>
 <part name="GND32" library="pmon_uno" deviceset="GND" device=""/>
-<part name="R11" library="pmon_uno" deviceset="R-US_" device="R0603" value="3.3K"/>
+<part name="R11" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K"/>
 <part name="GND22" library="pmon_uno" deviceset="GND" device=""/>
 <part name="J2" library="pmon_uno" deviceset="USB" device=""/>
 <part name="Q1" library="pmon_uno" deviceset="CRYSTAL" device="CTS406" value="16Mhz"/>
-<part name="C11" library="pmon_uno" deviceset="C-US" device="C0603" value="20pF"/>
-<part name="C12" library="pmon_uno" deviceset="C-US" device="C0603" value="20pF"/>
+<part name="C11" library="pmon_uno" deviceset="CAP-" device="C0603" value="20pF"/>
+<part name="C12" library="pmon_uno" deviceset="CAP-" device="C0603" value="20pF"/>
 <part name="U$1" library="pmon_uno" deviceset="PUSH_BUTTON_GHOST" device=""/>
 <part name="PCB1" library="pmon_uno" deviceset="PCB_DP_SQUARE" device="-5X5"/>
 <part name="U4" library="pmon_uno" deviceset="ATMEGA328" device="TQFP32"/>
@@ -1745,7 +1745,7 @@ Sourc: www.ctscorp.com</description>
 <part name="U$8" library="pmon_uno" deviceset="NC" device=""/>
 <part name="U$9" library="pmon_uno" deviceset="NC" device=""/>
 <part name="S1" library="pmon_uno" deviceset="PUSH_BUTTON_SHIELDED" device=""/>
-<part name="J3" library="pmon_uno" deviceset="PINHD-1X3" device=""/>
+<part name="J3" library="pmon_uno" deviceset="PINHD-1X3" device="" value="PINHD-1X3"/>
 </parts>
 <sheets>
 <sheet>
@@ -1798,7 +1798,10 @@ DEVICE</text>
 <instance part="P+2" gate="1" x="187.96" y="220.98"/>
 <instance part="GND2" gate="1" x="203.2" y="55.88"/>
 <instance part="GND16" gate="1" x="187.96" y="149.86"/>
-<instance part="J4" gate="A" x="238.76" y="116.84"/>
+<instance part="J4" gate="A" x="238.76" y="116.84" smashed="yes">
+<attribute name="NAME" x="232.41" y="122.555" size="1.778" layer="95"/>
+<attribute name="VALUE" x="232.41" y="109.22" size="1.778" layer="96"/>
+</instance>
 <instance part="GND14" gate="1" x="259.08" y="111.76"/>
 <instance part="P+5" gate="1" x="259.08" y="124.46" smashed="yes">
 <attribute name="VALUE" x="262.128" y="122.936" size="1.778" layer="96" rot="R90"/>
@@ -1904,9 +1907,7 @@ DEVICE</text>
 <attribute name="VALUE" x="50.292" y="145.796" size="1.778" layer="96" rot="MR90"/>
 </instance>
 <instance part="GND29" gate="1" x="124.46" y="111.76"/>
-<instance part="S2" gate="G$1" x="177.8" y="119.38" smashed="yes" rot="R270">
-<attribute name="NAME" x="172.72" y="124.46" size="1.778" layer="95"/>
-</instance>
+<instance part="S2" gate="G$1" x="177.8" y="119.38" rot="R270"/>
 <instance part="GND30" gate="1" x="167.64" y="109.22"/>
 <instance part="J1" gate="G$1" x="-5.08" y="200.66"/>
 <instance part="R5" gate="G$1" x="101.6" y="190.5" smashed="yes" rot="MR0">
