@@ -302,7 +302,7 @@ void StateReporting::loop() {
         period_average_current_micro_amps, 
         accomulated_time_millis, accomulated_charge_ticks, total_charge_micro_amps_hour, total_average_current_micro_amps);
   } else if (selected_mode.report_total_charge) {
-     sio::printf(F("T:%08lu I:%u.%06lu Q:%u.%06lu IAv:%u.%06lu\n"), 
+     sio::printf(F("T: %08lu   I: %u.%06lu   Q: %u.%06lu   IAv: %u.%06lu\n"), 
          accomulated_time_millis,  period_amps, period_micro_amps, 
          total_amps_hour, total_micro_amps_hour, total_amps, total_micro_amps);  
   } else {
