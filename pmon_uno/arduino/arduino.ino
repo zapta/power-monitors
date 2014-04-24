@@ -13,6 +13,7 @@
 #include "avr_util.h"
 #include "buttons.h"
 #include "config.h"
+#include "data.h"
 #include "hardware_clock.h"
 #include "leds.h"
 #include "ltc2943.h"
@@ -20,47 +21,30 @@
 #include "sio.h"
 #include "system_clock.h"
 
-// IMPORTANT: when performing the various const calculations below, make sure not to introduce
-// truncation errors for example by integer division.
-
-
-// The charge in pico amps / hour per a single charge tick from the LTC2943. Based on the
-// formula in the LTC2943's datasheet and the following board specifics
-// * Shunt resistor: 25 millohms.
-// * Columb counter prescaler : 1
-static const uint32 kChargePerTickPicoAmpHour = 166016L;
-
-// Given:
-//   charge_ticks - number of charge ticks within a time period.
-//   time_millis - the time period in millis
-// Return:
-//   charge_micro_amps_hour - the total charge in micro amps hour.
-//   avg_current_micro_amps - the average current in that period in micro amps.
-static inline void convert(uint32 charge_ticks, uint32 time_millis, 
-    uint32* charge_micro_amps_hour, uint32* avg_current_micro_amps) {
-  const uint64 total_charge_pico_amps_hour =  ((uint64)kChargePerTickPicoAmpHour) * charge_ticks;
-  *charge_micro_amps_hour = (uint32)(total_charge_pico_amps_hour / 1000000L);
-  *avg_current_micro_amps = (uint32)((total_charge_pico_amps_hour * 3600 / 1000) / time_millis);
-}
+// The basic measurment period, in millis.
+static const uint16 kMillisPerMinorSlot = 100;
 
 // Represent the parameters of a measurement mode.
 struct Mode {
-  const bool report_total_charge;
-  const uint16 reporting_time_millis;
+  // True: generate a detailed report. False: generate a simple <time, current> report.
+  const bool is_detailed_report;
+  const uint16 minor_slots_per_major_slot;
+  const uint32 major_slot_time_millis;
 
-  Mode(bool report_total_charge, uint16 reporting_time_millis)
+  Mode(bool is_detailed_report, uint16 minor_slots_per_major_slot)
   : 
-   report_total_charge(report_total_charge),
-   reporting_time_millis(reporting_time_millis) {
+   is_detailed_report(is_detailed_report),
+   minor_slots_per_major_slot(minor_slots_per_major_slot),
+   major_slot_time_millis(minor_slots_per_major_slot * kMillisPerMinorSlot) {
   }
 };
 
 // Mode table. Indexed by config::modeIndex();
 static const Mode modes[] = {
-  Mode(false, 1000),
-  Mode(false, 100),
-  Mode(true, 1000),
-  Mode(true, 100),
+  Mode(false, 10),
+  Mode(false, 1),
+  Mode(true, 10),
+  Mode(true, 1),
 };
 
 // 8 bit enum with main states.
@@ -86,21 +70,35 @@ class StateReporting {
   private:
     // Index of modes table entry of current mode.
     static uint8 selected_mode_index;
+    
+    // Before starting the major and minor slots we first perform the 
+    // initial reading. This is also marked as timestamp 0.
     static bool has_last_reading;
-    static uint32 last_report_time_millis;
-    static uint16 last_report_charge_reading;
-    // For accomulated reporting.
-    static uint32 accomulated_charge_ticks;
-    static uint32 reporting_start_time_millis;
+   
+    // A minor slot is the basic measurement slot. It is used mainly
+    // to count device wake ups. 
+    static uint32 last_minor_slot_time_millis;
+    static uint16 last_minor_slot_charge_ticks_reading;
+ 
+     // A major slot is a reporting slot. It is made of N>0 minor slots.
+    static data::ChargeTracker major_slot_charge_tracker;
+    //static uint16 minor_slots_in_this_major_slot;
+    //static uint16 charge_ticks_in_this_major_slot;
+
+    // Accomulated time and charge ticks, over all minor slots. 
+    static data::ChargeTracker total_charge_tracker;    
+    
     // For restart button press detection
     static bool last_action_button_state;
 };
+
 uint8 StateReporting::selected_mode_index;
 bool StateReporting::has_last_reading;
-uint32 StateReporting::last_report_time_millis;
-uint16 StateReporting::last_report_charge_reading;
-uint32 StateReporting::accomulated_charge_ticks;
-uint32 StateReporting::reporting_start_time_millis;
+uint32 StateReporting::last_minor_slot_time_millis;
+uint16 StateReporting::last_minor_slot_charge_ticks_reading;  
+data::ChargeTracker StateReporting::major_slot_charge_tracker;
+data::ChargeTracker StateReporting::total_charge_tracker;
+
 bool StateReporting::last_action_button_state;
 
 // ERROR state declaration.
@@ -209,9 +207,9 @@ void StateReporting::loop() {
   // If button pressed (low to high transition, then reenter state.
   {
     const bool new_action_button_state = buttons:: isActionButtonPressed();
-    const bool button_click = !last_action_button_state && new_action_button_state;
+    const bool button_clicked = !last_action_button_state && new_action_button_state;
     last_action_button_state = new_action_button_state;
-    if (button_click) {
+    if (button_clicked) {
       sio::println();
       if (config::isDebug()) {
         sio::printf(F("# Button pressed\n"));
@@ -222,93 +220,97 @@ void StateReporting::loop() {
     }
   }
   
-  // Try first reading.
+  // If we don't have the first reading, read the charge tick and initialize minor slots, major slots and 
+  // accomulated data.
   if (!has_last_reading) {
-    if (!ltc2943::readAccumCharge(&last_report_charge_reading)) {
+    if (!ltc2943::readAccumCharge(&last_minor_slot_charge_ticks_reading)) {
       if (config::isDebug()) {
         sio::printf(F("# First reading failed\n"));
       }
       StateError::enter();
       return;
     }
-    last_report_time_millis = system_clock::timeMillis();
     has_last_reading = true;
-    accomulated_charge_ticks = 0;
-    reporting_start_time_millis = last_report_time_millis;
+    last_minor_slot_time_millis = system_clock::timeMillis();
+    major_slot_charge_tracker.reset();
+    total_charge_tracker.reset();
+
     if (config::isDebug()) {
       sio::printf(F("# State: REPORTING.1\n"));
     }
     return;
   }
   
-  // Here when successive reading. If not time yet to next reading do nothing.
+  // Here when successive reading. Check if the current minor slot is over.
   // NOTE: the time check below should handle correctly 52 days wraparound of the uint32
   // time in millis.
-  const Mode& selected_mode = modes[selected_mode_index];
-  const uint16 current_reporting_time_millis = selected_mode.reporting_time_millis;
-  
-  const uint32 time_now_millis = system_clock::timeMillis();
-  const int32 time_diff_millis = time_now_millis - last_report_time_millis;
-  if (time_diff_millis < current_reporting_time_millis) {
+  const int32 millis_in_current_minor_slot = system_clock::timeMillis() - last_minor_slot_time_millis;
+  if (millis_in_current_minor_slot < kMillisPerMinorSlot) {
     return;
   }
   
   // NOTE: we keedp the nominal reporting rate. Jitter in the reporting time will not 
   // create an accmulating errors in the reporting charge since we map the charge to
   // current using the nominal reporting rate as used by the consumers of this data.
-  last_report_time_millis += current_reporting_time_millis;
+  last_minor_slot_time_millis += kMillisPerMinorSlot;
   
-  // Do the successive reading.
-  uint16 current_report_charge_reading;
-  if (!ltc2943::readAccumCharge(&current_report_charge_reading)) {
+  // Read and compute the charge ticks in this minor slot.
+  uint16 this_minor_slot_charge_ticks_reading;
+  if (!ltc2943::readAccumCharge(&this_minor_slot_charge_ticks_reading)) {
       if (config::isDebug()) {
         sio::printf(F("# Charge reading failed\n"));
       }
       StateError::enter();
       return;
   }
-  
   // NOTE: this should handle correctly charge register wraps around.
-  const uint16 carge_ticks_in_period = (current_report_charge_reading - last_report_charge_reading);
-  last_report_charge_reading = current_report_charge_reading;
+  const uint16 charge_ticks_in_this_minor_slot = 
+      (this_minor_slot_charge_ticks_reading - last_minor_slot_charge_ticks_reading);
+  last_minor_slot_charge_ticks_reading = this_minor_slot_charge_ticks_reading;
 
-  uint32 period_charge_micro_amps_hour;
-  uint32 period_average_current_micro_amps;
-  convert(carge_ticks_in_period, selected_mode.reporting_time_millis, &period_charge_micro_amps_hour, &period_average_current_micro_amps);
+  // Update the charge trackers
+  major_slot_charge_tracker.add(kMillisPerMinorSlot, charge_ticks_in_this_minor_slot);
+  total_charge_tracker.add(kMillisPerMinorSlot, charge_ticks_in_this_minor_slot);
+
+  // If not the last minor slot in the current major slot than we are done.
+  const Mode& selected_mode = modes[selected_mode_index];
+  if (major_slot_charge_tracker.time_millis < selected_mode.major_slot_time_millis) {
+    return;
+  }
   
-  accomulated_charge_ticks += carge_ticks_in_period;
-  const uint32 accomulated_time_millis = time_now_millis - reporting_start_time_millis;
-  
-  uint32 total_charge_micro_amps_hour;
-  uint32 total_average_current_micro_amps;
-  convert(accomulated_charge_ticks, accomulated_time_millis, &total_charge_micro_amps_hour, &total_average_current_micro_amps);
-    
-  // Convert to ints for printouts
-  const uint16 period_amps = period_average_current_micro_amps / 1000000L;
-  const uint32 period_micro_amps = period_average_current_micro_amps - (period_amps * 1000000L);
-  
-  // Convert to ints for printout
-  const uint16 total_amps_hour = total_charge_micro_amps_hour / 1000000L;
-  const uint32 total_micro_amps_hour = total_charge_micro_amps_hour - (total_amps_hour * 1000000L);
-  
-  // Convert to ints for printout
-  const uint16 total_amps = total_average_current_micro_amps / 1000000L;
-  const uint32 total_micro_amps = total_average_current_micro_amps - (total_amps * 1000000L);
- 
-  
+  // Compute major slot values.
+  data::ChargeResults major_slot_charge_results;
+  data::ComputeChargeResults(major_slot_charge_tracker, &major_slot_charge_results);
+  data::PrintableValue major_slot_amps_printable(major_slot_charge_results.average_current_micro_amps);
+
+  // Compute total values.
+  data::ChargeResults total_charge_results;
+  data::ComputeChargeResults(total_charge_tracker, &total_charge_results); 
+  data::PrintableValue total_charge_amp_hour_printable(total_charge_results.charge_micro_amps_hour);
+  data::PrintableValue total_average_current_amps_printable(total_charge_results.average_current_micro_amps); 
+
+  leds::activity.action(); 
   if (config::isDebug()) {
     sio::printf(F("0x%4x %4u | %6lu | %6lu %6lu %6lu %9lu\n"), 
-        last_report_charge_reading, carge_ticks_in_period, 
-        period_average_current_micro_amps, 
-        accomulated_time_millis, accomulated_charge_ticks, total_charge_micro_amps_hour, total_average_current_micro_amps);
-  } else if (selected_mode.report_total_charge) {
+        this_minor_slot_charge_ticks_reading, charge_ticks_in_this_minor_slot, 
+        major_slot_charge_results.average_current_micro_amps, 
+        total_charge_tracker.time_millis, total_charge_tracker.charge_ticks, 
+        total_charge_results.charge_micro_amps_hour, total_charge_results.average_current_micro_amps);
+  } else if (selected_mode.is_detailed_report) {
      sio::printf(F("T: %08lu   I: %u.%06lu   Q: %u.%06lu   IAv: %u.%06lu\n"), 
-         accomulated_time_millis,  period_amps, period_micro_amps, 
-         total_amps_hour, total_micro_amps_hour, total_amps, total_micro_amps);  
+         total_charge_tracker.time_millis,  
+         major_slot_amps_printable.units, major_slot_amps_printable.ppms, 
+         total_charge_amp_hour_printable.units, total_charge_amp_hour_printable.ppms,
+         total_average_current_amps_printable.units, total_average_current_amps_printable.ppms);  
   } else {
-    sio::printf(F("%08lu %d.%06ld\n"), accomulated_time_millis, period_amps, period_micro_amps);  
+    sio::printf(F("%08lu %d.%06ld\n"), 
+        total_charge_tracker.time_millis,  
+        major_slot_amps_printable.units, major_slot_amps_printable.ppms);  
   }
-  leds::activity.action(); 
+  
+  
+  // Reset the major slot data for the next slot.
+  major_slot_charge_tracker.reset();
 }
 
 inline void StateError::enter() {
@@ -363,5 +365,4 @@ void loop() {
     }
   }
 }
-
 

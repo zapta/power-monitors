@@ -9,7 +9,8 @@ TODO list for The Arduino PMON UNO
 **LAYOUT**
 
 ** Enclosure
-* Design engracing.
+* Design engraving.
+* Made the plate same size as the PCB?
 
 **SOFTWARE**
 * Detect gracefully non responding ltc2943 (e.g. when charger is not connected).
