@@ -21,21 +21,17 @@
 #include "sio.h"
 #include "system_clock.h"
 
-// The basic measurment period, in millis.
-static const uint16 kMillisPerMinorSlot = 100;
 
 // Represent the parameters of a measurement mode.
 struct Mode {
   // True: generate a detailed report. False: generate a simple <time, current> report.
   const bool is_detailed_report;
   const uint16 minor_slots_per_major_slot;
-  const uint32 major_slot_time_millis;
 
   Mode(bool is_detailed_report, uint16 minor_slots_per_major_slot)
   : 
    is_detailed_report(is_detailed_report),
-   minor_slots_per_major_slot(minor_slots_per_major_slot),
-   major_slot_time_millis(minor_slots_per_major_slot * kMillisPerMinorSlot) {
+   minor_slots_per_major_slot(minor_slots_per_major_slot) {
   }
 };
 
@@ -74,21 +70,16 @@ class StateReporting {
     // Before starting the major and minor slots we first perform the 
     // initial reading. This is also marked as timestamp 0.
     static bool has_last_reading;
-   
+       
     // A minor slot is the basic measurement slot. It is used mainly
     // to count device wake ups. 
     static uint32 last_minor_slot_time_millis;
     static uint16 last_minor_slot_charge_ticks_reading;
- 
-     // A major slot is a reporting slot. It is made of N>0 minor slots.
-    static data::ChargeTracker major_slot_charge_tracker;
-    //static uint16 minor_slots_in_this_major_slot;
-    //static uint16 charge_ticks_in_this_major_slot;
-
-    // Accomulated time and charge ticks, over all minor slots. 
-    static data::ChargeTracker total_charge_tracker;    
     
-    // For restart button press detection
+    // Used to track the various slots data.
+    static data::SlotTracker slot_tracker;
+
+        // For restart button press detection
     static bool last_action_button_state;
 };
 
@@ -96,9 +87,7 @@ uint8 StateReporting::selected_mode_index;
 bool StateReporting::has_last_reading;
 uint32 StateReporting::last_minor_slot_time_millis;
 uint16 StateReporting::last_minor_slot_charge_ticks_reading;  
-data::ChargeTracker StateReporting::major_slot_charge_tracker;
-data::ChargeTracker StateReporting::total_charge_tracker;
-
+data::SlotTracker StateReporting::slot_tracker;
 bool StateReporting::last_action_button_state;
 
 // ERROR state declaration.
@@ -198,6 +187,7 @@ void StateReporting::loop() {
     if (config::isDebug()) {
       sio::printf(F("# Mode changed\n"));
     }
+    sio::println();
     // The switch is done when reentering the state. This provides graceful 
     // transition.
     StateReporting::enter();
@@ -232,8 +222,7 @@ void StateReporting::loop() {
     }
     has_last_reading = true;
     last_minor_slot_time_millis = system_clock::timeMillis();
-    major_slot_charge_tracker.reset();
-    total_charge_tracker.reset();
+    slot_tracker.ResetAll();
 
     if (config::isDebug()) {
       sio::printf(F("# State: REPORTING.1\n"));
@@ -245,14 +234,14 @@ void StateReporting::loop() {
   // NOTE: the time check below should handle correctly 52 days wraparound of the uint32
   // time in millis.
   const int32 millis_in_current_minor_slot = system_clock::timeMillis() - last_minor_slot_time_millis;
-  if (millis_in_current_minor_slot < kMillisPerMinorSlot) {
+  if (millis_in_current_minor_slot < data::kMillisPerMinorSlot) {
     return;
   }
   
   // NOTE: we keedp the nominal reporting rate. Jitter in the reporting time will not 
   // create an accmulating errors in the reporting charge since we map the charge to
   // current using the nominal reporting rate as used by the consumers of this data.
-  last_minor_slot_time_millis += kMillisPerMinorSlot;
+  last_minor_slot_time_millis += data::kMillisPerMinorSlot;
   
   // Read and compute the charge ticks in this minor slot.
   uint16 this_minor_slot_charge_ticks_reading;
@@ -268,24 +257,23 @@ void StateReporting::loop() {
       (this_minor_slot_charge_ticks_reading - last_minor_slot_charge_ticks_reading);
   last_minor_slot_charge_ticks_reading = this_minor_slot_charge_ticks_reading;
 
-  // Update the charge trackers
-  major_slot_charge_tracker.add(kMillisPerMinorSlot, charge_ticks_in_this_minor_slot);
-  total_charge_tracker.add(kMillisPerMinorSlot, charge_ticks_in_this_minor_slot);
+  // Update slot data
+  slot_tracker.AddMinorSlot(charge_ticks_in_this_minor_slot);
 
   // If not the last minor slot in the current major slot than we are done.
   const Mode& selected_mode = modes[selected_mode_index];
-  if (major_slot_charge_tracker.time_millis < selected_mode.major_slot_time_millis) {
+  if (slot_tracker.minor_slots_in_current_major_slot < selected_mode.minor_slots_per_major_slot) {
     return;
   }
   
   // Compute major slot values.
   data::ChargeResults major_slot_charge_results;
-  data::ComputeChargeResults(major_slot_charge_tracker, &major_slot_charge_results);
+  data::ComputeChargeResults(slot_tracker.major_slot_charge_tracker, &major_slot_charge_results);
   data::PrintableValue major_slot_amps_printable(major_slot_charge_results.average_current_micro_amps);
 
   // Compute total values.
   data::ChargeResults total_charge_results;
-  data::ComputeChargeResults(total_charge_tracker, &total_charge_results); 
+  data::ComputeChargeResults(slot_tracker.total_charge_tracker, &total_charge_results); 
   data::PrintableValue total_charge_amp_hour_printable(total_charge_results.charge_micro_amps_hour);
   data::PrintableValue total_average_current_amps_printable(total_charge_results.average_current_micro_amps); 
 
@@ -294,23 +282,31 @@ void StateReporting::loop() {
     sio::printf(F("0x%4x %4u | %6lu | %6lu %6lu %6lu %9lu\n"), 
         this_minor_slot_charge_ticks_reading, charge_ticks_in_this_minor_slot, 
         major_slot_charge_results.average_current_micro_amps, 
-        total_charge_tracker.time_millis, total_charge_tracker.charge_ticks, 
+        slot_tracker.total_charge_tracker.time_millis, slot_tracker.total_charge_tracker.charge_ticks, 
         total_charge_results.charge_micro_amps_hour, total_charge_results.average_current_micro_amps);
   } else if (selected_mode.is_detailed_report) {
-     sio::printf(F("T: %08lu   I: %u.%06lu   Q: %u.%06lu   IAv: %u.%06lu\n"), 
-         total_charge_tracker.time_millis,  
-         major_slot_amps_printable.units, major_slot_amps_printable.ppms, 
-         total_charge_amp_hour_printable.units, total_charge_amp_hour_printable.ppms,
-         total_average_current_amps_printable.units, total_average_current_amps_printable.ppms);  
+    // TODO: Increase the sio buffer size so we can printf in one statement.
+    sio::printf(F("T=[%lu]  I=[%u.%03u]  Q=[%u.%03u]  IAv=[%u.%03u]"), 
+        slot_tracker.total_charge_tracker.time_millis,  
+        major_slot_amps_printable.units, 
+        major_slot_amps_printable.mils, 
+        total_charge_amp_hour_printable.units, 
+        total_charge_amp_hour_printable.mils,
+        total_average_current_amps_printable.units, 
+        total_average_current_amps_printable.mils); 
+    sio::printf(F("  TSB=[%lu]  TAW=[%lu]  #AW=[%lu]%s\n"), 
+        slot_tracker.standby_minor_slots_charge_tracker.time_millis,
+        slot_tracker.awake_minor_slots_charge_tracker.time_millis,
+        slot_tracker.total_awakes,
+        (slot_tracker.awake_minor_slots_in_current_major_slot ? " *" : "")); 
   } else {
     sio::printf(F("%08lu %d.%06ld\n"), 
-        total_charge_tracker.time_millis,  
+        slot_tracker.total_charge_tracker.time_millis,  
         major_slot_amps_printable.units, major_slot_amps_printable.ppms);  
-  }
-  
+  }  
   
   // Reset the major slot data for the next slot.
-  major_slot_charge_tracker.reset();
+  slot_tracker.ResetMajorSlot();
 }
 
 inline void StateError::enter() {

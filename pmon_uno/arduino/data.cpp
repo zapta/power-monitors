@@ -12,7 +12,7 @@
 
 #include "data.h"
 
-namespace data{
+namespace data {
   
   void ComputeChargeResults(const ChargeTracker& charge_tracker, ChargeResults* results) {
     const uint64 total_charge_pico_amps_hour =  
