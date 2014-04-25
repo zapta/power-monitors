@@ -1682,7 +1682,6 @@ Sourc: www.ctscorp.com</description>
 <part name="U$5" library="pmon_uno" deviceset="NC" device=""/>
 <part name="U$11" library="pmon_uno" deviceset="NC" device=""/>
 <part name="U$12" library="pmon_uno" deviceset="NC" device=""/>
-<part name="U$14" library="pmon_uno" deviceset="NC" device=""/>
 <part name="U$16" library="pmon_uno" deviceset="NC" device=""/>
 <part name="U$18" library="pmon_uno" deviceset="NC" device=""/>
 <part name="U$20" library="pmon_uno" deviceset="DOCFIELD" device=""/>
@@ -1843,7 +1842,6 @@ DEVICE</text>
 <instance part="U$5" gate="G$1" x="190.5" y="203.2"/>
 <instance part="U$11" gate="G$1" x="238.76" y="198.12" rot="R180"/>
 <instance part="U$12" gate="G$1" x="238.76" y="195.58" rot="R180"/>
-<instance part="U$14" gate="G$1" x="238.76" y="180.34" rot="R180"/>
 <instance part="U$16" gate="G$1" x="238.76" y="177.8" rot="R180"/>
 <instance part="U$18" gate="G$1" x="238.76" y="172.72" rot="R180"/>
 <instance part="U$20" gate="G$1" x="180.34" y="0"/>
@@ -2654,11 +2652,6 @@ DEVICE</text>
 <pinref part="S1" gate="G$1" pin="2"/>
 </segment>
 </net>
-<net name="N$5" class="0">
-<segment>
-<wire x1="101.6" y1="127" x2="124.46" y2="127" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$13" class="0">
 <segment>
 <wire x1="101.6" y1="124.46" x2="124.46" y2="124.46" width="0.1524" layer="91"/>
@@ -2677,6 +2670,17 @@ DEVICE</text>
 <net name="N$25" class="0">
 <segment>
 <wire x1="101.6" y1="116.84" x2="124.46" y2="116.84" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="DEBUG" class="0">
+<segment>
+<pinref part="U4" gate="G$1" pin="PD4(XCK/T0)"/>
+<wire x1="238.76" y1="180.34" x2="259.08" y2="180.34" width="0.1524" layer="91"/>
+<label x="241.3" y="180.34" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="101.6" y1="127" x2="124.46" y2="127" width="0.1524" layer="91"/>
+<label x="109.22" y="127" size="1.778" layer="95"/>
 </segment>
 </net>
 </nets>
