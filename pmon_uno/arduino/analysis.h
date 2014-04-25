@@ -10,13 +10,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef DATAL_H
-#define DATA_H
+#ifndef ANALYSIS_H
+#define ANALYSIS_H
 
 #include "avr_util.h"
 
 // Data and conversions related utilities.
-namespace data {
+namespace analysis {
   
 // The charge in pico amps / hour per a single charge tick from the LTC2943. Based on the
 // formula in the LTC2943's datasheet and the following board specifics
@@ -143,6 +143,7 @@ class SlotTracker {
 
 // Convert a raw tracked charge into useful units.
 extern void ComputeChargeResults(const ChargeTracker& charge_tracker, ChargeResults* results);
+
 }  // namespace
 
 #endif

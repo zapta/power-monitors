@@ -10,9 +10,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "data.h"
+#include "analysis.h"
 
-namespace data {
+namespace analysis {
   
   void ComputeChargeResults(const ChargeTracker& charge_tracker, ChargeResults* results) {
     const uint64 total_charge_pico_amps_hour =  

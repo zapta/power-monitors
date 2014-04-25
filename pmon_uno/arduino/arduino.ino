@@ -10,10 +10,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#include "analysis.h"
 #include "avr_util.h"
 #include "buttons.h"
 #include "config.h"
-#include "data.h"
 #include "hardware_clock.h"
 #include "leds.h"
 #include "ltc2943.h"
@@ -77,7 +77,7 @@ class StateReporting {
     static uint16 last_minor_slot_charge_ticks_reading;
     
     // Used to track the various slots data.
-    static data::SlotTracker slot_tracker;
+    static analysis::SlotTracker slot_tracker;
 
         // For restart button press detection
     static bool last_action_button_state;
@@ -87,7 +87,7 @@ uint8 StateReporting::selected_mode_index;
 bool StateReporting::has_last_reading;
 uint32 StateReporting::last_minor_slot_time_millis;
 uint16 StateReporting::last_minor_slot_charge_ticks_reading;  
-data::SlotTracker StateReporting::slot_tracker;
+analysis::SlotTracker StateReporting::slot_tracker;
 bool StateReporting::last_action_button_state;
 
 // ERROR state declaration.
@@ -230,14 +230,14 @@ void StateReporting::loop() {
   // NOTE: the time check below should handle correctly 52 days wraparound of the uint32
   // time in millis.
   const int32 millis_in_current_minor_slot = system_clock::timeMillis() - last_minor_slot_time_millis;
-  if (millis_in_current_minor_slot < data::kMillisPerMinorSlot) {
+  if (millis_in_current_minor_slot < analysis::kMillisPerMinorSlot) {
     return;
   }
   
   // NOTE: we keedp the nominal reporting rate. Jitter in the reporting time will not 
   // create an accmulating errors in the reporting charge since we map the charge to
   // current using the nominal reporting rate as used by the consumers of this data.
-  last_minor_slot_time_millis += data::kMillisPerMinorSlot;
+  last_minor_slot_time_millis += analysis::kMillisPerMinorSlot;
   
   // Read and compute the charge ticks in this minor slot.
   uint16 this_minor_slot_charge_ticks_reading;
@@ -261,15 +261,15 @@ void StateReporting::loop() {
   }
   
   // Compute major slot values.
-  data::ChargeResults major_slot_charge_results;
-  data::ComputeChargeResults(slot_tracker.major_slot_charge_tracker, &major_slot_charge_results);
-  data::PrintableValue major_slot_amps_printable(major_slot_charge_results.average_current_micro_amps);
+  analysis::ChargeResults major_slot_charge_results;
+  analysis::ComputeChargeResults(slot_tracker.major_slot_charge_tracker, &major_slot_charge_results);
+  analysis::PrintableValue major_slot_amps_printable(major_slot_charge_results.average_current_micro_amps);
 
   // Compute total values.
-  data::ChargeResults total_charge_results;
-  data::ComputeChargeResults(slot_tracker.total_charge_tracker, &total_charge_results); 
-  data::PrintableValue total_charge_amp_hour_printable(total_charge_results.charge_micro_amps_hour);
-  data::PrintableValue total_average_current_amps_printable(total_charge_results.average_current_micro_amps); 
+  analysis::ChargeResults total_charge_results;
+  analysis::ComputeChargeResults(slot_tracker.total_charge_tracker, &total_charge_results); 
+  analysis::PrintableValue total_charge_amp_hour_printable(total_charge_results.charge_micro_amps_hour);
+  analysis::PrintableValue total_average_current_amps_printable(total_charge_results.average_current_micro_amps); 
 
   leds::activity.action(); 
   if (config::isDebug()) {
