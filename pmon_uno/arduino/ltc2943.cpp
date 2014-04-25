@@ -45,68 +45,78 @@ static inline bool startI2CRead() {
 }
 
 // I2C start or repeated start for the LTC2943 write.
+// Returns true if ok.
 static inline bool startI2CWrite() {
   return i2c::start((kLtc2943BaseAddress << 1) | i2c::direction::WRITE)  ;
 }
 
 // Write a value to a LTC2943 8 bit register. Returns true if ok.
 static bool writeReg8(uint8 reg,  uint8 value) {
-  bool error = false;
-  error |= startI2CWrite();     
-  error |= i2c::writeByte(reg);                       
-  error |= i2c::writeByte(value);                      
+  // Using boolean short circuit.
+  const bool is_ok = startI2CWrite()    
+      && i2c::writeByte(reg)                      
+      && i2c::writeByte(value);                     
   i2c::stop(); 
-  return !error;  
+  return is_ok; 
 }
 
 // Write a value to a LTC2943 16 bit register (a pair of two 8 bit registers, MSB first). 
 // Returns true if ok.
 static bool writeReg16(uint8 base_reg,  uint16 value) {
-  bool error = false;
-  error |= startI2CWrite();
-  error |= i2c::writeByte(base_reg);                       
-  error |= i2c::writeByte(highByte(value));   
-  error |= i2c::writeByte(lowByte(value));                        
+  // Using boolean short circuit.
+  const bool is_ok = startI2CWrite()
+      && i2c::writeByte(base_reg)                      
+      && i2c::writeByte(highByte(value))  
+      && i2c::writeByte(lowByte(value));                       
   i2c::stop(); 
-  return !error;  
+  return is_ok;  
 }
 
 // Read a LTC2943 8 bit register. Returns true if ok.
 static bool readReg8(uint8 reg, uint8* value) {
-  bool error = false;
-  error |= startI2CWrite();  
-  error |= i2c::writeByte(reg);   
-  error |= startI2CRead(); 
-  // TODO: add to read ack/nack returned error status.
-  *value = i2c::readByteWithNak();
+  // Using boolean short circuit.
+  const bool is_ok = startI2CWrite()
+      && i2c::writeByte(reg)  
+      && startI2CRead()
+      && i2c::readByteWithNak(value);
   i2c::stop();
-  return !error;
+  return is_ok;
 }
 
 // Read a LTC2943 16 bit register (a pair of two 8 bit registers, MSB first). 
 // Returns true if ok.
 static bool readReg16(uint8 reg, uint16* value) {
-  bool error = false;
-  error |= startI2CWrite();   
-  error |= i2c::writeByte(reg);   
-  error |= startI2CRead();
-  // TODO: add to read ack/nack returned error status.
-  uint8 msb = i2c::readByteWithAck();
-  uint8 lsb = i2c::readByteWithNak();
+  uint8 msb;
+  uint8 lsb;
+  
+  // Using boolean short circuit.
+  const bool is_ok =  startI2CWrite()  
+      && i2c::writeByte(reg)  
+      && startI2CRead()
+      && i2c::readByteWithAck(&msb)
+      && i2c::readByteWithNak(&lsb);
   i2c::stop();
-  *value = word(msb, lsb);
-  return !error;
+  
+  // TODO: write directly to the msb, lsb bytes of value.
+  // For now, in case of an error, we return undefined value.
+  if (is_ok) {
+    *value = word(msb, lsb);
+  }
+  
+  return is_ok;
 }
 
 void setup() {
   i2c::setup();
 }
 
+// Returns true if ok.
 bool init() {
   const uint8 control_mode = kLtc2943AutomaticMode | kLtc2943PrescalarX1 | kLtc2943DisableAlccPin ;              
   return writeReg8(regs8::kControl, control_mode);
 }
 
+// Return true if ok.
 boolean readAccumCharge(uint16* value) {
   return readReg16(regs16::kAccumCharge, value);
 }

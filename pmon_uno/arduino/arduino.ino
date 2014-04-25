@@ -160,9 +160,7 @@ void StateInit::loop() {
   if (ltc2943::init()) {
     StateReporting::enter();
   } else {
-    if (config::isDebug()) {
-      sio::printf(F("# device init failed\n"));
-    }
+    sio::printf(F("# LTC2943 init failed (is power connected?)\n"));
     StateError::enter();
   }
 }
@@ -214,9 +212,7 @@ void StateReporting::loop() {
   // accomulated data.
   if (!has_last_reading) {
     if (!ltc2943::readAccumCharge(&last_minor_slot_charge_ticks_reading)) {
-      if (config::isDebug()) {
-        sio::printf(F("# First reading failed\n"));
-      }
+      sio::printf(F("# LTC2943 charge reading failed (1)\n"));
       StateError::enter();
       return;
     }
@@ -246,9 +242,7 @@ void StateReporting::loop() {
   // Read and compute the charge ticks in this minor slot.
   uint16 this_minor_slot_charge_ticks_reading;
   if (!ltc2943::readAccumCharge(&this_minor_slot_charge_ticks_reading)) {
-      if (config::isDebug()) {
-        sio::printf(F("# Charge reading failed\n"));
-      }
+      sio::printf(F("# LTC2943 charge reading failed (2)\n"));
       StateError::enter();
       return;
   }
@@ -321,7 +315,7 @@ inline void StateError::enter() {
 inline void StateError::loop() {
   // Insert a short delay to avoid flodding teh serial output with error messages
   // in case we have a permanent error condition.
-  if (time_in_state.timeMillis() < 100) {
+  if (time_in_state.timeMillis() < 1000) {
     return;
   }
   // Try again from scratch.
@@ -353,9 +347,7 @@ void loop() {
         StateError::loop();
         break;
       default:
-        if (config::isDebug()) {
-          sio::printf(F("# Unknown state: %d\n"), state);
-        }
+        sio::printf(F("# Unknown state: %d\n"), state);
         StateError::enter();
         break;  
     }

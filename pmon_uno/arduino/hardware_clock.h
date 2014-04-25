@@ -31,7 +31,6 @@ namespace hardware_clock {
   inline uint16 ticksForNonIsr() {
     // We disable interrupt to avoid corruption of the AVR temp byte buffer
     // that is used to read 16 bit values.
-    // TODO: can we avoid disabling interrupts (motivation: improve LIN ISR jitter).
     cli();
     const uint16 result TCNT1;
     sei();

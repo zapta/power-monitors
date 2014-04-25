@@ -19,6 +19,9 @@ namespace leds {
 
   ActionLed activity(PORTB, 1);
   ActionLed errors(PORTB, 0);
+  
+  io_pins::OutputPin debug(PORTD, 4);
+
 }  // namepsace leds
 
 

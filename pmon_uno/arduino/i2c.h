@@ -28,22 +28,20 @@ namespace direction {
 extern void setup();
 
 // Start a transaction. Can be used also for repeated start.
-// Return true iff error.
+// Return true iff ok.
 extern bool start(uint8 address_and_direction);
 
-// Terminate the transaction.
-extern void stop();
+// Terminate the transaction. Returns true if ok.
+extern bool stop();
 
-// Send one byte.  Returns true if an error.
+// Send one byte.  Returns true iff ok.
 extern bool writeByte(uint8 data);
 
-// Read one byte, request more. Returns the byte read.
-// TODO: return also status.
-extern uint8 readByteWithAck();
+// Read one byte, request more. Returns true iff ok.
+extern bool readByteWithAck(uint8* result);
 
-// Read last byte. Will follow with a stop condition. Returns the byte read.
-// TODO: return also status
-extern uint8 readByteWithNak();
+// Read last byte. Will follow with a stop condition. Returns true iff ok.
+extern bool readByteWithNak(uint8* result);
 
 }  // namespace i2c
 

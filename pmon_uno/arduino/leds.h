@@ -28,6 +28,10 @@ namespace leds {
   // ERRORS LED - blinks when detecting errors.
   extern ActionLed errors;
   
+  // DEBUG - not really a led since a led is not connected. Used for 
+  // debugging.
+  extern io_pins::OutputPin debug;
+  
   // Called from the main loop()
   inline void loop() {
     activity.loop();
