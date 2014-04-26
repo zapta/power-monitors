@@ -30,8 +30,8 @@ void setup() {
 }
 
 void loop() {
-  // Each switch is active when high (open). No need to invert.
-  const uint8 new_value = PINC & kBitMask; 
+  // The switches are active low so inverting.
+  const uint8 new_value = (~PINC) & kBitMask; 
   private_::byte_debouncer.update(new_value);
 }
 
