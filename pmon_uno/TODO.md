@@ -11,16 +11,12 @@ TODO list for The Arduino PMON UNO
 
 ** Enclosure
 * Design engraving.
-* Made the plate same size as the PCB?
 * Add vent holes for the LDO?
 
 **SOFTWARE**
-* Detect gracefully non responding ltc2943 (e.g. when charger is not connected). Currently
-  it get hangs in the i2c::readByte* methods.
 * Define pairs of modes that do not require reset on mode change.
 
 **MISCELLANEOUS**
-* Add BOM document.
 
 
 
