@@ -12,5 +12,6 @@ avrdude \
   -B 4 \
   -c ${PROGRAMMER_CODE} \
   -p m328p \
+  -v -v -v \
   -U flash:r:_pmon_uno_flash.hex:i
 

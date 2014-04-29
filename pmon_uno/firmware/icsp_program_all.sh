@@ -13,10 +13,17 @@ avrdude \
   -B 4  \
   -c ${PROGRAMMER_CODE} \
   -p m328p \
-  -v \
+  -v -v -v \
   -u \
   -U lfuse:w:0xff:m \
   -U hfuse:w:0xda:m \
   -U efuse:w:0x05:m \
+  -U flash:w:pmon_uno_flash.hex:i
+
+avrdude \
+  -B 4  \
+  -c ${PROGRAMMER_CODE} \
+  -p m328p \
+  -v -v -v \
   -U flash:w:pmon_uno_flash.hex:i
 
