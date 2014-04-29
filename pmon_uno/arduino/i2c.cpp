@@ -13,8 +13,6 @@
 #include "i2c.h"
 
 #include <compat/twi.h>
-#include "hardware_clock.h"
-
 
 #if F_CPU != 16000000
 #error "Tested with 16Mhz only."
@@ -25,36 +23,11 @@ namespace i2c {
 // I2C clock frequency. LTC2943 can go up to 400KHz.
 static const uint32 kSclFrequency = 400000L;
 
-// Wait at most timeout_millis milliseconds until TWCR & H(bit_index) is set.
-// Return true if the bit is set, false if timeout.
-// TODO: specify the max value of timeout_millis that will not cause an
-// overlofw below.
-//
-// TODO: do we really need the extra complexity of the timeout? Does the I2C hardware
-// timeout by itself?
-//
-inline static bool waitForTwcrBitHighWithTimeout(byte bit_index, uint8 timeout_millis) {
-  const byte mask = H(bit_index);
-  
-  // A quick test in case it's already set
-  if (TWCR & mask) {
-    return true;
-  }
-  
-  // Do the real thing
-  uint16 ticks_left = timeout_millis * hardware_clock::kTicksPerMilli;
-  uint16 previous_time_ticks = hardware_clock::ticksForNonIsr();
+// Wait until TWCR & H(bit_index) is set.
+inline static void waitForTwcrBitHighWithTimeout(uint8 bit_index) {
+  const uint8 mask = H(bit_index); 
   while (!(TWCR & mask)) {
-    const uint16 time_now_ticks = hardware_clock::ticksForNonIsr();
-    // NOTE: underflow is ok.
-    const uint16 time_diff_ticks = time_now_ticks - previous_time_ticks;
-    if (ticks_left <= time_diff_ticks) {
-      return false;
-    }
-    ticks_left -= time_diff_ticks;
-    previous_time_ticks = time_now_ticks;
   }
-  return true;
 }
 
 void setup()
@@ -71,9 +44,7 @@ bool start(uint8 addr_with_op)
   // send START condition
   TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
 
-  if (!waitForTwcrBitHighWithTimeout(TWINT, 10)) {
-    return false;
-  }
+  waitForTwcrBitHighWithTimeout(TWINT);
 
   // Verify status.
   {
@@ -88,9 +59,7 @@ bool start(uint8 addr_with_op)
   TWCR = (1<<TWINT) | (1<<TWEN);
 
   // Wait until done.
-  if (!waitForTwcrBitHighWithTimeout(TWINT, 10)) {
-    return false;
-  }
+  waitForTwcrBitHighWithTimeout(TWINT);
 
   // Check status.
   const uint8 status = TW_STATUS & 0xF8;
@@ -99,11 +68,11 @@ bool start(uint8 addr_with_op)
 }
 
 // Returns true iff ok.
-bool stop() {
+void stop() {
   // Send stop condition.
   TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);	
   // Wait until done.
-  return waitForTwcrBitHighWithTimeout(TWSTO, 10);
+  waitForTwcrBitHighWithTimeout(TWSTO);
 }
 
 // Returns true if ok.
@@ -112,9 +81,7 @@ bool writeByte(uint8 data ) {
   TWCR = (1<<TWINT) | (1<<TWEN);
 
   // Wait until done.
-  if (!waitForTwcrBitHighWithTimeout(TWINT, 10)) {
-    return false;
-  }
+  waitForTwcrBitHighWithTimeout(TWINT);
 
   // Check status.
   const uint8 twst = TW_STATUS & 0xF8;
@@ -126,20 +93,17 @@ bool writeByte(uint8 data ) {
 bool readByteWithAck(uint8* result) {
   TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA);
   // Wait done.
-  if (!waitForTwcrBitHighWithTimeout(TWINT, 10)) {
-    return false;
-  }
+  waitForTwcrBitHighWithTimeout(TWINT);
+  
   *result = TWDR;
   return true; 
 }
 
 
-bool readByteWithNak(byte* result) {
+bool readByteWithNak(uint8* result) {
   TWCR = (1<<TWINT) | (1<<TWEN);
   // Wait done.	
-  if (!waitForTwcrBitHighWithTimeout(TWINT, 10)) {
-    return false;
-  }
+  waitForTwcrBitHighWithTimeout(TWINT);
   *result = TWDR;
   return true; 
 }

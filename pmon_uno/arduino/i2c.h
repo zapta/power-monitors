@@ -31,8 +31,8 @@ extern void setup();
 // Return true iff ok.
 extern bool start(uint8 address_and_direction);
 
-// Terminate the transaction. Returns true if ok.
-extern bool stop();
+// Terminate the transaction.
+extern void stop();
 
 // Send one byte.  Returns true iff ok.
 extern bool writeByte(uint8 data);

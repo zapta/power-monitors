@@ -33,7 +33,7 @@ namespace sio {
   static uint8 count;
 
   // Caller need to verify that count < kQueueSize before calling this.
-  static void unsafe_enqueue(byte b) {
+  static void unsafe_enqueue(uint8 b) {
     // kQueueSize is small enough that this will not overflow.
     uint8 next = start + count;
     if (next >= kQueueSize) {
@@ -44,7 +44,7 @@ namespace sio {
   }
 
   // Caller need to verify that count > 1 before calling this.
-  static byte unsafe_dequeue() {
+  static uint8 unsafe_dequeue() {
     const uint8 b = buffer[start];
     if (++start >= kQueueSize) {
       start = 0;
