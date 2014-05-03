@@ -30,18 +30,11 @@ namespace config {
   inline bool hasStableValue() {
     return private_::byte_debouncer.hasStableValue();
   }
-
-  inline uint8 get() {
-    return private_::byte_debouncer.stableValue();
-  }
-  
-  inline bool isDebug() {
-    return get() & H(3);  
-  }
   
   // Returns a [0,3] index of selected mode (two LSB switches).
   inline uint8 modeIndex() {
-    return get() & 0x03;
+    const uint8 config_bits = private_::byte_debouncer.stableValue() & 0x0f;
+    return (config_bits < 10) ? config_bits : 0;
   }
 
 }  // namepsace config

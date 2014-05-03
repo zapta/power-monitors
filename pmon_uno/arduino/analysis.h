@@ -63,16 +63,28 @@ struct ChargeResults {
 // A breakup of a fixed point value into the integer part and the
 // parts-per-million part. Use to print fixed point number in the
 // absense of printf support for floats.
-struct PrintableValue {
+struct PrintablePpmValue {
   const uint16 units;
   const uint32 ppms;
   const uint16 mils; 
   
-  inline PrintableValue(uint32 value_ppms) 
+  inline PrintablePpmValue(uint32 value_ppms) 
   :
     units(value_ppms / 1000000L),
     ppms(value_ppms - (units * 1000000L)),
     mils((ppms + 500) / 1000) {
+  } 
+};
+
+// Same as PrintablePpmValue but input value is in mils.
+struct PrintableMilsValue {
+  const uint16 units;
+  const uint16 mils; 
+  
+  inline PrintableMilsValue(uint32 value_mils) 
+  :
+    units(value_mils / 1000L),
+    mils(value_mils - (units * 1000L)) {
   } 
 };
 

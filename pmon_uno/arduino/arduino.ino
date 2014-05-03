@@ -21,27 +21,50 @@
 #include "sio.h"
 #include "system_clock.h"
 
+namespace formats {
+  static const uint8 kTimeVsCurrent = 1;
+  static const uint8 kDetailed = 2;
+  static const uint8 kDetailedLabeled = 3;
+  static const uint8 kDebug = 4;
+}
 
 // Represent the parameters of a measurement mode.
 struct Mode {
-  // True: generate a detailed report. False: generate a simple <time, current> report.
-  const bool is_detailed_report;
+  const uint8 format;
   const uint16 minor_slots_per_major_slot;
 
-  Mode(bool is_detailed_report, uint16 minor_slots_per_major_slot)
+  // format is one of format:* values.
+  Mode(uint8 format, uint16 minor_slots_per_major_slot)
   : 
-   is_detailed_report(is_detailed_report),
+   format(format),
    minor_slots_per_major_slot(minor_slots_per_major_slot) {
   }
 };
 
 // Mode table. Indexed by config::modeIndex();
 static const Mode modes[] = {
-  Mode(false, 10),
-  Mode(false, 1),
-  Mode(true, 10),
-  Mode(true, 1),
+  // Modes 0,1
+  Mode(formats::kTimeVsCurrent, 10),
+  Mode(formats::kTimeVsCurrent, 1),
+  
+  // Modes 2, 3
+  Mode(formats::kDetailedLabeled, 10),
+  Mode(formats::kDetailedLabeled, 1),
+  
+  // Modes 4, 5
+  Mode(formats::kDetailed, 10),
+  Mode(formats::kDetailed, 1),
+  
+  // Modes 6,7,8,9
+  Mode(formats::kDebug, 10),
+  Mode(formats::kDebug, 1),
+  Mode(formats::kDebug, 10),
+  Mode(formats::kDebug, 1),
 };
+
+static inline boolean isDebugMode() {
+  return config::modeIndex() == 9;
+}
 
 // 8 bit enum with main states.
 namespace states {
@@ -112,7 +135,7 @@ void setup()
   // Initialize this first since some setup methods uses it.
   sio::setup();
   
-  if (config::isDebug()) {
+  if (isDebugMode()) {
     sio::printf(F("\nStarted\n"));
   } else {
     sio::printf(F("\n"));
@@ -151,7 +174,7 @@ void setup()
 
 void StateInit::enter() {
   state = states::INIT;
-  if (config::isDebug()) {
+  if (isDebugMode()) {
     sio::printf(F("# State: INIT\n"));
   }
 }
@@ -173,7 +196,7 @@ void StateReporting::enter() {
   // while in the reporting state, we reenter it. This provides a graceful
   // transition.
   selected_mode_index = config::modeIndex();
-  if (config::isDebug()) {
+  if (isDebugMode()) {
     sio::printf(F("# Mode: %d\n"), selected_mode_index);
     sio::printf(F("# State: REPORTING.0\n"));
   }
@@ -182,7 +205,7 @@ void StateReporting::enter() {
 void StateReporting::loop() {
   // Check for mode change.
   if (config::modeIndex() != selected_mode_index) {
-    if (config::isDebug()) {
+    if (isDebugMode()) {
       sio::printf(F("# Mode changed\n"));
     }
     sio::println();
@@ -192,14 +215,14 @@ void StateReporting::loop() {
     return;
   }
   
-  // If button pressed (low to high transition, then reenter state.
+  // If button pressed (low to high transition) then reenter state.
   {
     const bool new_action_button_state = buttons:: isActionButtonPressed();
     const bool button_clicked = !last_action_button_state && new_action_button_state;
     last_action_button_state = new_action_button_state;
     if (button_clicked) {
       sio::println();
-      if (config::isDebug()) {
+      if (isDebugMode()) {
         sio::printf(F("# Button pressed\n"));
       }
       // Reenter the state. This also resets the accomulated charge and time.
@@ -220,7 +243,7 @@ void StateReporting::loop() {
     last_minor_slot_time_millis = system_clock::timeMillis();
     slot_tracker.ResetAll();
 
-    if (config::isDebug()) {
+    if (isDebugMode()) {
       sio::printf(F("# State: REPORTING.1\n"));
     }
     return;
@@ -263,25 +286,44 @@ void StateReporting::loop() {
   // Compute major slot values.
   analysis::ChargeResults major_slot_charge_results;
   analysis::ComputeChargeResults(slot_tracker.major_slot_charge_tracker, &major_slot_charge_results);
-  analysis::PrintableValue major_slot_amps_printable(major_slot_charge_results.average_current_micro_amps);
+  analysis::PrintablePpmValue major_slot_amps_printable(major_slot_charge_results.average_current_micro_amps);
 
   // Compute total values.
   analysis::ChargeResults total_charge_results;
   analysis::ComputeChargeResults(slot_tracker.total_charge_tracker, &total_charge_results); 
-  analysis::PrintableValue total_charge_amp_hour_printable(total_charge_results.charge_micro_amps_hour);
-  analysis::PrintableValue total_average_current_amps_printable(total_charge_results.average_current_micro_amps); 
+  analysis::PrintablePpmValue total_charge_amp_hour_printable(total_charge_results.charge_micro_amps_hour);
+  analysis::PrintablePpmValue total_average_current_amps_printable(total_charge_results.average_current_micro_amps); 
+
+  analysis::PrintableMilsValue timestamp_secs_printable(slot_tracker.total_charge_tracker.time_millis);
 
   leds::activity.action(); 
-  if (config::isDebug()) {
-    sio::printf(F("0x%4x %4u | %6lu | %6lu %6lu %6lu %9lu\n"), 
-        this_minor_slot_charge_ticks_reading, charge_ticks_in_this_minor_slot, 
-        major_slot_charge_results.average_current_micro_amps, 
-        slot_tracker.total_charge_tracker.time_millis, slot_tracker.total_charge_tracker.charge_ticks, 
-        total_charge_results.charge_micro_amps_hour, total_charge_results.average_current_micro_amps);
-  } else if (selected_mode.is_detailed_report) {
+  
+  const uint8 format = selected_mode.format;
+  // sio::printf(F("mode: %u, format: %u\n"), selected_mode_index, format);
+  
+  if (format == formats::kTimeVsCurrent) {
+    sio::printf(F("%05u.%03u %u.%06lu\n"), 
+        timestamp_secs_printable.units,  timestamp_secs_printable.mils,
+        major_slot_amps_printable.units, major_slot_amps_printable.ppms);  
+   } else if (format == formats::kDetailed) {
     // TODO: Increase the sio buffer size so we can printf in one statement.
-    sio::printf(F("T=[%lu]  I=[%u.%03u]  Q=[%u.%03u]  IAv=[%u.%03u]"), 
-        slot_tracker.total_charge_tracker.time_millis,  
+    sio::printf(F("%u.%03u %u.%03u %u.%03u %u.%03u"), 
+        timestamp_secs_printable.units,  timestamp_secs_printable.mils, 
+        major_slot_amps_printable.units, 
+        major_slot_amps_printable.mils, 
+        total_charge_amp_hour_printable.units, 
+        total_charge_amp_hour_printable.mils,
+        total_average_current_amps_printable.units, 
+        total_average_current_amps_printable.mils); 
+    sio::printf(F(" %lu %lu %lu %d\n"), 
+        slot_tracker.standby_minor_slots_charge_tracker.time_millis,
+        slot_tracker.awake_minor_slots_charge_tracker.time_millis,
+        slot_tracker.total_awakes,
+        slot_tracker.awake_minor_slots_in_current_major_slot); 
+  } else if (format == formats::kDetailedLabeled) {
+    // TODO: Increase the sio buffer size so we can printf in one statement.
+    sio::printf(F("T=[%u.%03u]  I=[%u.%03u]  Q=[%u.%03u]  IAv=[%u.%03u]"), 
+        timestamp_secs_printable.units, timestamp_secs_printable.mils, 
         major_slot_amps_printable.units, 
         major_slot_amps_printable.mils, 
         total_charge_amp_hour_printable.units, 
@@ -289,15 +331,19 @@ void StateReporting::loop() {
         total_average_current_amps_printable.units, 
         total_average_current_amps_printable.mils); 
     sio::printf(F("  TSB=[%lu]  TAW=[%lu]  #AW=[%lu]%s\n"), 
-        slot_tracker.standby_minor_slots_charge_tracker.time_millis,
-        slot_tracker.awake_minor_slots_charge_tracker.time_millis,
+        slot_tracker.standby_minor_slots_charge_tracker.time_millis/ 1000,
+        slot_tracker.awake_minor_slots_charge_tracker.time_millis / 1000,
         slot_tracker.total_awakes,
         (slot_tracker.awake_minor_slots_in_current_major_slot ? " *" : "")); 
+  } else if (format == formats::kDebug) {
+    sio::printf(F("0x%4x %4u | %6lu | %6lu %6lu %6lu %9lu\n"), 
+        this_minor_slot_charge_ticks_reading, charge_ticks_in_this_minor_slot, 
+        major_slot_charge_results.average_current_micro_amps, 
+        slot_tracker.total_charge_tracker.time_millis, slot_tracker.total_charge_tracker.charge_ticks, 
+        total_charge_results.charge_micro_amps_hour, total_charge_results.average_current_micro_amps);
   } else {
-    sio::printf(F("%08lu %d.%06ld\n"), 
-        slot_tracker.total_charge_tracker.time_millis,  
-        major_slot_amps_printable.units, major_slot_amps_printable.ppms);  
-  }  
+    sio::printf(F("Unknown format: %d\n"), format); 
+  }
   
   // Reset the major slot data for the next slot.
   slot_tracker.ResetMajorSlot();
@@ -305,7 +351,7 @@ void StateReporting::loop() {
 
 inline void StateError::enter() {
   state = states::ERROR;
-  if (config::isDebug()) {
+  if (isDebugMode()) {
     sio::printf(F("# State: ERROR\n"));
   }
   time_in_state.restart();  
