@@ -1750,7 +1750,7 @@ Sourc: www.ctscorp.com</description>
 <sheet>
 <plain>
 <text x="40.64" y="20.32" size="2.54" layer="97">USB/SERIAL</text>
-<text x="236.22" y="104.14" size="2.54" layer="97">ICSP</text>
+<text x="229.87" y="104.14" size="2.54" layer="97">ICSP (POGO)</text>
 <text x="210.82" y="146.05" size="2.54" layer="97">MCU</text>
 <text x="185.42" y="27.94" size="2.54" layer="97" font="vector">Arduino Single Cell Battery Power Monitor</text>
 <text x="206.756" y="47.244" size="2.54" layer="97">DIAGNOSTICS</text>
@@ -1767,7 +1767,7 @@ CHARGER</text>
 COMPUTER</text>
 <text x="132.08" y="199.136" size="2.54" layer="97">TO
 DEVICE</text>
-<text x="172.72" y="104.14" size="2.54" layer="97">SETTINGS</text>
+<text x="175.26" y="104.14" size="2.54" layer="97">MODE</text>
 <text x="102.108" y="213.106" size="2.54" layer="97">3.8V</text>
 <text x="99.314" y="133.858" size="1.778" layer="97">1</text>
 <text x="99.314" y="131.318" size="1.778" layer="97">2</text>
@@ -1784,7 +1784,8 @@ DEVICE</text>
 <wire x1="96.52" y1="111.76" x2="96.52" y2="137.16" width="0.1524" layer="97"/>
 <text x="-25.4" y="7.62" size="2.54" layer="97">* PROTOTYPE ONLY</text>
 <text x="165.1" y="152.4" size="2.54" layer="97">RESET*</text>
-<text x="180.34" y="139.7" size="2.54" layer="97">(ARDUINO MINI PRO 328P 5V 16Mhz)</text>
+<text x="180.34" y="139.7" size="2.54" layer="97">"ARDUINO MINI PRO 328P 5V 16Mhz"</text>
+<text x="152.654" y="104.14" size="2.54" layer="97">START</text>
 </plain>
 <instances>
 <instance part="R9" gate="G$1" x="193.04" y="71.12" rot="R90"/>
@@ -2640,7 +2641,7 @@ DEVICE</text>
 <pinref part="U4" gate="G$1" pin="PB7(XTAL2/TOSC2)"/>
 </segment>
 </net>
-<net name="ACTION" class="0">
+<net name="START" class="0">
 <segment>
 <wire x1="238.76" y1="185.42" x2="259.08" y2="185.42" width="0.1524" layer="91"/>
 <label x="241.3" y="185.42" size="1.778" layer="95"/>
