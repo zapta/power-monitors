@@ -148,7 +148,7 @@ FDDI/USB</text>
 <wire x1="24.511" y1="37.465" x2="24.511" y2="40.64" width="0.1778" layer="21"/>
 <wire x1="31.242" y1="37.465" x2="31.242" y2="40.64" width="0.1778" layer="21"/>
 <wire x1="24.511" y1="37.465" x2="31.242" y2="37.465" width="0.1778" layer="21"/>
-<text x="23.0124" y="0.5715" size="0.762" layer="21" font="vector" ratio="10">USB</text>
+<text x="23.1648" y="0.5715" size="0.762" layer="21" font="vector" ratio="10">USB</text>
 <text x="27.8765" y="42.418" size="0.762" layer="21" font="vector" ratio="10" rot="SR0">CHARGER</text>
 <text x="22.5425" y="42.418" size="0.762" layer="21" font="vector" ratio="10" rot="SR0">USB</text>
 <text x="21.844" y="1.143" size="1.016" layer="30" font="vector" ratio="15" rot="SMR0" align="bottom-right">POWER-PLAY UNO - REV C</text>
@@ -548,10 +548,10 @@ Source: 008-0260-0_E.pdf</description>
 <smd name="3" x="0" y="5.425" dx="0.4" dy="1.35" layer="1" roundness="25"/>
 <smd name="4" x="-0.65" y="5.425" dx="0.4" dy="1.35" layer="1" roundness="25"/>
 <smd name="5" x="-1.3" y="5.425" dx="0.4" dy="1.35" layer="1" roundness="25"/>
-<pad name="A" x="-4.175" y="2.625" drill="0.88" diameter="1.778" shape="square"/>
+<pad name="A" x="-4.175" y="2.625" drill="1.016" diameter="1.778" shape="square"/>
 <pad name="B" x="-2.225" y="5.75" drill="0.65" diameter="0.9144" shape="square"/>
 <pad name="C" x="2.225" y="5.75" drill="0.65" diameter="0.9144" shape="square"/>
-<pad name="D" x="4.175" y="2.625" drill="0.88" diameter="1.778" shape="square"/>
+<pad name="D" x="4.175" y="2.625" drill="1.016" diameter="1.778" shape="square"/>
 <text x="-12.7" y="5.08" size="1.27" layer="27">&gt;VALUE</text>
 <text x="-12.7" y="2.54" size="1.27" layer="25">&gt;NAME</text>
 </package>
@@ -1039,7 +1039,7 @@ design rules under a new name.</description>
 <element name="R10" library="pmon_uno" package="R0603" value="3.3K" x="13.97" y="8.255" smashed="yes">
 <attribute name="NAME" x="13.081" y="9.271" size="0.762" layer="25" font="vector" ratio="10"/>
 </element>
-<element name="C7" library="pmon_uno" package="C0603" value="0.1uF" x="11.049" y="27.305" smashed="yes" rot="R270">
+<element name="C7" library="pmon_uno" package="C0603" value="0.01uF" x="11.049" y="27.305" smashed="yes" rot="R270">
 <attribute name="NAME" x="12.954" y="26.8605" size="0.762" layer="25" font="vector" ratio="10" rot="R90"/>
 </element>
 <element name="J4" library="pmon_uno" package="2X03" value="PINHD-2X3" x="5.969" y="26.924" smashed="yes" rot="R90">

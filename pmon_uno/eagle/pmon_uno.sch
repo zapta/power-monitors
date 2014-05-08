@@ -506,10 +506,10 @@ Source: 008-0260-0_E.pdf</description>
 <smd name="3" x="0" y="5.425" dx="0.4" dy="1.35" layer="1" roundness="25"/>
 <smd name="4" x="-0.65" y="5.425" dx="0.4" dy="1.35" layer="1" roundness="25"/>
 <smd name="5" x="-1.3" y="5.425" dx="0.4" dy="1.35" layer="1" roundness="25"/>
-<pad name="A" x="-4.175" y="2.625" drill="0.88" diameter="1.778" shape="square"/>
+<pad name="A" x="-4.175" y="2.625" drill="1.016" diameter="1.778" shape="square"/>
 <pad name="B" x="-2.225" y="5.75" drill="0.65" diameter="0.9144" shape="square"/>
 <pad name="C" x="2.225" y="5.75" drill="0.65" diameter="0.9144" shape="square"/>
-<pad name="D" x="4.175" y="2.625" drill="0.88" diameter="1.778" shape="square"/>
+<pad name="D" x="4.175" y="2.625" drill="1.016" diameter="1.778" shape="square"/>
 <text x="-12.7" y="5.08" size="1.27" layer="27">&gt;VALUE</text>
 <text x="-12.7" y="2.54" size="1.27" layer="25">&gt;NAME</text>
 </package>
@@ -1648,7 +1648,7 @@ Sourc: www.ctscorp.com</description>
 <part name="R9" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K"/>
 <part name="R10" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K"/>
 <part name="GND3" library="pmon_uno" deviceset="GND" device=""/>
-<part name="C7" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.1uF"/>
+<part name="C7" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.01uF"/>
 <part name="P+2" library="pmon_uno" deviceset="+5V" device=""/>
 <part name="GND2" library="pmon_uno" deviceset="GND" device=""/>
 <part name="GND16" library="pmon_uno" deviceset="GND" device=""/>
@@ -1795,8 +1795,8 @@ SELECTOR</text>
 <instance part="R10" gate="G$1" x="203.2" y="71.12" rot="R90"/>
 <instance part="GND3" gate="1" x="193.04" y="55.88"/>
 <instance part="C7" gate="G$1" x="73.66" y="58.42" smashed="yes" rot="R90">
-<attribute name="NAME" x="76.835" y="61.976" size="1.778" layer="95"/>
-<attribute name="VALUE" x="69.469" y="61.976" size="1.778" layer="96"/>
+<attribute name="NAME" x="77.851" y="55.118" size="1.778" layer="95"/>
+<attribute name="VALUE" x="77.851" y="51.054" size="1.778" layer="96"/>
 </instance>
 <instance part="P+2" gate="1" x="187.96" y="220.98"/>
 <instance part="GND2" gate="1" x="203.2" y="55.88"/>
