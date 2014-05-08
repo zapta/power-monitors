@@ -470,14 +470,10 @@ by exp-lbrs-filter.ulp</description>
 <package name="CRYSTAL-CTS406">
 <description>&lt;b&gt;Model 406 6.0x3.5mm Low Cost Surface Mount Crystal&lt;/b&gt;&lt;p&gt;
 Source: 008-0260-0_E.pdf</description>
-<circle x="-1.828078125" y="-1.571753125" radius="0.182" width="0" layer="21"/>
 <wire x1="-1.7" y1="1.4" x2="1.7" y2="1.4" width="0.127" layer="21"/>
 <wire x1="1.7" y1="1.4" x2="1.7" y2="-1.4" width="0.127" layer="21"/>
 <wire x1="1.7" y1="-1.4" x2="-1.7" y2="-1.4" width="0.127" layer="21"/>
 <wire x1="-1.7" y1="-1.4" x2="-1.7" y2="1.4" width="0.127" layer="21"/>
-<wire x1="-0.233409375" y1="-0.77134375" x2="0.04168125" y2="-0.03335625" width="0.127" layer="21"/>
-<wire x1="0.04168125" y1="-0.03335625" x2="0.329271875" y2="-0.77134375" width="0.127" layer="21"/>
-<wire x1="-0.1417125" y1="-0.521178125" x2="0.229240625" y2="-0.521178125" width="0.127" layer="21"/>
 <smd name="1" x="-1.075" y="-0.775" dx="0.9" dy="1" layer="1"/>
 <smd name="2" x="1.075" y="-0.775" dx="0.9" dy="1" layer="1"/>
 <smd name="3" x="1.075" y="0.775" dx="0.9" dy="1" layer="1"/>
@@ -514,7 +510,6 @@ Source: 008-0260-0_E.pdf</description>
 <pad name="B" x="-2.225" y="5.75" drill="0.65" diameter="0.9144" shape="square"/>
 <pad name="C" x="2.225" y="5.75" drill="0.65" diameter="0.9144" shape="square"/>
 <pad name="D" x="4.175" y="2.625" drill="0.88" diameter="1.778" shape="square"/>
-<smd name="E" x="0" y="2.625" dx="2.9" dy="1.9" layer="1" roundness="25"/>
 <text x="-12.7" y="5.08" size="1.27" layer="27">&gt;VALUE</text>
 <text x="-12.7" y="2.54" size="1.27" layer="25">&gt;NAME</text>
 </package>
@@ -564,11 +559,11 @@ chip</description>
 <package name="DFN8-3X3">
 <description>&lt;b&gt;DD Package 8-Lead Plastic DFN (3mm × 3mm)&lt;/b&gt;&lt;p&gt;
 Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
-<circle x="-0.75" y="-0.775" radius="0.275" width="0" layer="51"/>
+<circle x="-1.385" y="-1.41" radius="0.275" width="0" layer="21"/>
 <wire x1="-1.4" y1="-1.4" x2="-1.4" y2="1.4" width="0.2032" layer="21"/>
-<wire x1="-1.4" y1="1.4" x2="1.4" y2="1.4" width="0.2032" layer="51"/>
+<wire x1="-1.4" y1="1.4" x2="1.4" y2="1.4" width="0.2032" layer="21"/>
 <wire x1="1.4" y1="1.4" x2="1.4" y2="-1.4" width="0.2032" layer="21"/>
-<wire x1="1.4" y1="-1.4" x2="-1.4" y2="-1.4" width="0.2032" layer="51"/>
+<wire x1="1.4" y1="-1.4" x2="-1.4" y2="-1.4" width="0.2032" layer="21"/>
 <rectangle x1="-0.9" y1="1.1" x2="-0.6" y2="1.6" layer="29"/>
 <rectangle x1="-0.4" y1="1.1" x2="-0.1" y2="1.6" layer="29"/>
 <rectangle x1="0.1" y1="1.1" x2="0.4" y2="1.6" layer="29"/>
@@ -718,12 +713,16 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <wire x1="2.6038" y1="7.0836" x2="2.6038" y2="-0.4796" width="0.2032" layer="21"/>
 <wire x1="2.6038" y1="-0.4796" x2="-2.6038" y2="-0.4796" width="0.2032" layer="21"/>
 <wire x1="-2.6038" y1="-0.4796" x2="-2.6038" y2="7.0836" width="0.2032" layer="21"/>
-<smd name="I1" x="-1.6" y="2.7" dx="1.2" dy="5.4" layer="1"/>
-<smd name="I2" x="1.6" y="2.7" dx="1.2" dy="5.4" layer="1"/>
-<smd name="V1" x="-1.6" y="6.25" dx="1.2" dy="0.7" layer="1"/>
-<smd name="V2" x="1.6" y="6.25" dx="1.2" dy="0.7" layer="1"/>
+<smd name="I1" x="-1.6" y="2.7" dx="1.2" dy="5.4" layer="1" cream="no"/>
+<smd name="I2" x="1.6" y="2.7" dx="1.2" dy="5.4" layer="1" cream="no"/>
+<smd name="V1" x="-1.6" y="6.25" dx="1.2" dy="0.7" layer="1" cream="no"/>
+<smd name="V2" x="1.6" y="6.25" dx="1.2" dy="0.7" layer="1" cream="no"/>
 <text x="0.0908" y="-1.9556" size="1.27" layer="25" rot="R180">&gt;NAME</text>
 <text x="0.5908" y="-3.5252" size="1.27" layer="27" rot="R180">&gt;VALUE</text>
+<rectangle x1="-2" y1="0.1" x2="-1.2" y2="5.3" layer="31"/>
+<rectangle x1="1.2" y1="0.1" x2="2" y2="5.3" layer="31"/>
+<rectangle x1="-2" y1="5.95" x2="-1.2" y2="6.55" layer="31"/>
+<rectangle x1="1.2" y1="5.95" x2="2" y2="6.55" layer="31"/>
 </package>
 <package name="TRIM-POT_SM-42/43A">
 <description>&lt;b&gt;COPAL ELECTRONICS SM-42/43 SURFACE MOUNT TRIMMERS&lt;/b&gt; Side adjustmet&lt;p&gt;
@@ -1745,6 +1744,8 @@ Sourc: www.ctscorp.com</description>
 <part name="U$9" library="pmon_uno" deviceset="NC" device=""/>
 <part name="S1" library="pmon_uno" deviceset="PUSH_BUTTON_SHIELDED" device=""/>
 <part name="J3" library="pmon_uno" deviceset="PINHD-1X3" device="" value="PINHD-1X3"/>
+<part name="J5" library="pmon_uno" deviceset="PINHD-1X3" device="" value="PINHD-1X3"/>
+<part name="P+6" library="pmon_uno" deviceset="+5V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -1760,7 +1761,7 @@ Sourc: www.ctscorp.com</description>
 <wire x1="-35.56" y1="0" x2="-35.56" y2="238.76" width="0.1524" layer="94"/>
 <text x="12.7" y="104.14" size="2.54" layer="97">C/V/A SENSE</text>
 <text x="38.1" y="167.64" size="2.54" layer="97">VOLTAGE REGULATOR</text>
-<text x="-20.32" y="187.96" size="2.54" layer="97">FROM
+<text x="-20.32" y="180.34" size="2.54" layer="97">FROM
 CHARGER</text>
 <text x="93.98" y="104.14" size="2.54" layer="97">LOGIC ANALYZER *</text>
 <text x="-12.7" y="66.04" size="2.54" layer="97">TO
@@ -1786,6 +1787,8 @@ DEVICE</text>
 <text x="165.1" y="152.4" size="2.54" layer="97">RESET*</text>
 <text x="180.34" y="139.7" size="2.54" layer="97">"ARDUINO MINI PRO 328P 5V 16Mhz"</text>
 <text x="152.654" y="104.14" size="2.54" layer="97">START</text>
+<text x="-14.732" y="218.186" size="2.54" layer="97">POWER
+SELECTOR</text>
 </plain>
 <instances>
 <instance part="R9" gate="G$1" x="193.04" y="71.12" rot="R90"/>
@@ -1858,7 +1861,7 @@ DEVICE</text>
 </instance>
 <instance part="GND19" gate="1" x="48.26" y="185.42"/>
 <instance part="GND20" gate="1" x="43.18" y="185.42"/>
-<instance part="GND21" gate="1" x="5.08" y="185.42"/>
+<instance part="GND21" gate="1" x="7.62" y="185.42"/>
 <instance part="R6" gate="G$1" x="109.22" y="200.66" smashed="yes" rot="R180">
 <attribute name="NAME" x="110.49" y="198.9074" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="112.014" y="204.216" size="1.778" layer="96" rot="R180"/>
@@ -1908,7 +1911,7 @@ DEVICE</text>
 <instance part="GND29" gate="1" x="124.46" y="111.76"/>
 <instance part="S2" gate="G$1" x="177.8" y="119.38" rot="R270"/>
 <instance part="GND30" gate="1" x="167.64" y="109.22"/>
-<instance part="J1" gate="G$1" x="-5.08" y="200.66"/>
+<instance part="J1" gate="G$1" x="-7.62" y="193.04"/>
 <instance part="R5" gate="G$1" x="101.6" y="190.5" smashed="yes" rot="MR0">
 <attribute name="NAME" x="104.14" y="193.04" size="1.778" layer="95" rot="MR90"/>
 <attribute name="VALUE" x="104.394" y="182.88" size="1.778" layer="96" rot="MR90"/>
@@ -1950,14 +1953,21 @@ DEVICE</text>
 <instance part="U2" gate="1" x="50.8" y="50.8"/>
 <instance part="U$4" gate="G$1" x="68.58" y="53.34" rot="R180"/>
 <instance part="U$6" gate="G$1" x="68.58" y="50.8" rot="R180"/>
-<instance part="U$2" gate="G$1" x="2.54" y="208.28" rot="R180"/>
-<instance part="U$7" gate="G$1" x="2.54" y="205.74" rot="R180"/>
-<instance part="U$8" gate="G$1" x="2.54" y="203.2" rot="R180"/>
+<instance part="U$2" gate="G$1" x="0" y="200.66" rot="R180"/>
+<instance part="U$7" gate="G$1" x="0" y="198.12" rot="R180"/>
+<instance part="U$8" gate="G$1" x="0" y="195.58" rot="R180"/>
 <instance part="U$9" gate="G$1" x="238.76" y="162.56" rot="R180"/>
 <instance part="S1" gate="G$1" x="157.48" y="119.38" smashed="yes">
 <attribute name="NAME" x="149.86" y="120.65" size="1.778" layer="95"/>
 </instance>
 <instance part="J3" gate="A" x="132.08" y="190.5"/>
+<instance part="J5" gate="A" x="5.08" y="210.82" smashed="yes" rot="MR0">
+<attribute name="NAME" x="13.208" y="213.995" size="1.778" layer="95" rot="MR180"/>
+<attribute name="VALUE" x="13.716" y="217.424" size="1.778" layer="96" rot="MR180"/>
+</instance>
+<instance part="P+6" gate="1" x="7.62" y="220.98" smashed="yes">
+<attribute name="VALUE" x="10.668" y="219.456" size="1.778" layer="96" rot="R90"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -2026,8 +2036,8 @@ DEVICE</text>
 <wire x1="27.94" y1="78.74" x2="30.48" y2="78.74" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<wire x1="2.54" y1="200.66" x2="5.08" y2="200.66" width="0.4064" layer="91"/>
-<wire x1="5.08" y1="200.66" x2="5.08" y2="187.96" width="0.4064" layer="91"/>
+<wire x1="0" y1="193.04" x2="7.62" y2="193.04" width="0.4064" layer="91"/>
+<wire x1="7.62" y1="193.04" x2="7.62" y2="187.96" width="0.4064" layer="91"/>
 <pinref part="GND21" gate="1" pin="GND"/>
 <pinref part="J1" gate="G$1" pin="GND"/>
 </segment>
@@ -2240,6 +2250,11 @@ DEVICE</text>
 <pinref part="U2" gate="1" pin="VCCIO"/>
 <pinref part="P+4" gate="1" pin="+5V"/>
 </segment>
+<segment>
+<pinref part="J5" gate="A" pin="1"/>
+<pinref part="P+6" gate="1" pin="+5V"/>
+<wire x1="7.62" y1="213.36" x2="7.62" y2="218.44" width="0.4064" layer="91"/>
+</segment>
 </net>
 <net name="ERROR_LED" class="0">
 <segment>
@@ -2396,8 +2411,8 @@ DEVICE</text>
 <wire x1="25.4" y1="200.66" x2="25.4" y2="210.82" width="0.1524" layer="91"/>
 <junction x="33.02" y="210.82"/>
 <junction x="25.4" y="210.82"/>
-<pinref part="J1" gate="G$1" pin="VBUS"/>
-<wire x1="2.54" y1="210.82" x2="17.78" y2="210.82" width="0.4064" layer="91"/>
+<pinref part="J5" gate="A" pin="2"/>
+<wire x1="7.62" y1="210.82" x2="17.78" y2="210.82" width="0.4064" layer="91"/>
 <junction x="17.78" y="210.82"/>
 </segment>
 </net>
@@ -2684,6 +2699,14 @@ DEVICE</text>
 <label x="109.22" y="127" size="1.778" layer="95"/>
 </segment>
 </net>
+<net name="N$5" class="0">
+<segment>
+<pinref part="J1" gate="G$1" pin="VBUS"/>
+<pinref part="J5" gate="A" pin="3"/>
+<wire x1="0" y1="203.2" x2="7.62" y2="203.2" width="0.4064" layer="91"/>
+<wire x1="7.62" y1="203.2" x2="7.62" y2="208.28" width="0.4064" layer="91"/>
+</segment>
+</net>
 </nets>
 </sheet>
 </sheets>
@@ -2696,13 +2719,11 @@ DEVICE</text>
 <approved hash="104,1,43.18,76.2,U2,VCC,+5V,,,"/>
 <approved hash="104,1,50.8,76.2,U2,VCCIO,+5V,,,"/>
 <approved hash="117,1,190.5,203.2,AREF,,,,,"/>
-<approved hash="105,1,113.03,127,N$5,,,,,"/>
+<approved hash="106,1,238.76,180.34,DEBUG,,,,,"/>
 <approved hash="105,1,113.03,124.46,N$13,,,,,"/>
 <approved hash="105,1,113.03,121.92,N$23,,,,,"/>
 <approved hash="105,1,113.03,119.38,N$24,,,,,"/>
 <approved hash="105,1,113.03,116.84,N$25,,,,,"/>
-<approved hash="113,1,239.988,118.241,J4,,,,,"/>
-<approved hash="113,1,129.777,191.901,J3,,,,,"/>
 </errors>
 </schematic>
 </drawing>
