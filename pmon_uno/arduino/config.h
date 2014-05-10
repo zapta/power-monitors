@@ -31,10 +31,9 @@ namespace config {
     return private_::byte_debouncer.hasStableValue();
   }
   
-  // Returns a [0,3] index of selected mode (two LSB switches).
+  // Returns a [0,15] index of selected mode.
   inline uint8 modeIndex() {
-    const uint8 config_bits = private_::byte_debouncer.stableValue() & 0x0f;
-    return (config_bits < 10) ? config_bits : 0;
+    return  private_::byte_debouncer.stableValue() & 0x0f;
   }
 
 }  // namepsace config

@@ -42,20 +42,32 @@ struct Mode {
 };
 
 // Mode table. Indexed by config::modeIndex();
-static const Mode modes[] = {
-  // Modes 0,1
+static const Mode modes_table[] = {
+  // 0 - Simple format, 1Hz
   Mode(formats::kTimeVsCurrent, 10),
+  
+  // 1 - Simple format, 10Hz
   Mode(formats::kTimeVsCurrent, 1),
   
-  // Modes 2, 3
+  // 2 - Labeled detailed format.  1Hz.
   Mode(formats::kDetailedLabeled, 10),
+  
+  // 3 - Labeled detailed format.  1Hz.
   Mode(formats::kDetailedLabeled, 1),
   
-  // Modes 4, 5
+  // 4 - Unlabeled detailed format.  1Hz.
   Mode(formats::kDetailed, 10),
+  
+  // 5 - Unlabeled detailed format.  1Hz.
   Mode(formats::kDetailed, 1),
   
-  // Modes 6,7,8,9
+  // 6-15 - Debug (1Hz, 10Hz, ...)
+  Mode(formats::kDebug, 10),
+  Mode(formats::kDebug, 1),
+  Mode(formats::kDebug, 10),
+  Mode(formats::kDebug, 1),
+  Mode(formats::kDebug, 10),
+  Mode(formats::kDebug, 1),
   Mode(formats::kDebug, 10),
   Mode(formats::kDebug, 1),
   Mode(formats::kDebug, 10),
@@ -278,7 +290,7 @@ void StateReporting::loop() {
   slot_tracker.AddMinorSlot(charge_ticks_in_this_minor_slot);
 
   // If not the last minor slot in the current major slot than we are done.
-  const Mode& selected_mode = modes[selected_mode_index];
+  const Mode& selected_mode = modes_table[selected_mode_index];
   if (slot_tracker.minor_slots_in_current_major_slot < selected_mode.minor_slots_per_major_slot) {
     return;
   }
