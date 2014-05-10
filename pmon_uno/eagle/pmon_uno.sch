@@ -1645,8 +1645,8 @@ Sourc: www.ctscorp.com</description>
 </class>
 </classes>
 <parts>
-<part name="R9" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K"/>
-<part name="R10" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K"/>
+<part name="R9" library="pmon_uno" deviceset="RES-" device="R0603" value="3K3"/>
+<part name="R10" library="pmon_uno" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="GND3" library="pmon_uno" deviceset="GND" device=""/>
 <part name="C7" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.01uF"/>
 <part name="P+2" library="pmon_uno" deviceset="+5V" device=""/>
@@ -1664,7 +1664,7 @@ Sourc: www.ctscorp.com</description>
 <part name="C3" library="pmon_uno" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
 <part name="GND1" library="pmon_uno" deviceset="GND" device=""/>
 <part name="D4" library="pmon_uno" deviceset="LED" device="1206" value="BLUE"/>
-<part name="R12" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K"/>
+<part name="R12" library="pmon_uno" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="P+4" library="pmon_uno" deviceset="+5V" device=""/>
 <part name="C8" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.1uF"/>
 <part name="C5" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.1uF"/>
@@ -1693,7 +1693,7 @@ Sourc: www.ctscorp.com</description>
 <part name="GND20" library="pmon_uno" deviceset="GND" device=""/>
 <part name="GND21" library="pmon_uno" deviceset="GND" device=""/>
 <part name="R6" library="pmon_uno" deviceset="RES-" device="R0603" value="8K2 1%"/>
-<part name="R7" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K 1%"/>
+<part name="R7" library="pmon_uno" deviceset="RES-" device="R0603" value="3K3 1%"/>
 <part name="GND23" library="pmon_uno" deviceset="GND" device=""/>
 <part name="C6" library="pmon_uno" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
 <part name="C1" library="pmon_uno" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
@@ -1706,8 +1706,8 @@ Sourc: www.ctscorp.com</description>
 <part name="C2" library="pmon_uno" deviceset="CAP-" device="C0603" value="1uF"/>
 <part name="P+9" library="pmon_uno" deviceset="V+" device=""/>
 <part name="R4" library="pmon_uno" deviceset="RES-SHUNT-" device="6432" value="0.025R 1%"/>
-<part name="R2" library="pmon_uno" deviceset="RES-" device="R0603" value="4.7K"/>
-<part name="R3" library="pmon_uno" deviceset="RES-" device="R0603" value="4.7K"/>
+<part name="R2" library="pmon_uno" deviceset="RES-" device="R0603" value="3K3"/>
+<part name="R3" library="pmon_uno" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="P+11" library="pmon_uno" deviceset="+5V" device=""/>
 <part name="P+12" library="pmon_uno" deviceset="+5V" device=""/>
 <part name="GND29" library="pmon_uno" deviceset="GND" device=""/>
@@ -1718,15 +1718,15 @@ Sourc: www.ctscorp.com</description>
 <part name="U1" library="pmon_uno" deviceset="LTC2943" device="" value="LTC2943"/>
 <part name="GND17" library="pmon_uno" deviceset="GND" device=""/>
 <part name="D5" library="pmon_uno" deviceset="LED" device="1206" value="BLUE"/>
-<part name="R13" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K"/>
+<part name="R13" library="pmon_uno" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="GND28" library="pmon_uno" deviceset="GND" device=""/>
 <part name="P+8" library="pmon_uno" deviceset="V+" device=""/>
 <part name="GND31" library="pmon_uno" deviceset="GND" device=""/>
-<part name="R1" library="pmon_uno" deviceset="RES-" device="R0603" value="10K"/>
+<part name="R1" library="pmon_uno" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="P+10" library="pmon_uno" deviceset="+5V" device=""/>
 <part name="D3" library="pmon_uno" deviceset="LED" device="1206" value="GREEN"/>
 <part name="GND32" library="pmon_uno" deviceset="GND" device=""/>
-<part name="R11" library="pmon_uno" deviceset="RES-" device="R0603" value="3.3K"/>
+<part name="R11" library="pmon_uno" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="GND22" library="pmon_uno" deviceset="GND" device=""/>
 <part name="J2" library="pmon_uno" deviceset="USB" device=""/>
 <part name="Q1" library="pmon_uno" deviceset="CRYSTAL" device="CTS406" value="16Mhz"/>
@@ -1896,7 +1896,7 @@ SELECTOR</text>
 </instance>
 <instance part="R2" gate="G$1" x="48.26" y="137.16" smashed="yes" rot="R90">
 <attribute name="NAME" x="47.0154" y="131.572" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="46.99" y="136.144" size="1.778" layer="96" rot="R90"/>
+<attribute name="VALUE" x="46.99" y="136.652" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="R3" gate="G$1" x="53.34" y="137.16" smashed="yes" rot="R90">
 <attribute name="NAME" x="52.0954" y="131.826" size="1.778" layer="95" rot="R90"/>
@@ -1924,8 +1924,8 @@ SELECTOR</text>
 <instance part="P+8" gate="1" x="241.3" y="91.44"/>
 <instance part="GND31" gate="1" x="180.34" y="149.86"/>
 <instance part="R1" gate="G$1" x="43.18" y="137.16" smashed="yes" rot="R90">
-<attribute name="NAME" x="42.1894" y="131.318" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="42.164" y="137.16" size="1.778" layer="96" rot="R90"/>
+<attribute name="NAME" x="41.9354" y="131.826" size="1.778" layer="95" rot="R90"/>
+<attribute name="VALUE" x="41.91" y="136.398" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="P+10" gate="1" x="43.18" y="147.32" smashed="yes" rot="MR0">
 <attribute name="VALUE" x="40.132" y="145.796" size="1.778" layer="96" rot="MR90"/>
