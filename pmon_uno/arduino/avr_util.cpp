@@ -10,33 +10,33 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CONFIG_H
-#define CONFIG_H
-
 #include "avr_util.h"
-#include "byte_debouncer.h"
 
-namespace config {
-  // Internals.
-  namespace private_ {
-    extern ByteDebouncer byte_debouncer;
-  }
-
-  extern void setup();
+void printf(const __FlashStringHelper *format, ...)
+{
+  // Assuming single thread so a static buffer should be ok.
+  static char buf[80];
   
-  extern void loop();
-   
-  inline bool hasStableValue() {
-    return private_::byte_debouncer.hasStableValue();
-  }
+  // Format the string.
+  va_list ap;
+  va_start(ap, format);
+  vsnprintf_P(buf, sizeof(buf), (const char *)format, ap); 
+  va_end(ap);
   
-  // Returns a [0,15] index of selected mode.
-  inline uint8 modeIndex() {
-    return  private_::byte_debouncer.stableValue() & 0x0f;
+  // Write the string, converting LF to CR/LF.
+  char* p = buf;
+  for (;;) {
+    const char c = *p++;
+    if (c == 0) {
+      break;
+    }
+    if (c == '\n') {
+      Serial.print('\r');
+    }
+    Serial.print(c);  
   }
+}
 
-}  // namepsace config
 
-#endif
 
 

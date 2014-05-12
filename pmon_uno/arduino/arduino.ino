@@ -10,16 +10,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// If any of these checks fail, make sure you setup the Arduino IDE Board to
+// Arduino Pro or Pro Mini (5V, 16Mhz) w/ Atmega 328P'.
+#ifndef __AVR_ATmega328P__
+#error "Unexpected MCU"
+#endif
+#if F_CPU != 16000000
+#error "Unexpected CPU speed"
+#endif
+
 #include "analysis.h"
 #include "avr_util.h"
 #include "buttons.h"
 #include "config.h"
-#include "hardware_clock.h"
 #include "leds.h"
 #include "ltc2943.h"
 #include "passive_timer.h"
-#include "sio.h"
-#include "system_clock.h"
 
 namespace formats {
   static const uint8 kTimeVsCurrent = 1;
@@ -136,33 +142,21 @@ class StateError {
 PassiveTimer StateError::time_in_state;
 
 // Arduino setup function. Called once during initialization.
-void setup()
-{
-  // Disable timer 0 interrupts. It is setup by the Arduino runtime for the 
-  // Arduino time services (which we do not use).
-  TCCR0B = 0;
-  TCCR0A = 0;
-
-  // Hard coded to 115.2k baud. Uses URART0, no interrupts.
-  // Initialize this first since some setup methods uses it.
-  sio::setup();
+void setup() {;
+  Serial.begin(115200);
   
   if (isDebugMode()) {
-    sio::printf(F("\nStarted\n"));
+    printf(F("\nStarted\n"));
   } else {
-    sio::printf(F("\n"));
+    printf(F("\n"));
   }
 
-  // Uses Timer1, no interrupts.
-  hardware_clock::setup();
-  
   config::setup();
   
   buttons::setup();
   
   // Let the config value stablizes through the debouncer.
   while (!config::hasStableValue()) {
-    system_clock::loop();
     config::loop();
   }
   
@@ -187,7 +181,7 @@ void setup()
 void StateInit::enter() {
   state = states::INIT;
   if (isDebugMode()) {
-    sio::printf(F("# State: INIT\n"));
+    printf(F("# State: INIT\n"));
   }
 }
 
@@ -195,7 +189,7 @@ void StateInit::loop() {
   if (ltc2943::init()) {
     StateReporting::enter();
   } else {
-    sio::printf(F("# LTC2943 init failed (is power connected?)\n"));
+    printf(F("# LTC2943 init failed (is power connected?)\n"));
     StateError::enter();
   }
 }
@@ -209,8 +203,8 @@ void StateReporting::enter() {
   // transition.
   selected_mode_index = config::modeIndex();
   if (isDebugMode()) {
-    sio::printf(F("# Mode: %d\n"), selected_mode_index);
-    sio::printf(F("# State: REPORTING.0\n"));
+    printf(F("# Mode: %d\n"), selected_mode_index);
+    printf(F("# State: REPORTING.0\n"));
   }
 }
 
@@ -218,9 +212,9 @@ void StateReporting::loop() {
   // Check for mode change.
   if (config::modeIndex() != selected_mode_index) {
     if (isDebugMode()) {
-      sio::printf(F("# Mode changed\n"));
+      printf(F("# Mode changed\n"));
     }
-    sio::println();
+    printf(F("\n"));
     // The switch is done when reentering the state. This provides graceful 
     // transition.
     StateReporting::enter();
@@ -233,9 +227,9 @@ void StateReporting::loop() {
     const bool button_clicked = !last_action_button_state && new_action_button_state;
     last_action_button_state = new_action_button_state;
     if (button_clicked) {
-      sio::println();
+      printf(F("\n"));
       if (isDebugMode()) {
-        sio::printf(F("# Button pressed\n"));
+        printf(F("# Button pressed\n"));
       }
       // Reenter the state. This also resets the accomulated charge and time.
       StateReporting::enter();
@@ -247,16 +241,16 @@ void StateReporting::loop() {
   // accomulated data.
   if (!has_last_reading) {
     if (!ltc2943::readAccumCharge(&last_minor_slot_charge_ticks_reading)) {
-      sio::printf(F("# LTC2943 charge reading failed (1)\n"));
+      printf(F("# LTC2943 charge reading failed (1)\n"));
       StateError::enter();
       return;
     }
     has_last_reading = true;
-    last_minor_slot_time_millis = system_clock::timeMillis();
+    last_minor_slot_time_millis = millis();
     slot_tracker.ResetAll();
 
     if (isDebugMode()) {
-      sio::printf(F("# State: REPORTING.1\n"));
+      printf(F("# State: REPORTING.1\n"));
     }
     return;
   }
@@ -264,7 +258,7 @@ void StateReporting::loop() {
   // Here when successive reading. Check if the current minor slot is over.
   // NOTE: the time check below should handle correctly 52 days wraparound of the uint32
   // time in millis.
-  const int32 millis_in_current_minor_slot = system_clock::timeMillis() - last_minor_slot_time_millis;
+  const int32 millis_in_current_minor_slot = millis() - last_minor_slot_time_millis;
   if (millis_in_current_minor_slot < analysis::kMillisPerMinorSlot) {
     return;
   }
@@ -277,7 +271,7 @@ void StateReporting::loop() {
   // Read and compute the charge ticks in this minor slot.
   uint16 this_minor_slot_charge_ticks_reading;
   if (!ltc2943::readAccumCharge(&this_minor_slot_charge_ticks_reading)) {
-      sio::printf(F("# LTC2943 charge reading failed (2)\n"));
+      printf(F("# LTC2943 charge reading failed (2)\n"));
       StateError::enter();
       return;
   }
@@ -311,15 +305,14 @@ void StateReporting::loop() {
   leds::activity.action(); 
   
   const uint8 format = selected_mode.format;
-  // sio::printf(F("mode: %u, format: %u\n"), selected_mode_index, format);
   
   if (format == formats::kTimeVsCurrent) {
-    sio::printf(F("%05u.%03u %u.%06lu\n"), 
+    printf(F("%05u.%03u %u.%06lu\n"), 
         timestamp_secs_printable.units,  timestamp_secs_printable.mils,
         major_slot_amps_printable.units, major_slot_amps_printable.ppms);  
    } else if (format == formats::kDetailed) {
     // TODO: Increase the sio buffer size so we can printf in one statement.
-    sio::printf(F("%u.%03u %u.%03u %u.%03u %u.%03u"), 
+    printf(F("%u.%03u %u.%03u %u.%03u %u.%03u"), 
         timestamp_secs_printable.units,  timestamp_secs_printable.mils, 
         major_slot_amps_printable.units, 
         major_slot_amps_printable.mils, 
@@ -327,14 +320,14 @@ void StateReporting::loop() {
         total_charge_amp_hour_printable.mils,
         total_average_current_amps_printable.units, 
         total_average_current_amps_printable.mils); 
-    sio::printf(F(" %lu %lu %lu %d\n"), 
+    printf(F(" %lu %lu %lu %d\n"), 
         slot_tracker.standby_minor_slots_charge_tracker.time_millis,
         slot_tracker.awake_minor_slots_charge_tracker.time_millis,
         slot_tracker.total_awakes,
         slot_tracker.awake_minor_slots_in_current_major_slot); 
   } else if (format == formats::kDetailedLabeled) {
     // TODO: Increase the sio buffer size so we can printf in one statement.
-    sio::printf(F("T=[%u.%03u]  I=[%u.%03u]  Q=[%u.%03u]  IAv=[%u.%03u]"), 
+    printf(F("T=[%u.%03u]  I=[%u.%03u]  Q=[%u.%03u]  IAv=[%u.%03u]"), 
         timestamp_secs_printable.units, timestamp_secs_printable.mils, 
         major_slot_amps_printable.units, 
         major_slot_amps_printable.mils, 
@@ -342,19 +335,19 @@ void StateReporting::loop() {
         total_charge_amp_hour_printable.mils,
         total_average_current_amps_printable.units, 
         total_average_current_amps_printable.mils); 
-    sio::printf(F("  TSB=[%lu]  TAW=[%lu]  #AW=[%lu]%s\n"), 
+    printf(F("  TSB=[%lu]  TAW=[%lu]  #AW=[%lu]%s\n"), 
         slot_tracker.standby_minor_slots_charge_tracker.time_millis/ 1000,
         slot_tracker.awake_minor_slots_charge_tracker.time_millis / 1000,
         slot_tracker.total_awakes,
         (slot_tracker.awake_minor_slots_in_current_major_slot ? " *" : "")); 
   } else if (format == formats::kDebug) {
-    sio::printf(F("0x%4x %4u | %6lu | %6lu %6lu %6lu %9lu\n"), 
+    printf(F("0x%4x %4u | %6lu | %6lu %6lu %6lu %9lu\n"), 
         this_minor_slot_charge_ticks_reading, charge_ticks_in_this_minor_slot, 
         major_slot_charge_results.average_current_micro_amps, 
         slot_tracker.total_charge_tracker.time_millis, slot_tracker.total_charge_tracker.charge_ticks, 
         total_charge_results.charge_micro_amps_hour, total_charge_results.average_current_micro_amps);
   } else {
-    sio::printf(F("Unknown format: %d\n"), format); 
+    printf(F("Unknown format: %d\n"), format); 
   }
   
   // Reset the major slot data for the next slot.
@@ -364,7 +357,7 @@ void StateReporting::loop() {
 inline void StateError::enter() {
   state = states::ERROR;
   if (isDebugMode()) {
-    sio::printf(F("# State: ERROR\n"));
+    printf(F("# State: ERROR\n"));
   }
   time_in_state.restart();  
   leds::errors.action();
@@ -384,31 +377,25 @@ inline void StateError::loop() {
 // This is a quick loop that does not use delay() or other 'long' busy loops
 // or blocking calls. typical iteration is ~ 50usec with 16Mhz CPU.
 void loop() {
-  // Having our own loop shaves about 4 usec per iteration. It also eliminate
-  // any underlying functionality that we may not want.
-  for(;;) {
-    // Periodic updates.
-    system_clock::loop();  
-    config::loop();  
-    buttons::loop();
-    sio::loop();
-    leds::loop(); 
-    
-    switch (state) {
-      case states::INIT:
-        StateInit::loop();
-        break;
-      case states::REPORTING:
-        StateReporting::loop();
-        break;
-      case states::ERROR:
-        StateError::loop();
-        break;
-      default:
-        sio::printf(F("# Unknown state: %d\n"), state);
-        StateError::enter();
-        break;  
-    }
+  // Call the loop() function of the underlying modules.
+  config::loop();  
+  buttons::loop();
+  leds::loop(); 
+  
+  switch (state) {
+    case states::INIT:
+      StateInit::loop();
+      break;
+    case states::REPORTING:
+      StateReporting::loop();
+      break;
+    case states::ERROR:
+      StateError::loop();
+      break;
+    default:
+      printf(F("# Unknown state: %d\n"), state);
+      StateError::enter();
+      break;  
   }
 }
 

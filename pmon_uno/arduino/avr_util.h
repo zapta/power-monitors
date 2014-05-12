@@ -38,5 +38,7 @@ namespace avr_util_private {
   extern const byte kBitMaskArray[];
 }
 
+extern void printf(const __FlashStringHelper *format, ...);
+
 #endif
 

@@ -14,7 +14,6 @@
 #define PASSIVE_TIMER_H
 
 #include <arduino.h>
-#include "system_clock.h"
 
 // A wrapper around system clock that provides millisecond based time measurments.
 class PassiveTimer {
@@ -24,9 +23,8 @@ public:
   }
 
   inline void restart() {
-    start_time_millis_ = system_clock::timeMillis();
+    start_time_millis_ = millis();
   }
-  
   
   inline void advance_start(uint16 delta_time_millis) {
     start_time_millis_ += delta_time_millis;
@@ -37,7 +35,7 @@ public:
   }
 
   inline uint32 timeMillis() const {
-    return system_clock::timeMillis() - start_time_millis_;
+    return millis() - start_time_millis_;
   }
 
 private:
