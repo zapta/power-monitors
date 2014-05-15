@@ -61,10 +61,23 @@ static inline uint8 currentMilliAmpsToDisplayY(uint16 current_milli_amps) {
   if (current_milli_amps > 2000) {
     current_milli_amps = 2000;
   }
+
+  // Using a sub logarithmic function (k1 > 0) to reduce the gain at the lower range
+  // and increase the gain at the higher end. This function is betwene linear and 
+  // log().
+  //
+  // Formulas (depending for a given a)
+  // b = int(32/(ln(2000+a)-ln(a)))
+  // c = =int(ln(a)*b)
+  //
+  static const uint16 kA = 30;
+  static const uint16 kB = 7;
+  static const uint16 kC = 23;
   
-  const int scalledValue = log(current_milli_amps) * 4;
+  // Maps [0..2000] to [0..31]
+  const int scalledValue = 0.5f + ((log(current_milli_amps + kA) * kB) - kC);
   
-  // Mapss [0..2000] to [63..32]
+  // Mapss [0..2000] to [63..32] (the bottom half of the display).
   return 63 - scalledValue;
 }
 
