@@ -28,6 +28,21 @@
 #include "ltc2943.h"
 #include "passive_timer.h"
 
+namespace display_page {
+  static const uint8 kGraphPage = 1;
+  static const uint8 kSummaryPage = 2;  
+}
+
+// Current display page. One of display_page:: values.
+static uint8 current_display_page;
+
+static inline void incrementCurrentDisplayPage() {
+  // Assuming upon entry value is valid.
+  if (++current_display_page > display_page::kSummaryPage) {
+    current_display_page = display_page::kGraphPage;
+  }
+}
+
 namespace formats {
   static const uint8 kTimeVsCurrent = 1;
   static const uint8 kDetailed = 2;
@@ -156,6 +171,9 @@ void setup() {;
   
   button::setup();
   display::setup();
+  
+  // Default display page
+  current_display_page = display_page::kGraphPage;
 
   // Initialize the LTC2943 driver and I2C library.
   // TODO: move this to state machine, check error code.
@@ -225,17 +243,11 @@ void StateReporting::loop() {
     const uint8 button_event = button::consumeEvent();
     // Short click- TBD
     if (button_event == button::event::kClick) {
-       if (isDebugMode()) {
-         printf(F("# Button clicked\n"));
-       }
-       // TODO: toggle to next display page.
+       incrementCurrentDisplayPage();
     }
     // Long press - reset the analysis
-    if (button_event == button::event::kLongPress) {
+    else if (button_event == button::event::kLongPress) {
        printf(F("\n"));
-       if (isDebugMode()) {
-         printf(F("# Button long pressed\n"));
-       }
        // Reenter the state. This also resets the accomulated charge and time.
        StateReporting::enter();
        return;  
@@ -310,9 +322,21 @@ void StateReporting::loop() {
 
   leds::activity.action(); 
   
-  // Update the display
-  display::appendCurrentGraphPoint(major_slot_charge_results.average_current_micro_amps/1000);
-  display::updateDisplay(total_charge_results.average_current_micro_amps/1000);
+  // Render the current display page.
+  if (current_display_page == display_page::kGraphPage) {
+    const uint16 current_millis = major_slot_charge_results.average_current_micro_amps / 1000;
+    const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
+    display::appendGraphPoint(current_millis);
+    display::renderGraphPage(current_millis, average_current_millis);
+  } else {
+    // NOTE: for now we have only two pages so using this also as a default for unknown page ids.
+    const uint16 current_millis = major_slot_charge_results.average_current_micro_amps / 1000;
+    const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
+    const uint16 total_charge_milli_amp_hour = total_charge_results.charge_micro_amps_hour / 1000;
+    display::appendGraphPoint(current_millis);
+    display::renderSummaryPage(current_millis, average_current_millis,
+        total_charge_milli_amp_hour, timestamp_secs_printable.units);     
+  }
   
   const uint8 format = selected_mode.format;
   

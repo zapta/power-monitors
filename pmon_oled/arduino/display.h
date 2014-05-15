@@ -19,9 +19,16 @@
 namespace display {
 
   extern void setup();
+  
+  // Manipulating the internal current graph buffer.
   extern void clearGraphBuffer();
-  extern void appendCurrentGraphPoint(uint16 currentMilliAmps);
-  extern void updateDisplay(uint16 average_current_milli_amps);
+  extern void appendGraphPoint(uint16 currentMilliAmps);
+  
+  // Render a page with the current graph and momentary and analysis session average current.
+  extern void renderGraphPage(uint16 current_milli_amps, uint16 average_current_milli_amps);
+  
+  // Render a page a summary of the analysis.
+  extern void renderSummaryPage(uint16 current_milli_amps, uint16 average_current_milli_amps, uint16 total_charge_mah, uint16 time_seconds);
   
 }  // namepsace display
 

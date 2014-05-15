@@ -42,12 +42,10 @@ static const uint8 kGraphMaxPoints = 64;
 static uint8 graph_y_points[kGraphMaxPoints];
 static uint8 graph_first_y_index;
 static uint8 graph_active_y_count;
-static uint16 last_current_milli_amps;
 
 void clearGraphBuffer() {
   graph_first_y_index = 0;
   graph_active_y_count = 0;
-  last_current_milli_amps = 0;
 }
 
 static inline void incrementGraphIndex(uint8* index) {
@@ -81,8 +79,7 @@ static inline uint8 currentMilliAmpsToDisplayY(uint16 current_milli_amps) {
   return 63 - scalledValue;
 }
 
-void appendCurrentGraphPoint(uint16 current_milli_amps) {
-  last_current_milli_amps = current_milli_amps;
+void appendGraphPoint(uint16 current_milli_amps) {
   // Convert current milliamps to screen y coordinate.
   const uint8 y_value = currentMilliAmpsToDisplayY(current_milli_amps);
   
@@ -106,20 +103,17 @@ void appendCurrentGraphPoint(uint16 current_milli_amps) {
 
 // The picture loop function. Check u8glib documentation for restrictions. This function
 // is called multiple time per onw screen draw.
-void draw(uint8 drawing_stripe_index, const char* current, const char* average_current) {
-  if (drawing_stripe_index < 2) {
-    //u8g.setFont(u8g_font_unifont);
-    u8g.setFont(u8g_font_8x13);
-  }
-  
+static inline void drawGraphPage(uint8 drawing_stripe_index, const char* current, const char* average_current) {
   if (drawing_stripe_index == 0) {
-    u8g.drawStr( 0, 10, "Current");
-    u8g.drawStr( 70, 10, current);
+    u8g.setFont(u8g_font_8x13);
+    u8g.drawStr(0, 10, "Current");
+    u8g.drawStr(70, 10, current);
   }
   
   if (drawing_stripe_index == 1) { 
-    u8g.drawStr( 0, 25, "Average");
-    u8g.drawStr( 70, 25, average_current);
+    u8g.setFont(u8g_font_8x13);
+    u8g.drawStr(0, 25, "Average");
+    u8g.drawStr(70, 25, average_current);
   }
 
   if (drawing_stripe_index >= 2) {
@@ -151,17 +145,58 @@ void draw(uint8 drawing_stripe_index, const char* current, const char* average_c
   }
 }
 
+// The picture loop function. Check u8glib documentation for restrictions. This function
+// is called multiple time per onw screen draw.
+static inline void drawSummaryPage(uint8 drawing_stripe_index, 
+    uint16 current_milli_amps, uint16 average_current_milli_amps, uint16 total_charge_mah, uint16 time_seconds) {
+  u8g.setFont(u8g_font_8x13);
+  
+  char bfr[12];
+
+  if (drawing_stripe_index == 0) {
+    const uint8 kBaseY = 10;
+    u8g.drawStr(0, kBaseY, "I");
+    snprintf(bfr, sizeof(bfr), "%4d", current_milli_amps);
+    u8g.drawStr(65, kBaseY, bfr);
+    u8g.drawStr(103, kBaseY, "ma");
+  }
+  
+  if (drawing_stripe_index == 1) {
+    const uint8 kBaseY = 27;
+    u8g.drawStr(0, kBaseY, "Iavg");
+    snprintf(bfr, sizeof(bfr), "%4d", average_current_milli_amps);
+    u8g.drawStr(65, kBaseY, bfr);
+    u8g.drawStr(103, kBaseY, "ma");
+  }
+  
+  if (drawing_stripe_index == 2) {
+    const uint8 kBaseY = 44;
+    u8g.drawStr(0, kBaseY, "Q");
+    snprintf(bfr, sizeof(bfr), "%4d", total_charge_mah);
+    u8g.drawStr(65, kBaseY, bfr);
+    u8g.drawStr(103, kBaseY, "mah");
+  }
+
+  if (drawing_stripe_index == 3) {
+    const uint8 kBaseY = 61;
+    u8g.drawStr(0, kBaseY, "T");
+    snprintf(bfr, sizeof(bfr), "%6d", time_seconds);
+    u8g.drawStr(49, kBaseY, bfr);
+    u8g.drawStr(101, kBaseY, "sec");
+  }
+}
+
 void setup() {
   clearGraphBuffer();
   // B&W mode. This display does not support gray scales.
   u8g.setColorIndex(1);
 }
 
-void updateDisplay(uint16 average_current_milli_amps) {
-  // U8Glib draws the screen in horizontal section to trade CPU time for RAM efficiency.
-  static char bfr1[10];
-  snprintf(bfr1, sizeof(bfr1), "%4d ma", last_current_milli_amps);
-    static char bfr2[10];
+void renderGraphPage(uint16 current_milli_amps, uint16 average_current_milli_amps) {
+  char bfr1[10];
+  snprintf(bfr1, sizeof(bfr1), "%4d ma", current_milli_amps);
+  
+  char bfr2[10];
   snprintf(bfr2, sizeof(bfr2), "%4d ma", average_current_milli_amps);
   
   // Execute the picture loop. We track the draw stripe index so we can 
@@ -170,8 +205,18 @@ void updateDisplay(uint16 average_current_milli_amps) {
   u8g.firstPage();   
   uint8 drawing_stripe_index = 0;
   do {
-    draw(drawing_stripe_index++, bfr1, bfr2);
+    drawGraphPage(drawing_stripe_index++, bfr1, bfr2);
   } while (u8g.nextPage());
+}
+
+void renderSummaryPage(uint16 current_milli_amps, uint16 average_current_milli_amps, 
+    uint16 total_charge_mah, uint16 time_seconds) {
+  // See comments for similar code in renderGraphPage().
+  u8g.firstPage();   
+  uint8 drawing_stripe_index = 0;
+  do {
+    drawSummaryPage(drawing_stripe_index++, current_milli_amps, average_current_milli_amps, total_charge_mah, time_seconds);
+  } while (u8g.nextPage());      
 }
   
 }  // namepsace display
