@@ -21,7 +21,7 @@
 
 #include "analysis.h"
 #include "avr_util.h"
-#include "buttons.h"
+#include "button.h"
 #include "config.h"
 #include "display.h"
 #include "leds.h"
@@ -120,9 +120,6 @@ class StateReporting {
     
     // Used to track the various slots data.
     static analysis::SlotTracker slot_tracker;
-
-        // For restart button press detection
-    static bool last_action_button_state;
 };
 
 uint8 StateReporting::selected_mode_index;
@@ -130,7 +127,6 @@ bool StateReporting::has_last_reading;
 uint32 StateReporting::last_minor_slot_time_millis;
 uint16 StateReporting::last_minor_slot_charge_ticks_reading;  
 analysis::SlotTracker StateReporting::slot_tracker;
-bool StateReporting::last_action_button_state;
 
 // ERROR state declaration.
 class StateError {
@@ -158,7 +154,7 @@ void setup() {;
     config::loop();
   }
   
-  buttons::setup();
+  button::setup();
   display::setup();
 
   // Initialize the LTC2943 driver and I2C library.
@@ -195,7 +191,7 @@ void StateInit::loop() {
 void StateReporting::enter() {
   state = states::REPORTING;
   has_last_reading = false;
-  last_action_button_state = buttons:: isActionButtonPressed();
+
   // We switch modes only when entering the reporting state. If changed
   // while in the reporting state, we reenter it. This provides a graceful
   // transition.
@@ -224,19 +220,25 @@ void StateReporting::loop() {
     return;
   }
   
-  // If button pressed (low to high transition) then reenter state.
+  // Handle button events.
   {
-    const bool new_action_button_state = buttons:: isActionButtonPressed();
-    const bool button_clicked = !last_action_button_state && new_action_button_state;
-    last_action_button_state = new_action_button_state;
-    if (button_clicked) {
-      printf(F("\n"));
-      if (isDebugMode()) {
-        printf(F("# Button pressed\n"));
-      }
-      // Reenter the state. This also resets the accomulated charge and time.
-      StateReporting::enter();
-      return;  
+    const uint8 button_event = button::consumeEvent();
+    // Short click- TBD
+    if (button_event == button::event::kClick) {
+       if (isDebugMode()) {
+         printf(F("# Button clicked\n"));
+       }
+       // TODO: toggle to next display page.
+    }
+    // Long press - reset the analysis
+    if (button_event == button::event::kLongPress) {
+       printf(F("\n"));
+       if (isDebugMode()) {
+         printf(F("# Button long pressed\n"));
+       }
+       // Reenter the state. This also resets the accomulated charge and time.
+       StateReporting::enter();
+       return;  
     }
   }
   
@@ -387,7 +389,7 @@ inline void StateError::loop() {
 void loop() {
   // Call the loop() function of the underlying modules.
   config::loop();  
-  buttons::loop();
+  button::loop();
   leds::loop(); 
   
   switch (state) {

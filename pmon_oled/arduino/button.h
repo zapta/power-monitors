@@ -10,25 +10,34 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "buttons.h"
+#ifndef BUTTONS_H
+#define BUTTONS_H
 
-namespace buttons {
+#include "avr_util.h"
+#include "byte_debouncer.h"
+#include "io_pins.h"
+
+// Provides debounced reading of the buttons.
+namespace button {
   
-namespace private_ {
-  // TODO: make this a const.
-  // Debounce time = 50ms.
-  ByteDebouncer byte_debouncer(50);
-  io_pins::InputPin action_button(PORTD, 2);
+namespace event {
+  // None is guaranteed to be zero (false).
+  const uint8 kNone = 0;
+  const uint8 kClick = 1;
+  const uint8 kLongPress = 2;  
 }
 
-void loop() {
-  // NOTE: since we debounce the entrie byte we must used unique values for true and false.
-  // NOTE: the button is active low so we invert the signal.
-  const uint8 new_value = private_::action_button.isHigh() ? 0 : 1; 
-  private_::byte_debouncer.update(new_value);
-}
+// Called from main setup.
+extern void setup();
+
+// Called from main loop.
+extern void loop();
+ 
+// Consumes and returns the next button event (one of event:: values).
+extern uint8 consumeEvent();
 
 }  // namepsace buttons
 
+#endif
 
 
