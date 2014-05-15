@@ -160,9 +160,6 @@ void setup() {;
     config::loop();
   }
   
-  // TODO: disabled unused Arduino time interrupts.
-
-
   // Initialize the LTC2943 driver and I2C library.
   // TODO: move this to state machine, check error code.
   ltc2943::setup();
