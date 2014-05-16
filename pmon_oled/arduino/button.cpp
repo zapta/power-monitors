@@ -16,6 +16,9 @@
 
 namespace button {
   
+static uint16 kMaxClickTimeMillis = 500;
+static uint16 kMinLongPressMillis = 3000;
+
 namespace state {
   static const uint8 kIdle = 0;
   static const uint8 kPressedShort = 1;
@@ -59,11 +62,11 @@ void loop() {
       
     case state::kPressedShort: {
         const uint32 t = time_in_state.timeMillis();
-        if (t > 2000) {
+        if (t >= kMinLongPressMillis) {
           pending_event = event::kLongPress;
           enterState(state::kPressedLong);
         } else if (!is_pressed) {
-          if (t < 500) {
+          if (t <= kMaxClickTimeMillis) {
              pending_event = event::kClick;
           } 
           enterState(state::kIdle);

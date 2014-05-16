@@ -10,27 +10,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef LEDS_H
-#define LEDS_H
+#ifndef DISPLAY_MESSAGES_H
+#define DISPLAY_MESSAGES_H
 
 #include "avr_util.h"
-#include "io_pins.h"
-#include "action_led.h"
 
-// Defines the three leds.
-namespace leds {
-  // ERRORS LED - blinks when detecting errors.
-  extern ActionLed errors;
+// Defines the messages that can be shown on the display. Does not include the 
+// actual data screen.
+namespace display_messages {
   
-  // DEBUG - not really a led since a led is not connected. Used for 
-  // debugging.
-  extern io_pins::OutputPin debug;
-  
-  // Called from the main loop()
-  inline void loop() {
-    errors.loop();  
-  }
-}  // namepsace leds
+namespace code {
+  static const uint8 kNone = 0;
+  static const uint8 kSplashScreen = 1;
+  static const uint8 kLtc2943InitError = 2;
+  static const uint8 kAnalysisReset = 3;
+}
+
+}  // namespace display_messages
 
 #endif
 

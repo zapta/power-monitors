@@ -14,6 +14,7 @@
 
 #include "Arduino.h"
 #include "math.h"
+#include "passive_timer.h"
 #include "U8glib.h"
 
 namespace display {
@@ -37,8 +38,14 @@ static U8GLIB_SSD1306_128X64_2X u8g(
   pin_numbers::kPD7_pin,   // D/C
   pin_numbers::kPD6_pin);  // RST
 	
-static const uint8 kGraphMaxPoints = 64;
+// Represent that display message that can override the live data
+// rendering. Message codes are defined in display_message.h.
+static uint8 current_display_message_code;
+static uint16 current_display_message_min_time_millis;
+static PassiveTimer time_in_current_display_message;
 
+// Realtime momentrary current graph data.
+static const uint8 kGraphMaxPoints = 64;
 static uint8 graph_y_points[kGraphMaxPoints];
 static uint8 graph_first_y_index;
 static uint8 graph_active_y_count;
@@ -83,8 +90,6 @@ void appendGraphPoint(uint16 current_milli_amps) {
   // Convert current milliamps to screen y coordinate.
   const uint8 y_value = currentMilliAmpsToDisplayY(current_milli_amps);
   
-  printf(F("%u, %u\n"), graph_first_y_index, graph_active_y_count);
-
   // Handle the case where the buffer is full.
   if (graph_active_y_count == kGraphMaxPoints) {
     graph_y_points[graph_first_y_index] = y_value;
@@ -186,13 +191,64 @@ static inline void drawSummaryPage(uint8 drawing_stripe_index,
   }
 }
 
+static void drawCurrentDisplayMessage() {
+  u8g.setFont(u8g_font_8x13);
+  // NOTE: drawRFrame adds about 600 bytes to the flash size compared to drawFrame.
+  // May be pulling the cirlce code for the rounded corners.
+  u8g.drawRFrame(0, 0, 128, 64, 5);
+  
+  if (current_display_message_code == display_messages::code::kSplashScreen) {
+    u8g.drawStr(22, 19, "Power Play");
+    u8g.drawStr(31, 37, "UNO OLED");
+    // TODO: define the version id in a common file and also print to serial output.
+    u8g.drawStr(28, 54, "Ver 0.100");
+    return;
+  }
+  
+  if (current_display_message_code == display_messages::code::kAnalysisReset) {
+    u8g.drawStr(18, 25, "Analysis");
+    u8g.drawStr(53, 50, "Reset");
+    return;
+  }
+  
+  // TODO: implement the rest of the messages.
+  u8g.drawStr(0, 30, "Message: ");
+  char bfr[12];
+  snprintf(bfr, sizeof(bfr), "%4d", current_display_message_code);
+  u8g.drawStr(65, 30, bfr);
+}
+
 void setup() {
+  current_display_message_code = display_messages::code::kNone;
+  current_display_message_min_time_millis = 0;
+  time_in_current_display_message.restart();
+  
   clearGraphBuffer();
   // B&W mode. This display does not support gray scales.
   u8g.setColorIndex(1);
 }
 
+// Returns true if we have a current display message request and it's still within it
+// min time period.
+static boolean isActiveDisplayMessage() {
+  if (current_display_message_code == display_messages::code::kNone) {
+    return false;
+  } 
+
+  if (time_in_current_display_message.timeMillis() < current_display_message_min_time_millis) {
+    return true;
+  }
+  // Display message expired, mark as done.
+  current_display_message_code = display_messages::code::kNone;
+  return false;
+}
+
 void renderGraphPage(uint16 current_milli_amps, uint16 average_current_milli_amps) {
+  // Active display messages have higher priority.
+  if (isActiveDisplayMessage()) {
+    return;
+  }
+  
   char bfr1[10];
   snprintf(bfr1, sizeof(bfr1), "%4d ma", current_milli_amps);
   
@@ -211,6 +267,10 @@ void renderGraphPage(uint16 current_milli_amps, uint16 average_current_milli_amp
 
 void renderSummaryPage(uint16 current_milli_amps, uint16 average_current_milli_amps, 
     uint16 total_charge_mah, uint16 time_seconds) {
+  // Active display messages have higher priority.
+  if (isActiveDisplayMessage()) {
+    return;
+  }  
   // See comments for similar code in renderGraphPage().
   u8g.firstPage();   
   uint8 drawing_stripe_index = 0;
@@ -218,7 +278,30 @@ void renderSummaryPage(uint16 current_milli_amps, uint16 average_current_milli_a
     drawSummaryPage(drawing_stripe_index++, current_milli_amps, average_current_milli_amps, total_charge_mah, time_seconds);
   } while (u8g.nextPage());      
 }
+
+void renderCurrentDisplayMessage() {
+  u8g.firstPage();   
+  do {
+    drawCurrentDisplayMessage();
+  } while (u8g.nextPage());    
+}
   
+void activateDisplayMessage(uint8 display_message_code, uint16 min_display_time_millis) {
+  // Save the new display message info.
+  const uint8 previous_display_message_code = current_display_message_code;
+  current_display_message_code = display_message_code;
+  current_display_message_min_time_millis = min_display_time_millis;
+  time_in_current_display_message.restart();
+  
+  // Skip if no need to update the display.
+  if (display_message_code == display_messages::code::kNone || display_message_code == previous_display_message_code) {
+    return;  
+  }
+  
+  // Update the display
+  renderCurrentDisplayMessage();
+}
+
 }  // namepsace display
 
 

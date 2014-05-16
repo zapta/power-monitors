@@ -14,6 +14,7 @@
 #define DISPLAY_H
 
 #include "avr_util.h"
+#include "display_messages.h"
 
 // Manages the 1.3" 128x64 OLED display.
 namespace display {
@@ -29,6 +30,13 @@ namespace display {
   
   // Render a page a summary of the analysis.
   extern void renderSummaryPage(uint16 current_milli_amps, uint16 average_current_milli_amps, uint16 total_charge_mah, uint16 time_seconds);
+  
+  // Display the given display message (taking control of the entire display) and ignore 
+  // other rendering requests for the specified time in millis. If the function is called
+  // again within the specified min display time, the new call overrides the previous one.
+  // Calling with message code kNone clears min display time of the current message, if any
+  // but does not modify the display. 
+  extern void activateDisplayMessage(uint8 display_message_code, uint16 min_display_time_millis);
   
 }  // namepsace display
 

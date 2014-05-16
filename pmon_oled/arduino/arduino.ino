@@ -24,6 +24,7 @@
 #include "button.h"
 #include "config.h"
 #include "display.h"
+#include "display_messages.h"
 #include "leds.h"
 #include "ltc2943.h"
 #include "passive_timer.h"
@@ -170,9 +171,9 @@ void setup() {;
   }
   
   button::setup();
-  display::setup();
   
-  // Default display page
+  // Setup display.
+  display::setup();
   current_display_page = display_page::kGraphPage;
 
   // Initialize the LTC2943 driver and I2C library.
@@ -184,8 +185,7 @@ void setup() {;
   // Enable global interrupts.
   sei(); 
   
-  // Have an early 'waiting' led bling to indicate normal operation.
-  leds::activity.action(); 
+  display::activateDisplayMessage(display_messages::code::kSplashScreen, 2500);
 }
 
 //static inline void 
@@ -250,6 +250,7 @@ void StateReporting::loop() {
        printf(F("\n"));
        // Reenter the state. This also resets the accomulated charge and time.
        StateReporting::enter();
+       display::activateDisplayMessage(display_messages::code::kAnalysisReset, 750);
        return;  
     }
   }
@@ -319,8 +320,6 @@ void StateReporting::loop() {
   analysis::PrintablePpmValue total_average_current_amps_printable(total_charge_results.average_current_micro_amps); 
 
   analysis::PrintableMilsValue timestamp_secs_printable(slot_tracker.total_charge_tracker.time_millis);
-
-  leds::activity.action(); 
   
   // Render the current display page.
   if (current_display_page == display_page::kGraphPage) {

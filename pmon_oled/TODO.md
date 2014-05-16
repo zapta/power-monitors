@@ -1,7 +1,6 @@
 TODO list for The Arduino PMON UNO
 
 **SCHEMATIC**
-* Allow to operate on +5V only, without USB.
 
 **LAYOUT**
 
@@ -9,8 +8,9 @@ TODO list for The Arduino PMON UNO
 * Add vent holes for the LDO?
 
 **SOFTWARE**
-* Add a second display page.
-* Short click -> switch page, long press -> reset analysis.
+* Make sure the board and display handle gracefully errors such as missing power connection (display error messages?)
+* Remove the ERROR LED (use the display instead).
+* Provide a screen to calibrate the 3.8V.
 
 **MISCELLANEOUS**
 
