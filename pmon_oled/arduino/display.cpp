@@ -199,15 +199,15 @@ static void drawCurrentDisplayMessage() {
   
   if (current_display_message_code == display_messages::code::kSplashScreen) {
     u8g.drawStr(22, 19, "Power Play");
-    u8g.drawStr(31, 37, "UNO OLED");
+    u8g.drawStr(30, 37, "UNO OLED");
     // TODO: define the version id in a common file and also print to serial output.
-    u8g.drawStr(28, 54, "Ver 0.100");
+    u8g.drawStr(27, 54, "Ver 0.100");
     return;
   }
   
   if (current_display_message_code == display_messages::code::kAnalysisReset) {
-    u8g.drawStr(18, 25, "Analysis");
-    u8g.drawStr(53, 50, "Reset");
+    u8g.drawStr(27, 26, "Analysis");
+    u8g.drawStr(27, 45, "Restarted");
     return;
   }
   
