@@ -207,15 +207,21 @@ static void drawCurrentDisplayMessage() {
   
   if (current_display_message_code == display_messages::code::kAnalysisReset) {
     u8g.drawStr(27, 26, "Analysis");
-    u8g.drawStr(27, 45, "Restarted");
+    u8g.drawStr(27, 45, "Restarted.");
     return;
   }
   
-  // TODO: implement the rest of the messages.
-  u8g.drawStr(0, 30, "Message: ");
+  if (current_display_message_code == display_messages::code::kLtc2943InitError) {
+    u8g.drawStr(11, 26, "Current sense");
+    u8g.drawStr(11, 45, "comm error.");
+    return;
+  }
+  
+  // Else, unknown message. Show message code.
+  u8g.drawStr(15, 33, "Message: ");
   char bfr[12];
   snprintf(bfr, sizeof(bfr), "%4d", current_display_message_code);
-  u8g.drawStr(65, 30, bfr);
+  u8g.drawStr(65, 33, bfr);
 }
 
 void setup() {
@@ -286,7 +292,7 @@ void renderCurrentDisplayMessage() {
   } while (u8g.nextPage());    
 }
   
-void activateDisplayMessage(uint8 display_message_code, uint16 min_display_time_millis) {
+void showMessage(uint8 display_message_code, uint16 min_display_time_millis) {
   // Save the new display message info.
   const uint8 previous_display_message_code = current_display_message_code;
   current_display_message_code = display_message_code;

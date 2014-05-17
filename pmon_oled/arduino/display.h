@@ -36,7 +36,7 @@ namespace display {
   // again within the specified min display time, the new call overrides the previous one.
   // Calling with message code kNone clears min display time of the current message, if any
   // but does not modify the display. 
-  extern void activateDisplayMessage(uint8 display_message_code, uint16 min_display_time_millis);
+  extern void showMessage(uint8 display_message_code, uint16 min_display_time_millis);
   
 }  // namepsace display
 

@@ -25,7 +25,6 @@
 #include "config.h"
 #include "display.h"
 #include "display_messages.h"
-#include "leds.h"
 #include "ltc2943.h"
 #include "passive_timer.h"
 
@@ -43,6 +42,9 @@ static inline void incrementCurrentDisplayPage() {
     current_display_page = display_page::kGraphPage;
   }
 }
+
+// Output pin for debugging.
+io_pins::OutputPin debug_pin(PORTD, 4);
 
 namespace formats {
   static const uint8 kTimeVsCurrent = 1;
@@ -185,7 +187,7 @@ void setup() {;
   // Enable global interrupts.
   sei(); 
   
-  display::activateDisplayMessage(display_messages::code::kSplashScreen, 2500);
+  display::showMessage(display_messages::code::kSplashScreen, 2500);
 }
 
 //static inline void 
@@ -221,8 +223,8 @@ void StateReporting::enter() {
 }
 
 void StateReporting::loop() {
-  leds::debug.high();
-  leds::debug.low();
+  debug_pin.high();
+  debug_pin.low();
 
   // Check for mode change.
   if (config::modeIndex() != selected_mode_index) {
@@ -233,8 +235,6 @@ void StateReporting::loop() {
     // The switch is done when reentering the state. This provides graceful 
     // transition.
     StateReporting::enter();
-    leds::debug.high();
-
     return;
   }
   
@@ -250,7 +250,7 @@ void StateReporting::loop() {
        printf(F("\n"));
        // Reenter the state. This also resets the accomulated charge and time.
        StateReporting::enter();
-       display::activateDisplayMessage(display_messages::code::kAnalysisReset, 750);
+       display::showMessage(display_messages::code::kAnalysisReset, 750);
        return;  
     }
   }
@@ -392,8 +392,11 @@ inline void StateError::enter() {
   if (isDebugMode()) {
     printf(F("# State: ERROR\n"));
   }
-  time_in_state.restart();  
-  leds::errors.action();
+  time_in_state.restart(); 
+  // NOTE: to trigger this error, bypass the 8.2k resistor between the device (+) output
+  // and the voltage adjustment potentiometer. This will reduce the output voltage to 
+  // ~1.5V and will make the LTC2942 non responsive. 
+  display::showMessage(display_messages::code::kLtc2943InitError, 1500);
 }
 
 inline void StateError::loop() {
@@ -413,7 +416,6 @@ void loop() {
   // Call the loop() function of the underlying modules.
   config::loop();  
   button::loop();
-  leds::loop(); 
   
   switch (state) {
     case states::INIT:
