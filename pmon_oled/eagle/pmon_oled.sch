@@ -652,31 +652,6 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <text x="-3.81" y="3.175" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-3.81" y="-4.445" size="1.27" layer="27">&gt;VALUE</text>
 </package>
-<package name="TLE1105">
-<description>&lt;b&gt;TACT SWITCH&lt;/b&gt; (EARTH TERMINAL)&lt;p&gt;
-Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%20Series.pdf</description>
-<circle x="0" y="0" radius="1.65" width="0.2032" layer="21"/>
-<wire x1="-2.9" y1="2.9" x2="-2.9" y2="-2.9" width="0.2032" layer="51"/>
-<wire x1="2.9" y1="2.9" x2="2.9" y2="-2.9" width="0.2032" layer="51"/>
-<wire x1="-2.9" y1="2.9" x2="2.9" y2="2.9" width="0.2032" layer="51"/>
-<wire x1="2.9" y1="-2.9" x2="-2.9" y2="-2.9" width="0.2032" layer="51"/>
-<wire x1="-0.995" y1="2.9" x2="0.995" y2="2.9" width="0.2032" layer="21"/>
-<wire x1="-2.9" y1="2.265" x2="-2.9" y2="-2.265" width="0.2032" layer="21"/>
-<wire x1="0.995" y1="-2.9" x2="-0.995" y2="-2.9" width="0.2032" layer="21"/>
-<wire x1="2.9" y1="2.265" x2="2.9" y2="-2.265" width="0.2032" layer="21"/>
-<rectangle x1="-2.55" y1="2.925" x2="-1.95" y2="3.85" layer="51"/>
-<rectangle x1="1.95" y1="2.925" x2="2.55" y2="3.85" layer="51"/>
-<rectangle x1="1.95" y1="-3.85" x2="2.55" y2="-2.925" layer="51" rot="R180"/>
-<rectangle x1="-2.55" y1="-3.85" x2="-1.95" y2="-2.925" layer="51" rot="R180"/>
-<rectangle x1="-4.6" y1="-0.625" x2="-2.95" y2="0.625" layer="51"/>
-<pad name="A" x="-2.25" y="3.25" drill="1" diameter="1.6764" rot="R90"/>
-<pad name="AX" x="-2.25" y="-3.25" drill="1" diameter="1.6764" rot="R90"/>
-<pad name="B" x="2.25" y="3.25" drill="1" diameter="1.6764" rot="R90"/>
-<pad name="BX" x="2.25" y="-3.25" drill="1" diameter="1.6764" rot="R90"/>
-<pad name="G" x="-4.1" y="0" drill="1" diameter="1.6764" rot="R90"/>
-<text x="-5.08" y="-2.54" size="1.27" layer="25" rot="R90">&gt;NAME</text>
-<text x="5.08" y="-2.54" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
-</package>
 <package name="R0603">
 <description>&lt;b&gt;RESISTOR&lt;/b&gt;&lt;p&gt;
 chip</description>
@@ -761,6 +736,29 @@ Source: smt-pots.pdf</description>
 <pad name="D" x="4.175" y="2.625" drill="1.016" diameter="1.778" shape="square"/>
 <text x="-12.7" y="5.08" size="1.27" layer="27">&gt;VALUE</text>
 <text x="-12.7" y="2.54" size="1.27" layer="25">&gt;NAME</text>
+</package>
+<package name="TLE1105">
+<description>&lt;b&gt;TACT SWITCH&lt;/b&gt; (EARTH TERMINAL)&lt;p&gt;
+Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%20Series.pdf</description>
+<circle x="0" y="0" radius="1.65" width="0.2032" layer="21"/>
+<wire x1="-2.9" y1="2.9" x2="-2.9" y2="-2.9" width="0.2032" layer="51"/>
+<wire x1="2.9" y1="2.9" x2="2.9" y2="-2.9" width="0.2032" layer="51"/>
+<wire x1="-2.9" y1="2.9" x2="2.9" y2="2.9" width="0.2032" layer="51"/>
+<wire x1="2.9" y1="-2.9" x2="-2.9" y2="-2.9" width="0.2032" layer="51"/>
+<wire x1="-0.995" y1="2.9" x2="0.995" y2="2.9" width="0.2032" layer="21"/>
+<wire x1="-2.9" y1="2.265" x2="-2.9" y2="-2.265" width="0.2032" layer="21"/>
+<wire x1="0.995" y1="-2.9" x2="-0.995" y2="-2.9" width="0.2032" layer="21"/>
+<wire x1="2.9" y1="2.265" x2="2.9" y2="-2.265" width="0.2032" layer="21"/>
+<rectangle x1="-2.55" y1="2.925" x2="-1.95" y2="3.85" layer="51"/>
+<rectangle x1="1.95" y1="2.925" x2="2.55" y2="3.85" layer="51"/>
+<rectangle x1="1.95" y1="-3.85" x2="2.55" y2="-2.925" layer="51" rot="R180"/>
+<rectangle x1="-2.55" y1="-3.85" x2="-1.95" y2="-2.925" layer="51" rot="R180"/>
+<pad name="A" x="-2.25" y="3.25" drill="1" diameter="1.6764" rot="R90"/>
+<pad name="AX" x="-2.25" y="-3.25" drill="1" diameter="1.6764" rot="R90"/>
+<pad name="B" x="2.25" y="3.25" drill="1" diameter="1.6764" rot="R90"/>
+<pad name="BX" x="2.25" y="-3.25" drill="1" diameter="1.6764" rot="R90"/>
+<text x="-5.08" y="-2.54" size="1.27" layer="25" rot="R90">&gt;NAME</text>
+<text x="5.08" y="-2.54" size="1.27" layer="27" rot="R90">&gt;VALUE</text>
 </package>
 </packages>
 <symbols>
@@ -1077,21 +1075,6 @@ Source: smt-pots.pdf</description>
 <wire x1="0" y1="-5.08" x2="0" y2="-2.54" width="0.1524" layer="97"/>
 <text x="1.524" y="-0.254" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
-<symbol name="PUSH_BUTTON_SHIELDED">
-<circle x="0" y="-1.524" radius="0.915809375" width="0.254" layer="94"/>
-<circle x="0" y="1.524" radius="0.915809375" width="0.254" layer="94"/>
-<wire x1="-2.032" y1="2.54" x2="-2.032" y2="1.524" width="0.254" layer="94"/>
-<wire x1="-2.032" y1="1.524" x2="-2.032" y2="-1.27" width="0.254" layer="94"/>
-<wire x1="-2.032" y1="-1.27" x2="-2.032" y2="-2.286" width="0.254" layer="94"/>
-<wire x1="-2.032" y1="1.524" x2="-3.048" y2="1.524" width="0.254" layer="94"/>
-<wire x1="-3.048" y1="1.524" x2="-3.048" y2="-1.27" width="0.254" layer="94"/>
-<wire x1="-3.048" y1="-1.27" x2="-2.032" y2="-1.27" width="0.254" layer="94"/>
-<wire x1="2.54" y1="2.54" x2="2.54" y2="-2.54" width="0.254" layer="94"/>
-<pin name="1" x="0" y="-5.08" visible="off" length="short" direction="pas" rot="R90"/>
-<pin name="2" x="0" y="5.08" visible="off" length="short" direction="pas" rot="R270"/>
-<pin name="G" x="2.54" y="-5.08" length="short" rot="R90"/>
-<text x="-10.16" y="3.81" size="1.778" layer="95">&gt;NAME</text>
-</symbol>
 <symbol name="R-US">
 <wire x1="-2.54" y1="0" x2="-2.159" y2="1.016" width="0.2032" layer="94"/>
 <wire x1="-2.159" y1="1.016" x2="-1.524" y2="-1.016" width="0.2032" layer="94"/>
@@ -1168,6 +1151,19 @@ Source: smt-pots.pdf</description>
 <pin name="ID" x="7.62" y="2.54" length="short" rot="R180"/>
 <pin name="VBUS" x="7.62" y="10.16" length="short" rot="R180"/>
 <text x="5.842" y="-6.35" size="1.778" layer="95" rot="MR0">&gt;NAME</text>
+</symbol>
+<symbol name="PUSH_BUTTON">
+<circle x="0" y="-1.524" radius="0.915809375" width="0.254" layer="94"/>
+<circle x="0" y="1.524" radius="0.915809375" width="0.254" layer="94"/>
+<wire x1="-2.032" y1="2.54" x2="-2.032" y2="1.524" width="0.254" layer="94"/>
+<wire x1="-2.032" y1="1.524" x2="-2.032" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="-2.032" y1="-1.27" x2="-2.032" y2="-2.286" width="0.254" layer="94"/>
+<wire x1="-2.032" y1="1.524" x2="-3.048" y2="1.524" width="0.254" layer="94"/>
+<wire x1="-3.048" y1="1.524" x2="-3.048" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="-3.048" y1="-1.27" x2="-2.032" y2="-1.27" width="0.254" layer="94"/>
+<pin name="1" x="0" y="-5.08" visible="off" length="short" direction="pas" rot="R90"/>
+<pin name="2" x="0" y="5.08" visible="off" length="short" direction="pas" rot="R270"/>
+<text x="-10.16" y="3.81" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -1521,23 +1517,6 @@ Sourc: www.ctscorp.com</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="PUSH_BUTTON_SHIELDED">
-<gates>
-<gate name="G$1" symbol="PUSH_BUTTON_SHIELDED" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="TLE1105">
-<connects>
-<connect gate="G$1" pin="1" pad="A"/>
-<connect gate="G$1" pin="2" pad="B"/>
-<connect gate="G$1" pin="G" pad="G"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="RES-" prefix="R" uservalue="yes">
 <description>&lt;B&gt;RESISTOR&lt;/B&gt;, American symbol</description>
 <gates>
@@ -1604,6 +1583,22 @@ Sourc: www.ctscorp.com</description>
 <connect gate="G$1" pin="GND" pad="5"/>
 <connect gate="G$1" pin="ID" pad="4"/>
 <connect gate="G$1" pin="VBUS" pad="1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="PUSH_BUTTON">
+<gates>
+<gate name="G$1" symbol="PUSH_BUTTON" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="TLE1105">
+<connects>
+<connect gate="G$1" pin="1" pad="A"/>
+<connect gate="G$1" pin="2" pad="B"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -1703,7 +1698,6 @@ Sourc: www.ctscorp.com</description>
 <part name="U$2" library="pmon_oled" deviceset="NC" device=""/>
 <part name="U$7" library="pmon_oled" deviceset="NC" device=""/>
 <part name="U$8" library="pmon_oled" deviceset="NC" device=""/>
-<part name="S1" library="pmon_oled" deviceset="PUSH_BUTTON_SHIELDED" device=""/>
 <part name="J4" library="pmon_oled" deviceset="PINHD-1X3" device="" value="PINHD-1X3"/>
 <part name="P+6" library="pmon_oled" deviceset="+5V" device=""/>
 <part name="OLED" library="pmon_oled" deviceset="OLED" device=""/>
@@ -1716,6 +1710,7 @@ Sourc: www.ctscorp.com</description>
 <part name="U$13" library="pmon_oled" deviceset="NC" device=""/>
 <part name="SB1" library="pmon_oled" deviceset="JUMPER_SOLDER_1X2" device=""/>
 <part name="U$14" library="pmon_oled" deviceset="NC" device=""/>
+<part name="S1" library="pmon_oled" deviceset="PUSH_BUTTON" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -1753,7 +1748,7 @@ DEVICE</text>
 <text x="-25.4" y="7.62" size="2.54" layer="97">* PROTOTYPE ONLY</text>
 <text x="165.1" y="152.4" size="2.54" layer="97">RESET*</text>
 <text x="180.34" y="139.7" size="2.54" layer="97">"ARDUINO MINI PRO 328P 5V 16Mhz"</text>
-<text x="94.234" y="104.14" size="2.54" layer="97">START</text>
+<text x="94.234" y="104.14" size="2.54" layer="97">ACTION</text>
 <text x="-7.112" y="213.106" size="2.54" layer="97">SOURCE</text>
 <text x="122.936" y="49.784" size="2.54" layer="97">DISPLAY</text>
 <text x="165.1" y="152.4" size="2.54" layer="97">RESET*</text>
@@ -1905,9 +1900,6 @@ DEVICE</text>
 <instance part="U$2" gate="G$1" x="2.54" y="195.58" rot="R180"/>
 <instance part="U$7" gate="G$1" x="2.54" y="193.04" rot="R180"/>
 <instance part="U$8" gate="G$1" x="2.54" y="190.5" rot="R180"/>
-<instance part="S1" gate="G$1" x="99.06" y="119.38" smashed="yes">
-<attribute name="NAME" x="91.44" y="120.65" size="1.778" layer="95"/>
-</instance>
 <instance part="J4" gate="A" x="134.62" y="185.42"/>
 <instance part="P+6" gate="1" x="25.4" y="215.9" smashed="yes" rot="R270">
 <attribute name="VALUE" x="23.876" y="212.852" size="1.778" layer="96"/>
@@ -1934,6 +1926,9 @@ DEVICE</text>
 <attribute name="NAME" x="79.756" y="62.738" size="1.778" layer="95"/>
 </instance>
 <instance part="U$14" gate="G$1" x="238.76" y="167.64" rot="R180"/>
+<instance part="S1" gate="G$1" x="99.06" y="119.38" smashed="yes">
+<attribute name="NAME" x="93.472" y="114.808" size="1.778" layer="95"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -2070,9 +2065,6 @@ DEVICE</text>
 <pinref part="GND22" gate="1" pin="GND"/>
 <wire x1="99.06" y1="111.76" x2="99.06" y2="114.3" width="0.1524" layer="91"/>
 <pinref part="S1" gate="G$1" pin="1"/>
-<pinref part="S1" gate="G$1" pin="G"/>
-<wire x1="101.6" y1="114.3" x2="99.06" y2="114.3" width="0.1524" layer="91"/>
-<junction x="99.06" y="114.3"/>
 </segment>
 <segment>
 <pinref part="C11" gate="G$1" pin="2"/>
