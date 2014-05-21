@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="25" unitdist="mil" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.000123031496" altunitdist="mil" altunit="mil"/>
+<grid distance="25" unitdist="mil" unit="mil" style="lines" multiple="1" display="yes" altdistance="0.000123031496" altunitdist="mil" altunit="mil"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -18,7 +18,7 @@
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="21" name="tPlace" color="13" fill="1" visible="yes" active="yes"/>
 <layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
@@ -133,6 +133,27 @@
 <circle x="4" y="4" radius="3" width="0.4064" layer="42"/>
 <circle x="56" y="56" radius="3" width="0.4064" layer="42"/>
 <circle x="56" y="4" radius="3" width="0.4064" layer="42"/>
+<text x="14.605" y="10.16" size="1.016" layer="21" font="vector" ratio="10" rot="SR0">POWER-PLAY OLED
+Rev A, May 2014
+Single-Cell 
+Power Monitor.
+Github OSH</text>
+<wire x1="13.716" y1="18.034" x2="29.21" y2="18.034" width="0.1778" layer="21"/>
+<wire x1="29.21" y1="18.034" x2="29.21" y2="9.525" width="0.1778" layer="21"/>
+<wire x1="29.21" y1="9.525" x2="13.716" y2="9.525" width="0.1778" layer="21"/>
+<wire x1="13.716" y1="9.525" x2="13.716" y2="18.034" width="0.1778" layer="21"/>
+<text x="59.05229375" y="12.283228125" size="1.016" layer="21" ratio="10" rot="R90">VOUT</text>
+<text x="59.055" y="20.955" size="1.016" layer="21" ratio="10" rot="R90">(3.8V)</text>
+<text x="49.160525" y="1.87505625" size="1.016" layer="21" ratio="10" rot="R90">(+)</text>
+<text x="49.05901875" y="7.1835625" size="1.016" layer="21" ratio="10" rot="R90">(+)</text>
+<text x="49.113878125" y="4.4637625" size="1.016" layer="21" ratio="10" rot="R90">(-)</text>
+<text x="9.405546875" y="57.41788125" size="1.016" layer="21" ratio="10">USB</text>
+<text x="33.535546875" y="57.41788125" size="1.016" layer="21" ratio="10">+5V</text>
+<text x="28.94211875" y="50.680546875" size="1.016" layer="21" ratio="10" rot="R90">POWER</text>
+<text x="39.37433125" y="36.97023125" size="1.016" layer="21" ratio="10">MODE</text>
+<text x="2.54433125" y="21.09523125" size="1.016" layer="21" ratio="10" rot="SR0">ICSP</text>
+<text x="16.891" y="5.461" size="1.016" layer="30" font="vector" ratio="15" rot="SMR0" align="bottom-right">POWER-PLAY OLED - REV A
+OSH GITHUB</text>
 </plain>
 <libraries>
 <library name="pmon_oled">
@@ -830,7 +851,7 @@ design rules under a new name.</description>
 <param name="mdCopperDimension" value="25mil"/>
 <param name="mdDrill" value="8mil"/>
 <param name="mdSmdStop" value="0mil"/>
-<param name="msWidth" value="8mil"/>
+<param name="msWidth" value="10mil"/>
 <param name="msDrill" value="13mil"/>
 <param name="msMicroVia" value="9.99mm"/>
 <param name="msBlindViaRatio" value="0.5"/>
@@ -978,8 +999,8 @@ design rules under a new name.</description>
 <element name="C6" library="pmon_oled" package="C0603" value="0.01uF" x="4.9022" y="36.9824" smashed="yes">
 <attribute name="NAME" x="4.70601875" y="38.33854375" size="1.016" layer="25" font="vector" ratio="10"/>
 </element>
-<element name="J5" library="pmon_oled" package="2X03" value="PINHD-2X3" x="4.125" y="26.19" smashed="yes" rot="R90">
-<attribute name="NAME" x="3.41003125" y="30.43926875" size="1.016" layer="25" font="vector" ratio="10"/>
+<element name="J5" library="pmon_oled" package="2X03" value="PINHD-2X3" x="4.125" y="26.67" smashed="yes" rot="R90">
+<attribute name="NAME" x="3.41003125" y="30.91926875" size="1.016" layer="25" font="vector" ratio="10"/>
 </element>
 <element name="R10" library="pmon_oled" package="R0603" value="10K" x="22.225" y="47.625" smashed="yes" rot="R180">
 <attribute name="NAME" x="22.606" y="49.149" size="1.016" layer="25" font="vector" ratio="10"/>
@@ -1009,7 +1030,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="49.827975" y="2.9507" size="1.016" layer="25" font="vector" ratio="10"/>
 </element>
 <element name="R9" library="pmon_oled" package="R0603" value="3K3 1%" x="56.388" y="22.86" smashed="yes" rot="R180">
-<attribute name="NAME" x="56.157925" y="24.374953125" size="1.016" layer="25" font="vector" ratio="10"/>
+<attribute name="NAME" x="54.0102875" y="24.18703125" size="1.016" layer="25" font="vector" ratio="10"/>
 </element>
 <element name="C8" library="pmon_oled" package="A/3216-18R" value="10uF" x="49.149" y="21.717" smashed="yes">
 <attribute name="NAME" x="46.064521875" y="19.257865625" size="1.016" layer="25" font="vector" ratio="10"/>
@@ -1070,13 +1091,13 @@ design rules under a new name.</description>
 <attribute name="NAME" x="26.6616375" y="46.458503125" size="1.016" layer="25" font="vector" ratio="10"/>
 </element>
 <element name="U2" library="pmon_oled" package="SSOP28DB" value="FT232RL" x="7.065" y="44.69" smashed="yes">
-<attribute name="NAME" x="1.325009375" y="38.3318625" size="1.016" layer="25" font="vector" ratio="10"/>
+<attribute name="NAME" x="1.960009375" y="49.7618625" size="1.016" layer="25" font="vector" ratio="10"/>
 </element>
 <element name="S1" library="pmon_oled" package="TLE1105" value="PUSH_BUTTON_SHIELDED" x="4.205" y="16.745" smashed="yes" rot="R180">
 <attribute name="NAME" x="5.082703125" y="12.29734375" size="1.016" layer="25" font="vector" ratio="10" rot="R180"/>
 </element>
 <element name="J4" library="pmon_oled" package="1X03" value="PINHD-1X3" x="46.435" y="5.475" smashed="yes" rot="R90">
-<attribute name="NAME" x="49.84005" y="8.98095" size="1.016" layer="25" font="vector" ratio="10" rot="R180"/>
+<attribute name="NAME" x="47.536246875" y="10.73651875" size="1.016" layer="25" font="vector" ratio="10" rot="R180"/>
 </element>
 <element name="OLED" library="pmon_oled" package="OLED" value="OLED" x="19.44" y="31.51" smashed="yes">
 <attribute name="NAME" x="3.610246875" y="8.53348125" size="1.016" layer="25" font="vector" ratio="10"/>
@@ -1324,12 +1345,12 @@ design rules under a new name.</description>
 <wire x1="40.552" y1="23.495" x2="34.925" y2="23.495" width="0.508" layer="1"/>
 <wire x1="21.98" y1="31.51" x2="21.9964" y2="31.4936" width="0.508" layer="1"/>
 <wire x1="21.9964" y1="31.4936" x2="21.9964" y2="26.67" width="0.508" layer="1"/>
-<wire x1="19.05" y1="26.67" x2="21.9964" y2="26.67" width="0.508" layer="1"/>
-<wire x1="22.86" y1="26.67" x2="34.925" y2="26.67" width="0.508" layer="1"/>
-<wire x1="2.855" y1="23.65" x2="4.915" y2="21.59" width="0.508" layer="1"/>
-<wire x1="4.915" y1="21.59" x2="13.97" y2="21.59" width="0.508" layer="1"/>
-<wire x1="13.97" y1="21.59" x2="19.05" y2="26.67" width="0.508" layer="1"/>
-<wire x1="21.9964" y1="26.67" x2="22.86" y2="26.67" width="0.508" layer="1"/>
+<wire x1="21.9964" y1="26.67" x2="34.925" y2="26.67" width="0.508" layer="1"/>
+<wire x1="2.855" y1="24.13" x2="2.855" y2="22.545" width="0.508" layer="1"/>
+<wire x1="2.855" y1="22.545" x2="3.60135" y2="21.79865" width="0.508" layer="1"/>
+<wire x1="3.60135" y1="21.79865" x2="7.735890625" y2="21.79865" width="0.508" layer="1"/>
+<wire x1="7.735890625" y1="21.79865" x2="12.607240625" y2="26.67" width="0.508" layer="1"/>
+<wire x1="12.607240625" y1="26.67" x2="21.9964" y2="26.67" width="0.508" layer="1"/>
 <wire x1="33.655" y1="38.735" x2="32.385" y2="38.735" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="RESET">
@@ -1340,7 +1361,7 @@ design rules under a new name.</description>
 <wire x1="23.075" y1="47.625" x2="24.92" y2="46.415" width="0.254" layer="1"/>
 <wire x1="24.92" y1="46.415" x2="24.92" y2="45.0126" width="0.254" layer="1"/>
 <wire x1="10.2108" y1="36.91" x2="23.075" y2="47.625" width="0" layer="19" extent="1-1"/>
-<wire x1="5.395" y1="28.73" x2="10.2108" y2="36.91" width="0" layer="19" extent="1-1"/>
+<wire x1="5.395" y1="29.21" x2="10.2108" y2="36.91" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$17">
 <contactref element="D1" pad="A"/>
@@ -1354,7 +1375,7 @@ design rules under a new name.</description>
 <contactref element="OLED" pad="3"/>
 <wire x1="29.718" y1="37.846" x2="29.6126" y2="37.92" width="0.254" layer="1"/>
 <wire x1="24.52" y1="31.51" x2="29.6126" y2="37.92" width="0" layer="19" extent="1-1"/>
-<wire x1="5.395" y1="26.19" x2="24.52" y2="31.51" width="0" layer="19" extent="1-1"/>
+<wire x1="5.395" y1="26.67" x2="24.52" y2="31.51" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="SER_RX">
 <contactref element="U4" pad="30"/>
@@ -1395,7 +1416,6 @@ design rules under a new name.</description>
 <signal name="N$16">
 <contactref element="C7" pad="1"/>
 <contactref element="U2" pad="17"/>
-<wire x1="14.605" y1="46.57" x2="13.55" y2="46.355" width="0" layer="19" extent="1-16"/>
 <wire x1="9.99" y1="47.16" x2="9.99" y2="48.346" width="0.254" layer="1"/>
 <wire x1="9.99" y1="47.16" x2="10.58" y2="46.57" width="0.254" layer="1"/>
 <wire x1="10.58" y1="46.57" x2="14.605" y2="46.57" width="0.254" layer="1"/>
@@ -1405,7 +1425,7 @@ design rules under a new name.</description>
 <contactref element="J5" pad="4"/>
 <contactref element="OLED" pad="4"/>
 <wire x1="27.06" y1="31.51" x2="27.32" y2="36.4274" width="0" layer="19" extent="1-1"/>
-<wire x1="2.855" y1="26.19" x2="27.06" y2="31.51" width="0" layer="19" extent="1-1"/>
+<wire x1="2.855" y1="26.67" x2="27.06" y2="31.51" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="SENSE+">
 <contactref element="R6" pad="V2"/>
@@ -1561,7 +1581,7 @@ design rules under a new name.</description>
 <signal name="MISO">
 <contactref element="U4" pad="16"/>
 <contactref element="J5" pad="1"/>
-<wire x1="5.395" y1="23.65" x2="28.12" y2="36.4274" width="0" layer="19" extent="1-1"/>
+<wire x1="5.395" y1="24.13" x2="28.12" y2="36.4274" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="VUSB">
 <contactref element="C5" pad="1"/>
@@ -1636,4 +1656,10 @@ design rules under a new name.</description>
 </errors>
 </board>
 </drawing>
+<compatibility>
+<note version="6.3" minversion="6.2.2" severity="warning">
+Since Version 6.2.2 text objects can contain more than one line,
+which will not be processed correctly with this version.
+</note>
+</compatibility>
 </eagle>
