@@ -151,7 +151,7 @@ FDDI/USB</text>
 <text x="23.495" y="0.5715" size="0.762" layer="21" font="vector" ratio="10">USB</text>
 <text x="27.8765" y="42.418" size="0.762" layer="21" font="vector" ratio="10" rot="SR0">CHARGER</text>
 <text x="22.5425" y="42.418" size="0.762" layer="21" font="vector" ratio="10" rot="SR0">USB</text>
-<text x="21.844" y="1.143" size="1.016" layer="30" font="vector" ratio="15" rot="SMR0" align="bottom-right">POWER-PLAY UNO - REV C</text>
+<text x="9.779" y="2.54" size="1.016" layer="30" font="vector" ratio="15" rot="SMR0" align="bottom-right">POWER-PLAY UNO - REV C</text>
 </plain>
 <libraries>
 <library name="pmon_uno">
