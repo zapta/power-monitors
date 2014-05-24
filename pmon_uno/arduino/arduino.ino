@@ -286,6 +286,15 @@ void StateReporting::loop() {
     return;
   }
   
+  // This is a major slot. Read also the current voltage
+  uint16 voltage_raw_register_value;
+  uint16 voltage_mv;
+  if (!ltc2943::readVoltage(&voltage_raw_register_value, &voltage_mv)) {
+    printf(F("# LTC2943 volage reading failed\n"));
+    StateError::enter();
+    return;
+  }
+  
   // Compute major slot values.
   analysis::ChargeResults major_slot_charge_results;
   analysis::ComputeChargeResults(slot_tracker.major_slot_charge_tracker, &major_slot_charge_results);
@@ -338,7 +347,9 @@ void StateReporting::loop() {
         slot_tracker.total_awakes,
         (slot_tracker.awake_minor_slots_in_current_major_slot ? " *" : "")); 
   } else if (format == formats::kDebug) {
-    printf(F("0x%4x %4u | %6lu | %6lu %6lu %6lu %9lu\n"), 
+    printf(F("0x%4x %u.%03u | 0x%4x %4u | %6lu | %6lu %6lu %6lu %9lu\n"), 
+        // TODO: use a printable object for voltage_mv integer and fraction.
+        voltage_raw_register_value, voltage_mv / 1000, voltage_mv % 1000,
         this_minor_slot_charge_ticks_reading, charge_ticks_in_this_minor_slot, 
         major_slot_charge_results.average_current_micro_amps, 
         slot_tracker.total_charge_tracker.time_millis, slot_tracker.total_charge_tracker.charge_ticks, 
