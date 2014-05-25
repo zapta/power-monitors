@@ -29,8 +29,15 @@
 #include "passive_timer.h"
 
 namespace display_page {
+  // Page ids.
   static const uint8 kGraphPage = 1;
-  static const uint8 kSummaryPage = 2;  
+  static const uint8 kSummary1Page = 2; 
+  static const uint8 kSummary2Page = 3; 
+ 
+  // Pages metadata
+  static const uint8 kDefaultPage = kGraphPage;
+  static const uint8 kMinPage = kGraphPage;
+  static const uint8 kMaxPage = kSummary2Page;
 }
 
 // Current display page. One of display_page:: values.
@@ -38,9 +45,10 @@ static uint8 current_display_page;
 
 static inline void incrementCurrentDisplayPage() {
   // Assuming upon entry value is valid.
-  if (++current_display_page > display_page::kSummaryPage) {
-    current_display_page = display_page::kGraphPage;
+  if (++current_display_page > display_page::kMaxPage) {
+    current_display_page = display_page::kMinPage;
   }
+  printf(F("Incremented page: %u\n"), current_display_page);
 }
 
 // Output pin for debugging.
@@ -176,7 +184,7 @@ void setup() {;
   
   // Setup display.
   display::setup();
-  current_display_page = display_page::kGraphPage;
+  current_display_page = display_page::kDefaultPage;
 
   // Initialize the LTC2943 driver and I2C library.
   // TODO: move this to state machine, check error code.
@@ -189,8 +197,6 @@ void setup() {;
   
   display::showMessage(display_messages::code::kSplashScreen, 2500);
 }
-
-//static inline void 
 
 void StateInit::enter() {
   state = states::INIT;
@@ -309,6 +315,16 @@ void StateReporting::loop() {
     return;
   }
   
+  // This is a major slot. Read also the current voltage
+  uint16 voltage_raw_register_value;
+  uint16 voltage_mv;
+  if (!ltc2943::readVoltage(&voltage_raw_register_value, &voltage_mv)) {
+    printf(F("# LTC2943 volage reading failed\n"));
+    StateError::enter();
+    return;
+  }
+  const analysis::PrintableMilsValue printable_voltage(voltage_mv);
+  
   // Compute major slot values.
   analysis::ChargeResults major_slot_charge_results;
   analysis::ComputeChargeResults(slot_tracker.major_slot_charge_tracker, &major_slot_charge_results);
@@ -321,20 +337,32 @@ void StateReporting::loop() {
 
   analysis::PrintableMilsValue timestamp_secs_printable(slot_tracker.total_charge_tracker.time_millis);
   
+  analysis::ChargeResults awake_minor_slots_charge_results;
+  analysis::ComputeChargeResults(slot_tracker.awake_minor_slots_charge_tracker, &awake_minor_slots_charge_results);
+  
+  const uint16 current_millis = major_slot_charge_results.average_current_micro_amps / 1000;
+  display::appendGraphPoint(current_millis);
+
   // Render the current display page.
   if (current_display_page == display_page::kGraphPage) {
-    const uint16 current_millis = major_slot_charge_results.average_current_micro_amps / 1000;
     const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
-    display::appendGraphPoint(current_millis);
     display::renderGraphPage(current_millis, average_current_millis);
-  } else {
-    // NOTE: for now we have only two pages so using this also as a default for unknown page ids.
-    const uint16 current_millis = major_slot_charge_results.average_current_micro_amps / 1000;
+  } else if (current_display_page == display_page::kSummary1Page) {
+    //const uint16 current_millis = major_slot_charge_results.average_current_micro_amps / 1000;
     const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
     const uint16 total_charge_milli_amp_hour = total_charge_results.charge_micro_amps_hour / 1000;
     display::appendGraphPoint(current_millis);
-    display::renderSummaryPage(current_millis, average_current_millis,
+    display::renderSummary1Page(current_millis, average_current_millis,
         total_charge_milli_amp_hour, timestamp_secs_printable.units);     
+  } else if (current_display_page == display_page::kSummary2Page) {
+    display::renderSummary2Page(
+        printable_voltage, 
+        slot_tracker.awake_minor_slots_in_current_major_slot,
+        slot_tracker.total_awakes,
+        awake_minor_slots_charge_results.charge_micro_amps_hour / 1000,
+        timestamp_secs_printable.units);        
+  } else {
+    display::showMessage(display_messages::code::kGeneralError, 100);
   }
   
   const uint8 format = selected_mode.format;
@@ -368,14 +396,16 @@ void StateReporting::loop() {
         total_charge_amp_hour_printable.mils,
         total_average_current_amps_printable.units, 
         total_average_current_amps_printable.mils); 
-    printf(F("  TSB=[%lu]  TAW=[%lu]  #AW=[%lu]%s\n"), 
+    printf(F("  V=[%u.%03u]  TSB=[%lu]  TAW=[%lu]  #AW=[%lu]%s\n"), 
+        printable_voltage.units, printable_voltage.mils,
         slot_tracker.standby_minor_slots_charge_tracker.time_millis/ 1000,
         slot_tracker.awake_minor_slots_charge_tracker.time_millis / 1000,
         slot_tracker.total_awakes,
         (slot_tracker.awake_minor_slots_in_current_major_slot ? " *" : "")); 
   } else if (format == formats::kDebug) {
-    printf(F("0x%4x %4u | %6lu | %6lu %6lu %6lu %9lu\n"), 
+    printf(F("0x%4x %4u | %u.%03u | %6lu | %6lu %6lu %6lu %9lu\n"), 
         this_minor_slot_charge_ticks_reading, charge_ticks_in_this_minor_slot, 
+        printable_voltage.units, printable_voltage.mils,
         major_slot_charge_results.average_current_micro_amps, 
         slot_tracker.total_charge_tracker.time_millis, slot_tracker.total_charge_tracker.charge_ticks, 
         total_charge_results.charge_micro_amps_hour, total_charge_results.average_current_micro_amps);

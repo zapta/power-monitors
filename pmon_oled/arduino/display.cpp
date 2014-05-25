@@ -152,7 +152,7 @@ static inline void drawGraphPage(uint8 drawing_stripe_index, const char* current
 
 // The picture loop function. Check u8glib documentation for restrictions. This function
 // is called multiple time per onw screen draw.
-static inline void drawSummaryPage(uint8 drawing_stripe_index, 
+static inline void drawSummary1Page(uint8 drawing_stripe_index, 
     uint16 current_milli_amps, uint16 average_current_milli_amps, uint16 total_charge_mah, uint16 time_seconds) {
   u8g.setFont(u8g_font_8x13);
   
@@ -161,7 +161,7 @@ static inline void drawSummaryPage(uint8 drawing_stripe_index,
   if (drawing_stripe_index == 0) {
     const uint8 kBaseY = 10;
     u8g.drawStr(0, kBaseY, "I");
-    snprintf(bfr, sizeof(bfr), "%4d", current_milli_amps);
+    snprintf(bfr, sizeof(bfr), "%4u", current_milli_amps);
     u8g.drawStr(65, kBaseY, bfr);
     u8g.drawStr(103, kBaseY, "ma");
   }
@@ -169,7 +169,7 @@ static inline void drawSummaryPage(uint8 drawing_stripe_index,
   if (drawing_stripe_index == 1) {
     const uint8 kBaseY = 27;
     u8g.drawStr(0, kBaseY, "Iavg");
-    snprintf(bfr, sizeof(bfr), "%4d", average_current_milli_amps);
+    snprintf(bfr, sizeof(bfr), "%4u", average_current_milli_amps);
     u8g.drawStr(65, kBaseY, bfr);
     u8g.drawStr(103, kBaseY, "ma");
   }
@@ -177,7 +177,7 @@ static inline void drawSummaryPage(uint8 drawing_stripe_index,
   if (drawing_stripe_index == 2) {
     const uint8 kBaseY = 44;
     u8g.drawStr(0, kBaseY, "Q");
-    snprintf(bfr, sizeof(bfr), "%4d", total_charge_mah);
+    snprintf(bfr, sizeof(bfr), "%4u", total_charge_mah);
     u8g.drawStr(65, kBaseY, bfr);
     u8g.drawStr(103, kBaseY, "mah");
   }
@@ -185,10 +185,55 @@ static inline void drawSummaryPage(uint8 drawing_stripe_index,
   if (drawing_stripe_index == 3) {
     const uint8 kBaseY = 61;
     u8g.drawStr(0, kBaseY, "T");
-    snprintf(bfr, sizeof(bfr), "%6d", time_seconds);
+    snprintf(bfr, sizeof(bfr), "%6u", time_seconds);
     u8g.drawStr(49, kBaseY, bfr);
     u8g.drawStr(101, kBaseY, "sec");
   }
+}
+
+static inline void drawSummary2Page(
+    uint8 drawing_stripe_index, 
+    const analysis::PrintableMilsValue& printable_voltage,
+    boolean is_awake, uint32 awake_count,  
+    uint16 awake_charge_mah, uint16 time_seconds) {
+  u8g.setFont(u8g_font_8x13);
+  
+  char bfr[12];
+
+  if (drawing_stripe_index == 0) {
+    const uint8 kBaseY = 10;
+    u8g.drawStr(0, kBaseY, "V");
+    snprintf(bfr, sizeof(bfr), "%u.%03u", printable_voltage.units, printable_voltage.mils);
+    u8g.drawStr(57, kBaseY, bfr);
+    u8g.drawStr(103, kBaseY, "v");
+  }
+  
+  if (drawing_stripe_index == 1) {
+    const uint8 kBaseY = 27;
+    u8g.drawStr(0, kBaseY, "Nwake");
+    snprintf(bfr, sizeof(bfr), "%5lu", awake_count);
+    u8g.drawStr(57, kBaseY, bfr);
+    if (is_awake) {
+      u8g.drawStr(103, kBaseY, "*");
+    }
+  }
+  
+  if (drawing_stripe_index == 2) {
+    const uint8 kBaseY = 44;
+    u8g.drawStr(0, kBaseY, "Qwake");
+    snprintf(bfr, sizeof(bfr), "%4u", awake_charge_mah);
+    u8g.drawStr(65, kBaseY, bfr);
+    u8g.drawStr(103, kBaseY, "mah");
+  }
+
+  if (drawing_stripe_index == 3) {
+    const uint8 kBaseY = 61;
+    u8g.drawStr(0, kBaseY, "T");
+    snprintf(bfr, sizeof(bfr), "%6u", time_seconds);
+    u8g.drawStr(49, kBaseY, bfr);
+    u8g.drawStr(101, kBaseY, "sec");
+  }      
+      
 }
 
 static void drawCurrentDisplayMessage() {
@@ -206,14 +251,20 @@ static void drawCurrentDisplayMessage() {
   }
   
   if (current_display_message_code == display_messages::code::kAnalysisReset) {
-    u8g.drawStr(27, 26, "Analysis");
-    u8g.drawStr(27, 45, "Restarted.");
+    u8g.drawStr(21, 26, "Restarting");
+    u8g.drawStr(21, 45, "analysis...");
     return;
   }
   
   if (current_display_message_code == display_messages::code::kLtc2943InitError) {
     u8g.drawStr(11, 26, "Current sense");
     u8g.drawStr(11, 45, "comm error.");
+    return;
+  }
+  
+  if (current_display_message_code == display_messages::code::kGeneralError) {
+    u8g.drawStr(11, 26, "Error");
+    u8g.drawStr(11, 45, "detected.");
     return;
   }
   
@@ -271,7 +322,7 @@ void renderGraphPage(uint16 current_milli_amps, uint16 average_current_milli_amp
   } while (u8g.nextPage());
 }
 
-void renderSummaryPage(uint16 current_milli_amps, uint16 average_current_milli_amps, 
+void renderSummary1Page(uint16 current_milli_amps, uint16 average_current_milli_amps, 
     uint16 total_charge_mah, uint16 time_seconds) {
   // Active display messages have higher priority.
   if (isActiveDisplayMessage()) {
@@ -281,9 +332,27 @@ void renderSummaryPage(uint16 current_milli_amps, uint16 average_current_milli_a
   u8g.firstPage();   
   uint8 drawing_stripe_index = 0;
   do {
-    drawSummaryPage(drawing_stripe_index++, current_milli_amps, average_current_milli_amps, total_charge_mah, time_seconds);
+    drawSummary1Page(drawing_stripe_index++, current_milli_amps, average_current_milli_amps, total_charge_mah, time_seconds);
   } while (u8g.nextPage());      
 }
+
+void renderSummary2Page(
+    const analysis::PrintableMilsValue& printable_voltage,
+    boolean is_awake, uint32 awake_count, 
+    uint16 awake_charge_mah, uint16 time_seconds) {
+  // Active display messages have higher priority.
+  if (isActiveDisplayMessage()) {
+    return;
+  }  
+  // See comments for similar code in renderGraphPage().
+  u8g.firstPage();   
+  uint8 drawing_stripe_index = 0;
+  do {
+    drawSummary2Page(drawing_stripe_index++, printable_voltage, is_awake, awake_count,  
+    awake_charge_mah, time_seconds);
+  } while (u8g.nextPage());  
+}
+
 
 void renderCurrentDisplayMessage() {
   u8g.firstPage();   

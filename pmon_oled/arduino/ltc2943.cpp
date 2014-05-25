@@ -120,6 +120,18 @@ bool init() {
 boolean readAccumCharge(uint16* value) {
   return readReg16(regs16::kAccumCharge, value);
 }
+
+// Return true if ok.
+boolean readVoltage(uint16* raw_register_value, uint16* voltage_mv) {
+  if (!readReg16(regs16::kVoltage, raw_register_value)) {
+    return false;
+  }
+  // NOTE: using a top value of 0x10000 instead of 0xffff as specified in the datasheet.
+  // The affect on the accuracy is insignificant.  Adding the 0x8000 to round to the closest
+  // mv.
+  *voltage_mv = ((((uint32)23600) * (*raw_register_value)) + 0x8000) >> 16;
+  return true;
+}
   
 }  // namespace ltc2943
 

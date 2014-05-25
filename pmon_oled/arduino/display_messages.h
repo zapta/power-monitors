@@ -24,6 +24,7 @@ namespace code {
   static const uint8 kSplashScreen = 1;
   static const uint8 kLtc2943InitError = 2;
   static const uint8 kAnalysisReset = 3;
+  static const uint8 kGeneralError = 4;
 }
 
 }  // namespace display_messages

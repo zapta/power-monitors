@@ -14,6 +14,7 @@
 #define DISPLAY_H
 
 #include "avr_util.h"
+#include "analysis.h"
 #include "display_messages.h"
 
 // Manages the 1.3" 128x64 OLED display.
@@ -28,9 +29,16 @@ namespace display {
   // Render a page with the current graph and momentary and analysis session average current.
   extern void renderGraphPage(uint16 current_milli_amps, uint16 average_current_milli_amps);
   
-  // Render a page a summary of the analysis.
-  extern void renderSummaryPage(uint16 current_milli_amps, uint16 average_current_milli_amps, uint16 total_charge_mah, uint16 time_seconds);
+  // Render a page with the summary part 1 of the analysis.
+  extern void renderSummary1Page(uint16 current_milli_amps, uint16 average_current_milli_amps, 
+      uint16 total_charge_mah, uint16 time_seconds);
   
+  // Render a page with the summary part 2 of the analysis.
+  extern void renderSummary2Page(
+      const analysis::PrintableMilsValue& printable_voltage,
+      boolean is_awake, uint32 awake_count, 
+      uint16 awake_charge_mah, uint16 time_seconds);
+
   // Display the given display message (taking control of the entire display) and ignore 
   // other rendering requests for the specified time in millis. If the function is called
   // again within the specified min display time, the new call overrides the previous one.
