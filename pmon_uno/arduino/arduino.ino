@@ -294,6 +294,7 @@ void StateReporting::loop() {
     StateError::enter();
     return;
   }
+  const analysis::PrintableMilsValue printable_voltage_mv(voltage_mv);
   
   // Compute major slot values.
   analysis::ChargeResults major_slot_charge_results;
@@ -341,16 +342,17 @@ void StateReporting::loop() {
         total_charge_amp_hour_printable.mils,
         total_average_current_amps_printable.units, 
         total_average_current_amps_printable.mils); 
-    printf(F("  TSB=[%lu]  TAW=[%lu]  #AW=[%lu]%s\n"), 
+    printf(F("  V=[%u.%03u]  TSB=[%lu]  TAW=[%lu]  #AW=[%lu]%s\n"), 
+        printable_voltage_mv.units, printable_voltage_mv.mils,
         slot_tracker.standby_minor_slots_charge_tracker.time_millis/ 1000,
         slot_tracker.awake_minor_slots_charge_tracker.time_millis / 1000,
         slot_tracker.total_awakes,
         (slot_tracker.awake_minor_slots_in_current_major_slot ? " *" : "")); 
   } else if (format == formats::kDebug) {
-    printf(F("0x%4x %u.%03u | 0x%4x %4u | %6lu | %6lu %6lu %6lu %9lu\n"), 
-        // TODO: use a printable object for voltage_mv integer and fraction.
-        voltage_raw_register_value, voltage_mv / 1000, voltage_mv % 1000,
-        this_minor_slot_charge_ticks_reading, charge_ticks_in_this_minor_slot, 
+    printf(F("0x%4x %u.%03u | 0x%4x %4u"), 
+        voltage_raw_register_value, printable_voltage_mv.units, printable_voltage_mv.mils,
+        this_minor_slot_charge_ticks_reading, charge_ticks_in_this_minor_slot);
+    printf(F(" | %6lu | %6lu %6lu %6lu %9lu\n"),
         major_slot_charge_results.average_current_micro_amps, 
         slot_tracker.total_charge_tracker.time_millis, slot_tracker.total_charge_tracker.charge_ticks, 
         total_charge_results.charge_micro_amps_hour, total_charge_results.average_current_micro_amps);
