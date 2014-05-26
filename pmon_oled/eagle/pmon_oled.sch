@@ -1620,7 +1620,7 @@ Sourc: www.ctscorp.com</description>
 </class>
 </classes>
 <parts>
-<part name="C6" library="pmon_oled" deviceset="CAP-" device="C0603" value="0.01uF"/>
+<part name="C6" library="pmon_oled" deviceset="CAP-" device="C0603" value="0.1uF"/>
 <part name="P+2" library="pmon_oled" deviceset="+5V" device=""/>
 <part name="GND16" library="pmon_oled" deviceset="GND" device=""/>
 <part name="J5" library="pmon_oled" deviceset="PINHD-2X3" device="" value="PINHD-2X3"/>

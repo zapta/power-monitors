@@ -1648,7 +1648,7 @@ Sourc: www.ctscorp.com</description>
 <part name="R9" library="pmon_uno" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="R10" library="pmon_uno" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="GND3" library="pmon_uno" deviceset="GND" device=""/>
-<part name="C7" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.01uF"/>
+<part name="C7" library="pmon_uno" deviceset="CAP-" device="C0603" value="0.1uF"/>
 <part name="P+2" library="pmon_uno" deviceset="+5V" device=""/>
 <part name="GND2" library="pmon_uno" deviceset="GND" device=""/>
 <part name="GND16" library="pmon_uno" deviceset="GND" device=""/>
