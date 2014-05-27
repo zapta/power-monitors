@@ -1,16 +1,18 @@
 TODO list for The Arduino PMON UNO
 
 **SCHEMATIC**
+* Find part number of a button without the fifth ground pin.
 
 **LAYOUT**
+* Add to the OLED footprint a tplace rectangle with the active display area.
+* Add to the OLED footprint a restrict/keepout for the area below the passive components.
+* Move C1 slightly away from U1.
 
 ** Enclosure
 * Add vent holes for the LDO?
 
 **SOFTWARE**
-* Make sure the board and display handle gracefully errors such as missing power connection (display error messages?)
-* Remove the ERROR LED (use the display instead).
-* Provide a screen to calibrate the 3.8V.
+* Add a debug screen (for testing after manufacturing).
 
 **MISCELLANEOUS**
 

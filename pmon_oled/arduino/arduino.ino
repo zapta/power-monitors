@@ -64,51 +64,28 @@ namespace formats {
 // Represent the parameters of a measurement mode.
 struct Mode {
   const uint8 format;
-  const uint16 minor_slots_per_major_slot;
-
   // format is one of format:* values.
-  Mode(uint8 format, uint16 minor_slots_per_major_slot)
+  Mode(uint8 format)
   : 
-   format(format),
-   minor_slots_per_major_slot(minor_slots_per_major_slot) {
+   format(format) {
   }
 };
 
 // Mode table. Indexed by config::modeIndex();
 static const Mode modes_table[] = {
-  // 0 - Simple format, 1Hz
-  Mode(formats::kTimeVsCurrent, 10),
-  
-  // 1 - Simple format, 10Hz
-  Mode(formats::kTimeVsCurrent, 1),
-  
-  // 2 - Labeled detailed format.  1Hz.
-  Mode(formats::kDetailedLabeled, 10),
-  
-  // 3 - Labeled detailed format.  1Hz.
-  Mode(formats::kDetailedLabeled, 1),
-  
-  // 4 - Unlabeled detailed format.  1Hz.
-  Mode(formats::kDetailed, 10),
-  
-  // 5 - Unlabeled detailed format.  1Hz.
-  Mode(formats::kDetailed, 1),
-  
-  // 6-15 - Debug (1Hz, 10Hz, ...)
-  Mode(formats::kDebug, 10),
-  Mode(formats::kDebug, 1),
-  Mode(formats::kDebug, 10),
-  Mode(formats::kDebug, 1),
-  Mode(formats::kDebug, 10),
-  Mode(formats::kDebug, 1),
-  Mode(formats::kDebug, 10),
-  Mode(formats::kDebug, 1),
-  Mode(formats::kDebug, 10),
-  Mode(formats::kDebug, 1),
+  // 0 - Basic format.
+  Mode(formats::kTimeVsCurrent),
+  // 1 - Labeled detailed format.
+  Mode(formats::kDetailedLabeled),
+  // 2 - Unlabeled detailed format.
+  Mode(formats::kDetailed),
+  // 3 - Unlabeled detailed format.
+  Mode(formats::kDebug),
 };
 
 static inline boolean isDebugMode() {
-  return config::modeIndex() == 9;
+  // TODO: define a const.
+  return config::modeIndex() == 3;
 }
 
 // 8 bit enum with main states.
@@ -132,26 +109,20 @@ class StateReporting {
     static inline void enter();
     static inline void loop();  
   private:
-    // Index of modes table entry of current mode.
-    static uint8 selected_mode_index;
-    
-    // Before starting the major and minor slots we first perform the 
-    // initial reading. This is also marked as timestamp 0.
+    // Before starting the first slot we first perform an initial reading
+    // of the charge counter. This point in time is the 0 time mark of this analysis. 
     static bool has_last_reading;
        
-    // A minor slot is the basic measurement slot. It is used mainly
-    // to count device wake ups. 
-    static uint32 last_minor_slot_time_millis;
-    static uint16 last_minor_slot_charge_ticks_reading;
+    static uint32 last_slot_time_millis;
+    static uint16 last_slot_charge_ticks_reading;
     
     // Used to track the various slots data.
     static analysis::SlotTracker slot_tracker;
 };
 
-uint8 StateReporting::selected_mode_index;
 bool StateReporting::has_last_reading;
-uint32 StateReporting::last_minor_slot_time_millis;
-uint16 StateReporting::last_minor_slot_charge_ticks_reading;  
+uint32 StateReporting::last_slot_time_millis;
+uint16 StateReporting::last_slot_charge_ticks_reading;  
 analysis::SlotTracker StateReporting::slot_tracker;
 
 // ERROR state declaration.
@@ -217,32 +188,13 @@ void StateInit::loop() {
 void StateReporting::enter() {
   state = states::REPORTING;
   has_last_reading = false;
-
-  // We switch modes only when entering the reporting state. If changed
-  // while in the reporting state, we reenter it. This provides a graceful
-  // transition.
-  selected_mode_index = config::modeIndex();
-  if (isDebugMode()) {
-    printf(F("# Mode: %d\n"), selected_mode_index);
-    printf(F("# State: REPORTING.0\n"));
-  }
 }
 
 void StateReporting::loop() {
   debug_pin.high();
   debug_pin.low();
 
-  // Check for mode change.
-  if (config::modeIndex() != selected_mode_index) {
-    if (isDebugMode()) {
-      printf(F("# Mode changed\n"));
-    }
-    printf(F("\n"));
-    // The switch is done when reentering the state. This provides graceful 
-    // transition.
-    StateReporting::enter();
-    return;
-  }
+  const uint8 selected_mode_index = config::modeIndex();
   
   // Handle button events.
   {
@@ -261,16 +213,16 @@ void StateReporting::loop() {
     }
   }
   
-  // If we don't have the first reading, read the charge tick and initialize minor slots, major slots and 
-  // accomulated data.
+  // If we don't have the first reading, read the charge tick register and initialize
+  // the analysis.
   if (!has_last_reading) {
-    if (!ltc2943::readAccumCharge(&last_minor_slot_charge_ticks_reading)) {
+    if (!ltc2943::readAccumCharge(&last_slot_charge_ticks_reading)) {
       printf(F("# LTC2943 charge reading failed (1)\n"));
       StateError::enter();
       return;
     }
     has_last_reading = true;
-    last_minor_slot_time_millis = millis();
+    last_slot_time_millis = millis();
     slot_tracker.ResetAll();
     
     display::clearGraphBuffer();
@@ -281,41 +233,38 @@ void StateReporting::loop() {
     return;
   }
   
-  // Here when successive reading. Check if the current minor slot is over.
+  // Check if thsi time slot is over.
   // NOTE: the time check below should handle correctly 52 days wraparound of the uint32
   // time in millis.
-  const int32 millis_in_current_minor_slot = millis() - last_minor_slot_time_millis;
-  if (millis_in_current_minor_slot < analysis::kMillisPerMinorSlot) {
+  const int32 millis_in_current_slot = millis() - last_slot_time_millis;
+  if (millis_in_current_slot < analysis::kMillisPerSlot) {
     return;
   }
   
   // NOTE: we keedp the nominal reporting rate. Jitter in the reporting time will not 
   // create an accmulating errors in the reporting charge since we map the charge to
   // current using the nominal reporting rate as used by the consumers of this data.
-  last_minor_slot_time_millis += analysis::kMillisPerMinorSlot;
+  last_slot_time_millis += analysis::kMillisPerSlot;
   
-  // Read and compute the charge ticks in this minor slot.
-  uint16 this_minor_slot_charge_ticks_reading;
-  if (!ltc2943::readAccumCharge(&this_minor_slot_charge_ticks_reading)) {
+  // Read and compute the charge ticks in this slot.
+  uint16 this_slot_charge_ticks_reading;
+  if (!ltc2943::readAccumCharge(&this_slot_charge_ticks_reading)) {
       printf(F("# LTC2943 charge reading failed (2)\n"));
       StateError::enter();
       return;
   }
   // NOTE: this should handle correctly charge register wraps around.
-  const uint16 charge_ticks_in_this_minor_slot = 
-      (this_minor_slot_charge_ticks_reading - last_minor_slot_charge_ticks_reading);
-  last_minor_slot_charge_ticks_reading = this_minor_slot_charge_ticks_reading;
+  const uint16 charge_ticks_in_this_slot = 
+      (this_slot_charge_ticks_reading - last_slot_charge_ticks_reading);
+  last_slot_charge_ticks_reading = this_slot_charge_ticks_reading;
 
   // Update slot data
-  slot_tracker.AddMinorSlot(charge_ticks_in_this_minor_slot);
+  slot_tracker.AddSlot(charge_ticks_in_this_slot);
 
-  // If not the last minor slot in the current major slot than we are done.
+  // Get the current reporting mode.
   const Mode& selected_mode = modes_table[selected_mode_index];
-  if (slot_tracker.minor_slots_in_current_major_slot < selected_mode.minor_slots_per_major_slot) {
-    return;
-  }
   
-  // This is a major slot. Read also the current voltage
+  // Read also the current voltage
   uint16 voltage_raw_register_value;
   uint16 voltage_mv;
   if (!ltc2943::readVoltage(&voltage_raw_register_value, &voltage_mv)) {
@@ -325,11 +274,11 @@ void StateReporting::loop() {
   }
   const analysis::PrintableMilsValue printable_voltage(voltage_mv);
   
-  // Compute major slot values.
-  analysis::ChargeResults major_slot_charge_results;
-  analysis::ComputeChargeResults(slot_tracker.major_slot_charge_tracker, &major_slot_charge_results);
-  analysis::PrintablePpmValue major_slot_amps_printable(major_slot_charge_results.average_current_micro_amps);
-  // Compute total values.
+  // Compute last slot values.
+  analysis::ChargeResults last_slot_charge_results;
+  analysis::ComputeChargeResults(slot_tracker.last_slot_charge_tracker, &last_slot_charge_results);
+  analysis::PrintablePpmValue last_slot_amps_printable(last_slot_charge_results.average_current_micro_amps);
+  // Compute total values in this analyais. 
   analysis::ChargeResults total_charge_results;
   analysis::ComputeChargeResults(slot_tracker.total_charge_tracker, &total_charge_results); 
   analysis::PrintablePpmValue total_charge_amp_hour_printable(total_charge_results.charge_micro_amps_hour);
@@ -337,10 +286,10 @@ void StateReporting::loop() {
 
   analysis::PrintableMilsValue timestamp_secs_printable(slot_tracker.total_charge_tracker.time_millis);
   
-  analysis::ChargeResults awake_minor_slots_charge_results;
-  analysis::ComputeChargeResults(slot_tracker.awake_minor_slots_charge_tracker, &awake_minor_slots_charge_results);
+  analysis::ChargeResults wake_slots_charge_results;
+  analysis::ComputeChargeResults(slot_tracker.wake_slots_charge_tracker, &wake_slots_charge_results);
   
-  const uint16 current_millis = major_slot_charge_results.average_current_micro_amps / 1000;
+  const uint16 current_millis = last_slot_charge_results.average_current_micro_amps / 1000;
   display::appendGraphPoint(current_millis);
 
   // Render the current display page.
@@ -357,9 +306,9 @@ void StateReporting::loop() {
   } else if (current_display_page == display_page::kSummary2Page) {
     display::renderSummary2Page(
         printable_voltage, 
-        slot_tracker.awake_minor_slots_in_current_major_slot,
-        slot_tracker.total_awakes,
-        awake_minor_slots_charge_results.charge_micro_amps_hour / 1000,
+        slot_tracker.last_slot_was_wake,
+        slot_tracker.total_wakes,
+        wake_slots_charge_results.charge_micro_amps_hour / 1000,
         timestamp_secs_printable.units);        
   } else {
     display::showMessage(display_messages::code::kGeneralError, 100);
@@ -370,51 +319,48 @@ void StateReporting::loop() {
   if (format == formats::kTimeVsCurrent) {
     printf(F("%05u.%03u %u.%06lu\n"), 
         timestamp_secs_printable.units,  timestamp_secs_printable.mils,
-        major_slot_amps_printable.units, major_slot_amps_printable.ppms);  
+        last_slot_amps_printable.units, last_slot_amps_printable.ppms);  
    } else if (format == formats::kDetailed) {
     // TODO: Increase the sio buffer size so we can printf in one statement.
     printf(F("%u.%03u %u.%03u %u.%03u %u.%03u"), 
         timestamp_secs_printable.units,  timestamp_secs_printable.mils, 
-        major_slot_amps_printable.units, 
-        major_slot_amps_printable.mils, 
+        last_slot_amps_printable.units, 
+        last_slot_amps_printable.mils, 
         total_charge_amp_hour_printable.units, 
         total_charge_amp_hour_printable.mils,
         total_average_current_amps_printable.units, 
         total_average_current_amps_printable.mils); 
-    printf(F(" %lu %lu %lu %d\n"), 
-        slot_tracker.standby_minor_slots_charge_tracker.time_millis,
-        slot_tracker.awake_minor_slots_charge_tracker.time_millis,
-        slot_tracker.total_awakes,
-        slot_tracker.awake_minor_slots_in_current_major_slot); 
+    printf(F(" %lu %lu %lu %s\n"), 
+        slot_tracker.standby_slots_charge_tracker.time_millis,
+        slot_tracker.wake_slots_charge_tracker.time_millis,
+        slot_tracker.total_wakes,
+        (slot_tracker.last_slot_was_wake ? "*" : "_")); 
   } else if (format == formats::kDetailedLabeled) {
     // TODO: Increase the sio buffer size so we can printf in one statement.
     printf(F("T=[%u.%03u]  I=[%u.%03u]  Q=[%u.%03u]  IAv=[%u.%03u]"), 
         timestamp_secs_printable.units, timestamp_secs_printable.mils, 
-        major_slot_amps_printable.units, 
-        major_slot_amps_printable.mils, 
+        last_slot_amps_printable.units, 
+        last_slot_amps_printable.mils, 
         total_charge_amp_hour_printable.units, 
         total_charge_amp_hour_printable.mils,
         total_average_current_amps_printable.units, 
         total_average_current_amps_printable.mils); 
-    printf(F("  V=[%u.%03u]  TSB=[%lu]  TAW=[%lu]  #AW=[%lu]%s\n"), 
+    printf(F("  V=[%u.%03u]  TSB=[%lu]  TAW=[%lu]  #AW=[%lu] %s\n"), 
         printable_voltage.units, printable_voltage.mils,
-        slot_tracker.standby_minor_slots_charge_tracker.time_millis/ 1000,
-        slot_tracker.awake_minor_slots_charge_tracker.time_millis / 1000,
-        slot_tracker.total_awakes,
-        (slot_tracker.awake_minor_slots_in_current_major_slot ? " *" : "")); 
+        slot_tracker.standby_slots_charge_tracker.time_millis/ 1000,
+        slot_tracker.wake_slots_charge_tracker.time_millis / 1000,
+        slot_tracker.total_wakes,
+        (slot_tracker.last_slot_was_wake ? "*" : "_")); 
   } else if (format == formats::kDebug) {
     printf(F("0x%4x %4u | %u.%03u | %6lu | %6lu %6lu %6lu %9lu\n"), 
-        this_minor_slot_charge_ticks_reading, charge_ticks_in_this_minor_slot, 
+        last_slot_charge_ticks_reading, charge_ticks_in_this_slot, 
         printable_voltage.units, printable_voltage.mils,
-        major_slot_charge_results.average_current_micro_amps, 
+        last_slot_charge_results.average_current_micro_amps, 
         slot_tracker.total_charge_tracker.time_millis, slot_tracker.total_charge_tracker.charge_ticks, 
         total_charge_results.charge_micro_amps_hour, total_charge_results.average_current_micro_amps);
   } else {
     printf(F("Unknown format: %d\n"), format); 
   }
-  
-  // Reset the major slot data for the next slot.
-  slot_tracker.ResetMajorSlot();
 }
 
 inline void StateError::enter() {

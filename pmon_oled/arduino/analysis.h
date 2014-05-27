@@ -24,20 +24,20 @@ namespace analysis {
 // * Columb counter prescaler : 1
 static const uint32 kChargePerTickPicoAmpHour = 166016L;
 
-// A minor slot with at least this number of charge ticks is considered to 
-// be awake. Otherwise, a standby.
-// With 25mhoms shunt, prescaler of 1 and 100ms minor slot, each unit here
+// A slot with at least this number of charge ticks is considered to 
+// be a wake. Otherwise, a standby.
+// With 25mhoms shunt, prescaler of 1 and 100ms slot, each unit here
 // represents about 5.976ma. Note that the accuracy is +/- 1 tick so this 
 // number should not be too small (alternativly, increase the length of
-// the minor slot).
-static const uint8 kMinAwakeTicksPerMinorSlot = 10;
+// the slot).
+static const uint8 kMinChargeTicksPerWakeSlot = 10;
 
 // The basic measurment period, in millis.
-static const uint16 kMillisPerMinorSlot = 100;
+static const uint16 kMillisPerSlot = 100;
 
 // Data container for tracking charge over a time period. 
 struct ChargeTracker {
-  // TODO: consider to count minor slots rather than milli seconds.
+  // TODO: consider to count slots rather than milli seconds.
   uint32 time_millis;
   uint32 charge_ticks;
   
@@ -91,65 +91,56 @@ struct PrintableMilsValue {
 // Tracks the various slots data. 
 class SlotTracker {
  public:
-  ChargeTracker major_slot_charge_tracker;
+  ChargeTracker last_slot_charge_tracker;
+  boolean last_slot_was_wake;
   ChargeTracker total_charge_tracker; 
-  ChargeTracker standby_minor_slots_charge_tracker;
-  ChargeTracker awake_minor_slots_charge_tracker;
-  uint32 total_minor_slots;
-  uint16 minor_slots_in_current_major_slot;
-  uint16 awake_minor_slots_in_current_major_slot;
-  uint32 total_standby_minor_slots;
-  uint32 total_awake_minor_slots;
-  uint32 total_awakes;
-  bool last_minor_slot_was_awake;
+  ChargeTracker standby_slots_charge_tracker;
+  ChargeTracker wake_slots_charge_tracker;
+
+  uint32 total_standby_slots;
+  uint32 total_wake_slots;
+  // Num of transitions from a standby slot to an wake sloke.
+  uint32 total_wakes;
 
   SlotTracker() {
   }
   
   inline void ResetAll() {
-    major_slot_charge_tracker.Reset();
+    last_slot_charge_tracker.Reset();
+    last_slot_was_wake = false;
     total_charge_tracker.Reset();
-    standby_minor_slots_charge_tracker.Reset();
-    awake_minor_slots_charge_tracker.Reset();
-    minor_slots_in_current_major_slot = 0;
-    awake_minor_slots_in_current_major_slot = 0;
-    total_minor_slots = 0;
-    total_standby_minor_slots = 0;
-    total_awake_minor_slots = 0;
-    total_awakes = 0;
-    last_minor_slot_was_awake = false;
-  }
-  
-  inline void AddMinorSlot( uint16 charge_ticks) {
-    major_slot_charge_tracker.AddCharge(kMillisPerMinorSlot, charge_ticks);
-    total_charge_tracker.AddCharge(kMillisPerMinorSlot, charge_ticks); 
-     
-    minor_slots_in_current_major_slot++;
+    standby_slots_charge_tracker.Reset();
+    wake_slots_charge_tracker.Reset();
 
-    total_minor_slots++;
-    
-    const bool is_awake = charge_ticks >= kMinAwakeTicksPerMinorSlot;
-    if (is_awake) {
-      awake_minor_slots_charge_tracker.AddCharge(kMillisPerMinorSlot, charge_ticks);
-      total_awake_minor_slots++;
-      awake_minor_slots_in_current_major_slot++;
-    } else {
-      standby_minor_slots_charge_tracker.AddCharge(kMillisPerMinorSlot, charge_ticks);
-      total_standby_minor_slots++;
-    }
-    
-    // Count transitions from standby to to awake.
-    if (is_awake && ! last_minor_slot_was_awake) {
-      total_awakes++;  
-    }
-    last_minor_slot_was_awake = is_awake;
+    // The sum of standby and wake slot is the total number of slots in this analysis.
+    total_standby_slots = 0;
+    total_wake_slots = 0;
+    total_wakes = 0;
   }
   
-  // Prepare for next major slot.
-  inline void ResetMajorSlot() {
-    major_slot_charge_tracker.Reset();
-    minor_slots_in_current_major_slot = 0;
-    awake_minor_slots_in_current_major_slot = 0;
+  inline void AddSlot(uint16 charge_ticks) {
+    
+    const boolean is_wake_slot = charge_ticks >= kMinChargeTicksPerWakeSlot;
+    const boolean is_wake_count = is_wake_slot && !last_slot_was_wake;
+    
+    // TODO: add a Init() method instead of reset + add.
+    last_slot_charge_tracker.Reset();
+    last_slot_charge_tracker.AddCharge(kMillisPerSlot, charge_ticks);
+    last_slot_was_wake = is_wake_slot;
+    
+    total_charge_tracker.AddCharge(kMillisPerSlot, charge_ticks); 
+         
+    if (is_wake_slot) {
+      wake_slots_charge_tracker.AddCharge(kMillisPerSlot, charge_ticks);
+      total_wake_slots++;
+      if (is_wake_count) {
+        total_wakes++;
+      }
+      //wake_minor_slots_in_current_major_slot++;
+    } else {
+      standby_slots_charge_tracker.AddCharge(kMillisPerSlot, charge_ticks);
+      total_standby_slots++;
+    }
   }
 };
 

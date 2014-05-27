@@ -30,9 +30,9 @@ namespace config {
     return private_::byte_debouncer.hasStableValue();
   }
   
-  // Returns a [0,15] index of selected mode.
+  // Returns a [0,3] index of selected mode.
   inline uint8 modeIndex() {
-    return  private_::byte_debouncer.stableValue() & 0x0f;
+    return  private_::byte_debouncer.stableValue() & 0b11;
   }
 
 }  // namepsace config
