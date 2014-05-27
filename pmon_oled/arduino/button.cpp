@@ -92,6 +92,10 @@ uint8 consumeEvent() {
   return result;
 }
 
+boolean isButtonPressed() {
+  return current_state != state::kIdle;
+}
+
 }  // namepsace buttons
 
 

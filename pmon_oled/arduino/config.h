@@ -32,9 +32,17 @@ namespace config {
   
   // Returns a [0,3] index of selected mode.
   inline uint8 modeIndex() {
-    return  private_::byte_debouncer.stableValue() & 0b11;
+    return private_::byte_debouncer.stableValue() & 0b0011;
   }
-
+  
+  inline boolean isTestMode() {
+    return private_::byte_debouncer.stableValue() & 0b1000;  
+  }
+  
+  // For diagnostics.
+  inline uint8 rawDipSwitches() {
+    return private_::byte_debouncer.stableValue() & 0b1111;  
+  }
 }  // namepsace config
 
 #endif

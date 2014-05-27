@@ -36,6 +36,9 @@ extern void loop();
 // Consumes and returns the next button event (one of event:: values).
 extern uint8 consumeEvent();
 
+// For diangostics.
+extern boolean isButtonPressed();
+
 }  // namepsace buttons
 
 #endif

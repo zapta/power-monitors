@@ -293,7 +293,9 @@ void StateReporting::loop() {
   display::appendGraphPoint(current_millis);
 
   // Render the current display page.
-  if (current_display_page == display_page::kGraphPage) {
+  if (config::isTestMode()) {
+    display::renderTestPage(printable_voltage, last_slot_amps_printable, config::rawDipSwitches(), button::isButtonPressed());
+  } else if (current_display_page == display_page::kGraphPage) {
     const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
     display::renderGraphPage(current_millis, average_current_millis);
   } else if (current_display_page == display_page::kSummary1Page) {

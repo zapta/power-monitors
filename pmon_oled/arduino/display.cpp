@@ -106,18 +106,45 @@ void appendGraphPoint(uint16 current_milli_amps) {
   graph_active_y_count++;
 }
 
+void setup() {
+  current_display_message_code = display_messages::code::kNone;
+  current_display_message_min_time_millis = 0;
+  time_in_current_display_message.restart();
+  
+  clearGraphBuffer();
+  // B&W mode. This display does not support gray scales.
+  u8g.setColorIndex(1);
+}
+
+// Returns true if we have a current display message request and it's still within it
+// min time period.
+static boolean isActiveDisplayMessage() {
+  if (current_display_message_code == display_messages::code::kNone) {
+    return false;
+  } 
+
+  if (time_in_current_display_message.timeMillis() < current_display_message_min_time_millis) {
+    return true;
+  }
+  // Display message expired, mark as done.
+  current_display_message_code = display_messages::code::kNone;
+  return false;
+}
+
+// ----- Graph Page
+
 // The picture loop function. Check u8glib documentation for restrictions. This function
 // is called multiple time per onw screen draw.
 static inline void drawGraphPage(uint8 drawing_stripe_index, const char* current, const char* average_current) {
   if (drawing_stripe_index == 0) {
     u8g.setFont(u8g_font_8x13);
-    u8g.drawStr(0, 10, "Current");
+    u8g.drawStr(0, 10, "I");
     u8g.drawStr(70, 10, current);
   }
   
   if (drawing_stripe_index == 1) { 
     u8g.setFont(u8g_font_8x13);
-    u8g.drawStr(0, 25, "Average");
+    u8g.drawStr(0, 25, "Iavg");
     u8g.drawStr(70, 25, average_current);
   }
 
@@ -149,6 +176,30 @@ static inline void drawGraphPage(uint8 drawing_stripe_index, const char* current
     u8g.drawLine(0, 63, 127, 63);
   }
 }
+
+void renderGraphPage(uint16 current_milli_amps, uint16 average_current_milli_amps) {
+  // Active display messages have higher priority.
+  if (isActiveDisplayMessage()) {
+    return;
+  }
+  
+  char bfr1[10];
+  snprintf(bfr1, sizeof(bfr1), "%4d ma", current_milli_amps);
+  
+  char bfr2[10];
+  snprintf(bfr2, sizeof(bfr2), "%4d ma", average_current_milli_amps);
+  
+  // Execute the picture loop. We track the draw stripe index so we can 
+  // render on each stripe so we can skip drawing graphics object on stripes
+  // they do not intersect (faster drawing).
+  u8g.firstPage();   
+  uint8 drawing_stripe_index = 0;
+  do {
+    drawGraphPage(drawing_stripe_index++, bfr1, bfr2);
+  } while (u8g.nextPage());
+}
+
+// ----- Summary 1 Page
 
 // The picture loop function. Check u8glib documentation for restrictions. This function
 // is called multiple time per onw screen draw.
@@ -191,6 +242,22 @@ static inline void drawSummary1Page(uint8 drawing_stripe_index,
   }
 }
 
+void renderSummary1Page(uint16 current_milli_amps, uint16 average_current_milli_amps, 
+    uint16 total_charge_mah, uint16 time_seconds) {
+  // Active display messages have higher priority.
+  if (isActiveDisplayMessage()) {
+    return;
+  }  
+  // See comments for similar code in renderGraphPage().
+  u8g.firstPage();   
+  uint8 drawing_stripe_index = 0;
+  do {
+    drawSummary1Page(drawing_stripe_index++, current_milli_amps, average_current_milli_amps, total_charge_mah, time_seconds);
+  } while (u8g.nextPage());      
+}
+
+// ----- Summary 2 Page
+
 static inline void drawSummary2Page(
     uint8 drawing_stripe_index, 
     const analysis::PrintableMilsValue& printable_voltage,
@@ -232,9 +299,90 @@ static inline void drawSummary2Page(
     snprintf(bfr, sizeof(bfr), "%6u", time_seconds);
     u8g.drawStr(49, kBaseY, bfr);
     u8g.drawStr(101, kBaseY, "sec");
-  }      
-      
+  }         
 }
+
+void renderSummary2Page(
+    const analysis::PrintableMilsValue& printable_voltage,
+    boolean is_awake, uint32 awake_count, 
+    uint16 awake_charge_mah, uint16 time_seconds) {
+  // Active display messages have higher priority.
+  if (isActiveDisplayMessage()) {
+    return;
+  }  
+  // See comments for similar code in renderGraphPage().
+  u8g.firstPage();   
+  uint8 drawing_stripe_index = 0;
+  do {
+    drawSummary2Page(drawing_stripe_index++, printable_voltage, is_awake, awake_count,  
+    awake_charge_mah, time_seconds);
+  } while (u8g.nextPage());  
+}
+
+
+// ---------- Test page
+
+static inline void drawTestPage(
+    uint8 drawing_stripe_index, 
+    const analysis::PrintableMilsValue& printable_voltage,
+    const analysis::PrintablePpmValue& printable_current,
+    uint8 dip_switches, boolean is_button_pressed) {
+  u8g.setFont(u8g_font_8x13);
+  
+  char bfr[12];
+  
+  if (drawing_stripe_index == 0) {
+    const uint8 kBaseY = 10;
+    u8g.drawStr(0, kBaseY, "V");
+    snprintf(bfr, sizeof(bfr), "%u.%03u", printable_voltage.units, printable_voltage.mils);
+    u8g.drawStr(57, kBaseY, bfr);
+  }
+  
+  if (drawing_stripe_index == 1) {
+    const uint8 kBaseY = 27;
+    u8g.drawStr(0, kBaseY, "I");
+    snprintf(bfr, sizeof(bfr), "%u.%03u", printable_current.units, printable_current.mils);
+    u8g.drawStr(57, kBaseY, bfr);
+   // u8g.drawStr(103, kBaseY, "v");
+  }
+  
+  if (drawing_stripe_index == 2) {
+    const uint8 kBaseY = 44;
+    u8g.drawStr(0, kBaseY, "D");
+    for (int i = 0; i < 4; i++) {
+      bfr[i] = (dip_switches & (0b1000 >> i)) ? '*' : '_';
+    }
+    bfr[4] = '\0';
+    u8g.drawStr(57, kBaseY, bfr);
+  }
+  
+  if (drawing_stripe_index == 3) {
+    const uint8 kBaseY = 61;
+    u8g.drawStr(0, kBaseY, "B");
+    //snprintf(bfr, sizeof(bfr), "%x", dip_switches);
+    u8g.drawStr(57, kBaseY, (is_button_pressed ? "*" : "_"));
+   // u8g.drawStr(103, kBaseY, );
+  }
+}
+
+void renderTestPage(
+    const analysis::PrintableMilsValue& printable_voltage,
+    const analysis::PrintablePpmValue& printable_current,
+    uint8 dip_switches, boolean is_button_pressed) {
+  // Active display messages have higher priority.
+  if (isActiveDisplayMessage()) {
+    return;
+  }  
+  // See comments for similar code in renderGraphPage().
+  u8g.firstPage();   
+  uint8 drawing_stripe_index = 0;
+  do {
+    drawTestPage(drawing_stripe_index++, printable_voltage, printable_current, 
+        dip_switches, is_button_pressed);
+  } while (u8g.nextPage());  
+}
+      
+// ---------- Display Message Page
 
 static void drawCurrentDisplayMessage() {
   u8g.setFont(u8g_font_8x13);
@@ -275,91 +423,14 @@ static void drawCurrentDisplayMessage() {
   u8g.drawStr(65, 33, bfr);
 }
 
-void setup() {
-  current_display_message_code = display_messages::code::kNone;
-  current_display_message_min_time_millis = 0;
-  time_in_current_display_message.restart();
-  
-  clearGraphBuffer();
-  // B&W mode. This display does not support gray scales.
-  u8g.setColorIndex(1);
-}
-
-// Returns true if we have a current display message request and it's still within it
-// min time period.
-static boolean isActiveDisplayMessage() {
-  if (current_display_message_code == display_messages::code::kNone) {
-    return false;
-  } 
-
-  if (time_in_current_display_message.timeMillis() < current_display_message_min_time_millis) {
-    return true;
-  }
-  // Display message expired, mark as done.
-  current_display_message_code = display_messages::code::kNone;
-  return false;
-}
-
-void renderGraphPage(uint16 current_milli_amps, uint16 average_current_milli_amps) {
-  // Active display messages have higher priority.
-  if (isActiveDisplayMessage()) {
-    return;
-  }
-  
-  char bfr1[10];
-  snprintf(bfr1, sizeof(bfr1), "%4d ma", current_milli_amps);
-  
-  char bfr2[10];
-  snprintf(bfr2, sizeof(bfr2), "%4d ma", average_current_milli_amps);
-  
-  // Execute the picture loop. We track the draw stripe index so we can 
-  // render on each stripe so we can skip drawing graphics object on stripes
-  // they do not intersect (faster drawing).
-  u8g.firstPage();   
-  uint8 drawing_stripe_index = 0;
-  do {
-    drawGraphPage(drawing_stripe_index++, bfr1, bfr2);
-  } while (u8g.nextPage());
-}
-
-void renderSummary1Page(uint16 current_milli_amps, uint16 average_current_milli_amps, 
-    uint16 total_charge_mah, uint16 time_seconds) {
-  // Active display messages have higher priority.
-  if (isActiveDisplayMessage()) {
-    return;
-  }  
-  // See comments for similar code in renderGraphPage().
-  u8g.firstPage();   
-  uint8 drawing_stripe_index = 0;
-  do {
-    drawSummary1Page(drawing_stripe_index++, current_milli_amps, average_current_milli_amps, total_charge_mah, time_seconds);
-  } while (u8g.nextPage());      
-}
-
-void renderSummary2Page(
-    const analysis::PrintableMilsValue& printable_voltage,
-    boolean is_awake, uint32 awake_count, 
-    uint16 awake_charge_mah, uint16 time_seconds) {
-  // Active display messages have higher priority.
-  if (isActiveDisplayMessage()) {
-    return;
-  }  
-  // See comments for similar code in renderGraphPage().
-  u8g.firstPage();   
-  uint8 drawing_stripe_index = 0;
-  do {
-    drawSummary2Page(drawing_stripe_index++, printable_voltage, is_awake, awake_count,  
-    awake_charge_mah, time_seconds);
-  } while (u8g.nextPage());  
-}
-
-
 void renderCurrentDisplayMessage() {
   u8g.firstPage();   
   do {
     drawCurrentDisplayMessage();
   } while (u8g.nextPage());    
 }
+  
+// -----
   
 void showMessage(uint8 display_message_code, uint16 min_display_time_millis) {
   // Save the new display message info.

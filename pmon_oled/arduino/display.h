@@ -39,6 +39,11 @@ namespace display {
       boolean is_awake, uint32 awake_count, 
       uint16 awake_charge_mah, uint16 time_seconds);
 
+  extern void renderTestPage(
+      const analysis::PrintableMilsValue& printable_voltage,
+      const analysis::PrintablePpmValue& printable_current,
+      uint8 dip_switches, boolean is_button_pressed);
+      
   // Display the given display message (taking control of the entire display) and ignore 
   // other rendering requests for the specified time in millis. If the function is called
   // again within the specified min display time, the new call overrides the previous one.
