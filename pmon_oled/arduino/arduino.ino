@@ -22,7 +22,6 @@
 #include "analysis.h"
 #include "avr_util.h"
 #include "button.h"
-#include "config.h"
 #include "display.h"
 #include "display_messages.h"
 #include "ltc2943.h"
@@ -63,43 +62,6 @@ static inline void incrementCurrentDisplayPage() {
 
 // Output pin for debugging.
 io_pins::OutputPin debug_pin(PORTD, 4);
-
-namespace formats {
-  static const uint8 kTimeVsCurrent = 1;
-  static const uint8 kDetailed = 2;
-  static const uint8 kDetailedLabeled = 3;
-  static const uint8 kDebug = 4;
-}
-
-// Represent the parameters of a measurement mode.
-struct Mode {
-  const uint8 format;
-  // format is one of format:* values.
-  Mode(uint8 format)
-  : 
-   format(format) {
-  }
-};
-
-// Mode table. Indexed by config::modeIndex();
-static const Mode modes_table[] = {
-  // NOTE: this is the most useful reporting mode so we set it as mode zero such
-  // that boards without the config dip switch will report in this mode.
-  //
-  // 0 - Labeled detailed format.
-  Mode(formats::kDetailedLabeled),
-  // 1 - Unlabeled detailed format.
-  Mode(formats::kDetailed),
-  // 2 - Basic format.
-  Mode(formats::kTimeVsCurrent),
-  // 3 - Unlabeled detailed format.
-  Mode(formats::kDebug),
-};
-
-static inline boolean isDebugMode() {
-  // TODO: define a const.
-  return config::modeIndex() == 3;
-}
 
 // 8 bit enum with main states.
 namespace states {
@@ -152,24 +114,15 @@ PassiveTimer StateError::time_in_state;
 void setup() {;
   Serial.begin(115200);
   
-  if (isDebugMode()) {
-    printf(F("\nStarted\n"));
-  } else {
-    printf(F("\n"));
-  }
+  printf(F("\n"));
 
-  config::setup();
   button::setup();
-
   
-  // Wait until config and button decouncer stalize.
-  while (!config::hasStableValue() || !button::hasStableValue()) {
-    config::loop();
+  // Wait until button decouncer stabalizes and check if pressed. This will
+  // activate the test mode.
+  while (!button::hasStableValue()) {
     button::loop();
   }
-  
-  // If button is pressed upon restart we will show first the 
-  // test page.
   test_page_on_reset_active = button::isButtonPressed();
   
   // Setup display.
@@ -194,9 +147,6 @@ void setup() {;
 
 void StateInit::enter() {
   state = states::INIT;
-  if (isDebugMode()) {
-    printf(F("# State: INIT\n"));
-  }
 }
 
 void StateInit::loop() {
@@ -216,8 +166,6 @@ void StateReporting::enter() {
 void StateReporting::loop() {
   debug_pin.high();
   debug_pin.low();
-
-  const uint8 selected_mode_index = config::modeIndex();
   
   // Handle button events.
   {
@@ -249,10 +197,6 @@ void StateReporting::loop() {
     slot_tracker.ResetAll();
     
     display::clearGraphBuffer();
-
-    if (isDebugMode()) {
-      printf(F("# State: REPORTING.1\n"));
-    }
     return;
   }
   
@@ -284,9 +228,6 @@ void StateReporting::loop() {
   // Update slot data
   slot_tracker.AddSlot(charge_ticks_in_this_slot);
 
-  // Get the current reporting mode.
-  const Mode& selected_mode = modes_table[selected_mode_index];
-  
   // Read also the current voltage
   uint16 voltage_raw_register_value;
   uint16 voltage_mv;
@@ -316,8 +257,8 @@ void StateReporting::loop() {
   display::appendGraphPoint(current_millis);
 
   // Render the current display page.
-  if (test_page_on_reset_active || config::isTestMode()) {
-    display::renderTestPage(printable_voltage, last_slot_amps_printable, config::rawDipSwitches(), button::isButtonPressed());
+  if (test_page_on_reset_active) {
+    display::renderTestPage(printable_voltage, last_slot_amps_printable, button::isButtonPressed());
   } else if (selected_display_page == display_page::kGraphPage) {
     const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
     display::renderGraphPage(current_millis, average_current_millis);
@@ -339,60 +280,24 @@ void StateReporting::loop() {
     display::showMessage(display_messages::code::kGeneralError, 100);
   }
   
-  const uint8 format = selected_mode.format;
-  
-  if (format == formats::kTimeVsCurrent) {
-    printf(F("%05u.%03u %u.%06lu\n"), 
-        timestamp_secs_printable.units,  timestamp_secs_printable.mils,
-        last_slot_amps_printable.units, last_slot_amps_printable.ppms);  
-   } else if (format == formats::kDetailed) {
-    // TODO: Increase the sio buffer size so we can printf in one statement.
-    printf(F("%u.%03u %u.%03u %u.%03u %u.%03u"), 
-        timestamp_secs_printable.units,  timestamp_secs_printable.mils, 
-        last_slot_amps_printable.units, 
-        last_slot_amps_printable.mils, 
-        total_charge_amp_hour_printable.units, 
-        total_charge_amp_hour_printable.mils,
-        total_average_current_amps_printable.units, 
-        total_average_current_amps_printable.mils); 
-    printf(F(" %lu %lu %lu %s\n"), 
-        slot_tracker.standby_slots_charge_tracker.time_millis,
-        slot_tracker.wake_slots_charge_tracker.time_millis,
-        slot_tracker.total_wakes,
-        (slot_tracker.last_slot_was_wake ? "*" : "_")); 
-  } else if (format == formats::kDetailedLabeled) {
-    // TODO: Increase the sio buffer size so we can printf in one statement.
-    printf(F("T=[%u.%03u]  I=[%u.%03u]  Q=[%u.%03u]  IAv=[%u.%03u]"), 
-        timestamp_secs_printable.units, timestamp_secs_printable.mils, 
-        last_slot_amps_printable.units, 
-        last_slot_amps_printable.mils, 
-        total_charge_amp_hour_printable.units, 
-        total_charge_amp_hour_printable.mils,
-        total_average_current_amps_printable.units, 
-        total_average_current_amps_printable.mils); 
-    printf(F("  V=[%u.%03u]  TSB=[%lu]  TAW=[%lu]  #AW=[%lu] %s\n"), 
-        printable_voltage.units, printable_voltage.mils,
-        slot_tracker.standby_slots_charge_tracker.time_millis/ 1000,
-        slot_tracker.wake_slots_charge_tracker.time_millis / 1000,
-        slot_tracker.total_wakes,
-        (slot_tracker.last_slot_was_wake ? "*" : "_")); 
-  } else if (format == formats::kDebug) {
-    printf(F("0x%4x %4u | %u.%03u | %6lu | %6lu %6lu %6lu %9lu\n"), 
-        last_slot_charge_ticks_reading, charge_ticks_in_this_slot, 
-        printable_voltage.units, printable_voltage.mils,
-        last_slot_charge_results.average_current_micro_amps, 
-        slot_tracker.total_charge_tracker.time_millis, slot_tracker.total_charge_tracker.charge_ticks, 
-        total_charge_results.charge_micro_amps_hour, total_charge_results.average_current_micro_amps);
-  } else {
-    printf(F("Unknown format: %d\n"), format); 
-  }
+  // TODO: Increase the sio buffer size so we can printf in one statement.
+  printf(F("%u.%03u %u.%03u %u.%03u %u.%03u"), 
+      timestamp_secs_printable.units,  timestamp_secs_printable.mils, 
+      last_slot_amps_printable.units, 
+      last_slot_amps_printable.mils, 
+      total_charge_amp_hour_printable.units, 
+      total_charge_amp_hour_printable.mils,
+      total_average_current_amps_printable.units, 
+      total_average_current_amps_printable.mils); 
+  printf(F(" %lu %lu %lu %u\n"), 
+      slot_tracker.standby_slots_charge_tracker.time_millis,
+      slot_tracker.wake_slots_charge_tracker.time_millis,
+      slot_tracker.total_wakes,
+      (slot_tracker.last_slot_was_wake ? 1 : 0)); 
 }
 
 inline void StateError::enter() {
   state = states::ERROR;
-  if (isDebugMode()) {
-    printf(F("# State: ERROR\n"));
-  }
   time_in_state.restart(); 
   // NOTE: to trigger this error, bypass the 8.2k resistor between the device (+) output
   // and the voltage adjustment potentiometer. This will reduce the output voltage to 
@@ -415,7 +320,6 @@ inline void StateError::loop() {
 // or blocking calls. typical iteration is ~ 50usec with 16Mhz CPU.
 void loop() {
   // Call the loop() function of the underlying modules.
-  config::loop();  
   button::loop();
   
   switch (state) {
