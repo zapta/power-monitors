@@ -17,7 +17,7 @@
 namespace button {
   
 static uint16 kMaxClickTimeMillis = 500;
-static uint16 kMinLongPressMillis = 3000;
+static uint16 kMinLongPressMillis = 2500;
 
 namespace state {
   static const uint8 kIdle = 0;
@@ -96,6 +96,10 @@ boolean isButtonPressed() {
   return current_state != state::kIdle;
 }
 
+boolean hasStableValue() {
+  return byte_debouncer.hasStableValue();
+}
+  
 }  // namepsace buttons
 
 

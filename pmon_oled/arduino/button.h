@@ -39,6 +39,8 @@ extern uint8 consumeEvent();
 // For diangostics.
 extern boolean isButtonPressed();
 
+extern boolean hasStableValue();
+
 }  // namepsace buttons
 
 #endif

@@ -17,6 +17,8 @@
 #include "passive_timer.h"
 #include "U8glib.h"
 
+// TODO: *** make all the literal string F() strings (flash).
+
 namespace display {
   
 // Mapping from AVR port/pin Arduino Mini Pro digital pint number.
@@ -413,6 +415,12 @@ static void drawCurrentDisplayMessage() {
   if (current_display_message_code == display_messages::code::kGeneralError) {
     u8g.drawStr(11, 26, "Error");
     u8g.drawStr(11, 45, "detected.");
+    return;
+  }
+  
+  if (current_display_message_code == display_messages::code::kTestMode) {
+    u8g.drawStr(30, 26, "Test");
+    u8g.drawStr(50, 45, "mode");
     return;
   }
   

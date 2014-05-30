@@ -41,14 +41,24 @@ namespace display_page {
 }
 
 // Current display page. One of display_page:: values.
-static uint8 current_display_page;
+static uint8 selected_display_page;
+
+// Set during reset if the button is pressed. Used to activate the test
+// page on boards without the dip switches. Reset when the user exists the
+// test page.
+static boolean test_page_on_reset_active;
 
 static inline void incrementCurrentDisplayPage() {
-  // Assuming upon entry value is valid.
-  if (++current_display_page > display_page::kMaxPage) {
-    current_display_page = display_page::kMinPage;
+  if (test_page_on_reset_active) {
+    test_page_on_reset_active = false;
+    return;  
   }
-  printf(F("Incremented page: %u\n"), current_display_page);
+  
+  // Assuming upon entry value is valid.
+  if (++selected_display_page > display_page::kMaxPage) {
+    selected_display_page = display_page::kMinPage;
+  }
+  //printf(F("Incremented page: %u\n"), selected_display_page);
 }
 
 // Output pin for debugging.
@@ -73,12 +83,15 @@ struct Mode {
 
 // Mode table. Indexed by config::modeIndex();
 static const Mode modes_table[] = {
-  // 0 - Basic format.
-  Mode(formats::kTimeVsCurrent),
-  // 1 - Labeled detailed format.
+  // NOTE: this is the most useful reporting mode so we set it as mode zero such
+  // that boards without the config dip switch will report in this mode.
+  //
+  // 0 - Labeled detailed format.
   Mode(formats::kDetailedLabeled),
-  // 2 - Unlabeled detailed format.
+  // 1 - Unlabeled detailed format.
   Mode(formats::kDetailed),
+  // 2 - Basic format.
+  Mode(formats::kTimeVsCurrent),
   // 3 - Unlabeled detailed format.
   Mode(formats::kDebug),
 };
@@ -146,16 +159,22 @@ void setup() {;
   }
 
   config::setup();
-  // Let the config value stablizes through the debouncer.
-  while (!config::hasStableValue()) {
+  button::setup();
+
+  
+  // Wait until config and button decouncer stalize.
+  while (!config::hasStableValue() || !button::hasStableValue()) {
     config::loop();
+    button::loop();
   }
   
-  button::setup();
+  // If button is pressed upon restart we will show first the 
+  // test page.
+  test_page_on_reset_active = button::isButtonPressed();
   
   // Setup display.
   display::setup();
-  current_display_page = display_page::kDefaultPage;
+  selected_display_page = display_page::kDefaultPage;
 
   // Initialize the LTC2943 driver and I2C library.
   // TODO: move this to state machine, check error code.
@@ -166,7 +185,11 @@ void setup() {;
   // Enable global interrupts.
   sei(); 
   
-  display::showMessage(display_messages::code::kSplashScreen, 2500);
+  if (test_page_on_reset_active) {
+    display::showMessage(display_messages::code::kTestMode, 1000);
+  } else {
+    display::showMessage(display_messages::code::kSplashScreen, 2500);
+  }
 }
 
 void StateInit::enter() {
@@ -204,7 +227,7 @@ void StateReporting::loop() {
        incrementCurrentDisplayPage();
     }
     // Long press - reset the analysis
-    else if (button_event == button::event::kLongPress) {
+    else if (!test_page_on_reset_active && button_event == button::event::kLongPress) {
        printf(F("\n"));
        // Reenter the state. This also resets the accomulated charge and time.
        StateReporting::enter();
@@ -293,19 +316,19 @@ void StateReporting::loop() {
   display::appendGraphPoint(current_millis);
 
   // Render the current display page.
-  if (config::isTestMode()) {
+  if (test_page_on_reset_active || config::isTestMode()) {
     display::renderTestPage(printable_voltage, last_slot_amps_printable, config::rawDipSwitches(), button::isButtonPressed());
-  } else if (current_display_page == display_page::kGraphPage) {
+  } else if (selected_display_page == display_page::kGraphPage) {
     const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
     display::renderGraphPage(current_millis, average_current_millis);
-  } else if (current_display_page == display_page::kSummary1Page) {
+  } else if (selected_display_page == display_page::kSummary1Page) {
     //const uint16 current_millis = major_slot_charge_results.average_current_micro_amps / 1000;
     const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
     const uint16 total_charge_milli_amp_hour = total_charge_results.charge_micro_amps_hour / 1000;
     display::appendGraphPoint(current_millis);
     display::renderSummary1Page(current_millis, average_current_millis,
         total_charge_milli_amp_hour, timestamp_secs_printable.units);     
-  } else if (current_display_page == display_page::kSummary2Page) {
+  } else if (selected_display_page == display_page::kSummary2Page) {
     display::renderSummary2Page(
         printable_voltage, 
         slot_tracker.last_slot_was_wake,
