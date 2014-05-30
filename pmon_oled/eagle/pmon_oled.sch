@@ -161,19 +161,6 @@ by exp-lbrs-filter.ulp</description>
 <wire x1="12.065" y1="1.27" x2="11.43" y2="0.635" width="0.1524" layer="21"/>
 <wire x1="11.43" y1="-0.635" x2="12.065" y2="-1.27" width="0.1524" layer="21"/>
 <wire x1="13.335" y1="-1.27" x2="12.065" y2="-1.27" width="0.1524" layer="21"/>
-<rectangle x1="9.906" y1="-0.254" x2="10.414" y2="0.254" layer="51"/>
-<rectangle x1="7.366" y1="-0.254" x2="7.874" y2="0.254" layer="51"/>
-<rectangle x1="4.826" y1="-0.254" x2="5.334" y2="0.254" layer="51"/>
-<rectangle x1="2.286" y1="-0.254" x2="2.794" y2="0.254" layer="51"/>
-<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
-<rectangle x1="12.446" y1="-0.254" x2="12.954" y2="0.254" layer="51"/>
-<pad name="1" x="0" y="0" drill="1.016" shape="square" rot="R90"/>
-<pad name="2" x="2.54" y="0" drill="1.016" rot="R90"/>
-<pad name="3" x="5.08" y="0" drill="1.016" rot="R90"/>
-<pad name="4" x="7.62" y="0" drill="1.016" rot="R90"/>
-<pad name="5" x="10.16" y="0" drill="1.016" rot="R90"/>
-<pad name="6" x="12.7" y="0" drill="1.016" rot="R90"/>
-<text x="-17.8419125" y="-22.247509375" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <wire x1="24.1046" y1="-28.1872625" x2="24.1046" y2="0.0088125" width="0.127" layer="21"/>
 <wire x1="22.2084125" y1="1.905" x2="-9.525" y2="1.905" width="0.127" layer="21"/>
 <wire x1="-11.43" y1="0.030071875" x2="-11.43" y2="-28.1872625" width="0.127" layer="21"/>
@@ -191,8 +178,6 @@ by exp-lbrs-filter.ulp</description>
 <wire x1="19.685" y1="-26.67" x2="19.05" y2="-27.305" width="0.1524" layer="21"/>
 <wire x1="19.05" y1="-28.575" x2="19.685" y2="-29.21" width="0.1524" layer="21"/>
 <wire x1="20.955" y1="-29.21" x2="19.685" y2="-29.21" width="0.1524" layer="21"/>
-<rectangle x1="20.066" y1="-28.194" x2="20.574" y2="-27.686" layer="51"/>
-<pad name="7" x="20.32" y="-27.94" drill="1.016" rot="R90"/>
 <wire x1="-8.89" y1="-27.305" x2="-8.89" y2="-28.575" width="0.1524" layer="21"/>
 <wire x1="-8.255" y1="-26.67" x2="-6.985" y2="-26.67" width="0.1524" layer="21"/>
 <wire x1="-6.985" y1="-26.67" x2="-6.35" y2="-27.305" width="0.1524" layer="21"/>
@@ -201,12 +186,27 @@ by exp-lbrs-filter.ulp</description>
 <wire x1="-8.255" y1="-26.67" x2="-8.89" y2="-27.305" width="0.1524" layer="21"/>
 <wire x1="-8.89" y1="-28.575" x2="-8.255" y2="-29.21" width="0.1524" layer="21"/>
 <wire x1="-6.985" y1="-29.21" x2="-8.255" y2="-29.21" width="0.1524" layer="21"/>
-<rectangle x1="-7.874" y1="-28.194" x2="-7.366" y2="-27.686" layer="51"/>
-<pad name="8" x="-7.62" y="-27.94" drill="1.016" rot="R90"/>
 <wire x1="22.1928625" y1="-30.099" x2="24.1046" y2="-28.1872625" width="0.127" layer="21"/>
 <wire x1="24.091790625" y1="0.008371875" x2="22.193528125" y2="1.920109375" width="0.127" layer="21"/>
 <wire x1="-9.5571375" y1="-30.099" x2="-11.43" y2="-28.1872625" width="0.127" layer="21"/>
 <wire x1="-11.438959375" y1="0.01309375" x2="-9.53795" y2="1.903371875" width="0.127" layer="21"/>
+<rectangle x1="9.906" y1="-0.254" x2="10.414" y2="0.254" layer="51"/>
+<rectangle x1="7.366" y1="-0.254" x2="7.874" y2="0.254" layer="51"/>
+<rectangle x1="4.826" y1="-0.254" x2="5.334" y2="0.254" layer="51"/>
+<rectangle x1="2.286" y1="-0.254" x2="2.794" y2="0.254" layer="51"/>
+<rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
+<rectangle x1="12.446" y1="-0.254" x2="12.954" y2="0.254" layer="51"/>
+<rectangle x1="20.066" y1="-28.194" x2="20.574" y2="-27.686" layer="51"/>
+<rectangle x1="-7.874" y1="-28.194" x2="-7.366" y2="-27.686" layer="51"/>
+<pad name="1" x="0" y="0" drill="1.016" diameter="1.778" shape="square" rot="R90"/>
+<pad name="2" x="2.54" y="0" drill="1.016" diameter="1.778" rot="R90"/>
+<pad name="3" x="5.08" y="0" drill="1.016" diameter="1.778" rot="R90"/>
+<pad name="4" x="7.62" y="0" drill="1.016" diameter="1.778" rot="R90"/>
+<pad name="5" x="10.16" y="0" drill="1.016" diameter="1.778" rot="R90"/>
+<pad name="6" x="12.7" y="0" drill="1.016" diameter="1.778" rot="R90"/>
+<pad name="7" x="20.32" y="-27.94" drill="1.016" diameter="1.778" rot="R90"/>
+<pad name="8" x="-7.62" y="-27.94" drill="1.016" diameter="1.778" rot="R90"/>
+<text x="-17.8419125" y="-22.247509375" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 </package>
 <package name="TQFP32-08">
 <description>&lt;B&gt;Thin Plasic Quad Flat Package&lt;/B&gt; Grid 0.8 mm</description>
@@ -559,9 +559,9 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <rectangle x1="-0.254" y1="-0.254" x2="0.254" y2="0.254" layer="51"/>
 <rectangle x1="-2.794" y1="-0.254" x2="-2.286" y2="0.254" layer="51"/>
 <rectangle x1="2.286" y1="-0.254" x2="2.794" y2="0.254" layer="51"/>
-<pad name="1" x="-2.54" y="0" drill="1.016" shape="square" rot="R90"/>
-<pad name="2" x="0" y="0" drill="1.016" rot="R90"/>
-<pad name="3" x="2.54" y="0" drill="1.016" rot="R90"/>
+<pad name="1" x="-2.54" y="0" drill="1.016" diameter="1.778" shape="square" rot="R90"/>
+<pad name="2" x="0" y="0" drill="1.016" diameter="1.778" rot="R90"/>
+<pad name="3" x="2.54" y="0" drill="1.016" diameter="1.778" rot="R90"/>
 <text x="-3.8862" y="1.8288" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-3.81" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
 </package>
@@ -594,12 +594,12 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <rectangle x1="-0.254" y1="-1.524" x2="0.254" y2="-1.016" layer="51"/>
 <rectangle x1="2.286" y1="1.016" x2="2.794" y2="1.524" layer="51"/>
 <rectangle x1="2.286" y1="-1.524" x2="2.794" y2="-1.016" layer="51"/>
-<pad name="1" x="-2.54" y="-1.27" drill="1.016" shape="square"/>
-<pad name="2" x="-2.54" y="1.27" drill="1.016"/>
-<pad name="3" x="0" y="-1.27" drill="1.016"/>
-<pad name="4" x="0" y="1.27" drill="1.016"/>
-<pad name="5" x="2.54" y="-1.27" drill="1.016"/>
-<pad name="6" x="2.54" y="1.27" drill="1.016"/>
+<pad name="1" x="-2.54" y="-1.27" drill="1.016" diameter="1.778" shape="square"/>
+<pad name="2" x="-2.54" y="1.27" drill="1.016" diameter="1.778"/>
+<pad name="3" x="0" y="-1.27" drill="1.016" diameter="1.778"/>
+<pad name="4" x="0" y="1.27" drill="1.016" diameter="1.778"/>
+<pad name="5" x="2.54" y="-1.27" drill="1.016" diameter="1.778"/>
+<pad name="6" x="2.54" y="1.27" drill="1.016" diameter="1.778"/>
 <text x="-3.81" y="3.175" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-3.81" y="-4.445" size="1.27" layer="27">&gt;VALUE</text>
 </package>
