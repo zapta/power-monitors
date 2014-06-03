@@ -1463,7 +1463,7 @@ chip</description>
 <text x="35.56" y="22.86" size="2.54" layer="97">USB/SERIAL</text>
 <text x="204.47" y="104.14" size="2.54" layer="97">ICSP (POGO)</text>
 <text x="210.82" y="146.05" size="2.54" layer="97">MCU</text>
-<text x="185.42" y="27.94" size="2.54" layer="97" font="vector">Power Play - OLED</text>
+<text x="185.42" y="27.94" size="2.54" layer="97" font="vector">Power Play - 5V</text>
 <wire x1="-35.56" y1="238.76" x2="281.94" y2="238.76" width="0.1524" layer="94"/>
 <wire x1="281.94" y1="238.76" x2="281.94" y2="0" width="0.1524" layer="94"/>
 <wire x1="281.94" y1="0" x2="-35.56" y2="0" width="0.1524" layer="94"/>
