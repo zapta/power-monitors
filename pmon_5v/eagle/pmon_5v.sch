@@ -650,8 +650,8 @@ chip</description>
 <pad name="4" x="-3.5" y="0.5" drill="0.92" diameter="1.6"/>
 <pad name="S1" x="-8.3" y="-9.1" drill="0.8" diameter="2.3" shape="square" rot="R90"/>
 <pad name="S2" x="8.3" y="-9.1" drill="0.8" diameter="2.3" shape="square" rot="R90"/>
-<pad name="S3" x="-8.3" y="0" drill="1.15" diameter="2.5" shape="square"/>
-<pad name="S4" x="8.3" y="0" drill="1.15" diameter="2.5" shape="square"/>
+<pad name="S3" x="-8.1" y="0" drill="0.7874" diameter="2.286" shape="square"/>
+<pad name="S4" x="8.1" y="0" drill="0.7874" diameter="2.286" shape="square"/>
 <text x="7.62" y="-3.81" size="0.4064" layer="25">&gt;NAME</text>
 <text x="7.62" y="-5.08" size="0.4064" layer="27">&gt;VALUE</text>
 </package>
