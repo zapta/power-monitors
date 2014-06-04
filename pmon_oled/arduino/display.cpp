@@ -388,10 +388,9 @@ static void drawCurrentDisplayMessage() {
   u8g.drawRFrame(0, 0, 128, 64, 5);
   
   if (current_display_message_code == display_messages::code::kSplashScreen) {
-    u8g.drawStrP(22, 19, U8G_PSTR("Power Play"));
-    u8g.drawStrP(30, 37, U8G_PSTR("UNO OLED"));
+    u8g.drawStrP(22, 25, U8G_PSTR("POWER PLAY"));
     // TODO: define the version id in a common file and also print to serial output.
-    u8g.drawStrP(27, 54, U8G_PSTR("Ver 0.100"));
+    u8g.drawStrP(27, 46, U8G_PSTR("Ver 0.100"));
     return;
   }
   
