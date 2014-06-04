@@ -22,7 +22,7 @@ Flash image: pmon_uno_flash.hex
 
 The image includes an Arduino Mini Pro bootloader so once
 programmed, you can program software changes directly from
-the Arduino IDE (board = Arduino Pro Mini 5V 16Mhz) using
-a serial to USB adapter such as Sparkfun FTDI Basic.
+the Arduino IDE (board = Arduino Pro Mini 5V 16Mhz) via the 
+USB port.
 
 

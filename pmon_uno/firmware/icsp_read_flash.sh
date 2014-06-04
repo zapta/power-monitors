@@ -1,6 +1,6 @@
 #!/bin/bash -x
 #
-# A command line script to read the flash of the Arduino Pmon Uno board via the ICSP connector.
+# A command line script to read the flash of the Arduino PMon Uno board via the ICSP connector.
 # Requires an installed avrdude software and having a working programmer.
 
 # See avrdude command line options here http://www.nongnu.org/avrdude/user-manual/avrdude.html

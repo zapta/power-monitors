@@ -1,6 +1,6 @@
 #!/bin/bash -x
 #
-# A command line script to program an Arduino Pmon Uno board via the ICSP connector.
+# A command line script to program an Arduino PMon Uno board via the ICSP connector.
 # Requires an installed avrdude software and having a working programmer.
 
 # See avrdude command line options here http://www.nongnu.org/avrdude/user-manual/avrdude.html
