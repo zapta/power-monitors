@@ -42,7 +42,7 @@ namespace display {
   extern void renderTestPage(
       const analysis::PrintableMilsValue& printable_voltage,
       const analysis::PrintablePpmValue& printable_current,
-      boolean is_button_pressed);
+      uint16 charge_register, boolean is_button_pressed);
       
   // Display the given display message (taking control of the entire display) and ignore 
   // other rendering requests for the specified time in millis. If the function is called

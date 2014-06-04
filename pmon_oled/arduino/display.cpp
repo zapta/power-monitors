@@ -329,7 +329,7 @@ static inline void drawTestPage(
     uint8 drawing_stripe_index, 
     const analysis::PrintableMilsValue& printable_voltage,
     const analysis::PrintablePpmValue& printable_current,
-    boolean is_button_pressed) {
+    uint16 charge_register, boolean is_button_pressed) {
   u8g.setFont(u8g_font_8x13);
   
   char bfr[12];
@@ -350,6 +350,13 @@ static inline void drawTestPage(
   
   if (drawing_stripe_index == 2) {
     const uint8 kBaseY = 44;
+    u8g.drawStrP(0, kBaseY, U8G_PSTR("R"));
+    snprintf_P(bfr, sizeof(bfr), PSTR("%04X"), charge_register);
+    u8g.drawStr(57, kBaseY, bfr);
+  }
+  
+  if (drawing_stripe_index == 3) {
+    const uint8 kBaseY = 61;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("B"));
     u8g.drawStr(57, kBaseY, (is_button_pressed ? "*" : "_"));
   }
@@ -358,7 +365,7 @@ static inline void drawTestPage(
 void renderTestPage(
     const analysis::PrintableMilsValue& printable_voltage,
     const analysis::PrintablePpmValue& printable_current,
-    boolean is_button_pressed) {
+    uint16 charge_register, boolean is_button_pressed) {
   // Active display messages have higher priority.
   if (isActiveDisplayMessage()) {
     return;
@@ -367,7 +374,8 @@ void renderTestPage(
   u8g.firstPage();   
   uint8 drawing_stripe_index = 0;
   do {
-    drawTestPage(drawing_stripe_index++, printable_voltage, printable_current, is_button_pressed);
+    drawTestPage(drawing_stripe_index++, printable_voltage, printable_current,
+        charge_register, is_button_pressed);
   } while (u8g.nextPage());  
 }
       
@@ -406,8 +414,7 @@ static void drawCurrentDisplayMessage() {
   }
   
   if (current_display_message_code == display_messages::code::kTestMode) {
-    u8g.drawStrP(30, 26, U8G_PSTR("Test"));
-    u8g.drawStrP(50, 45, U8G_PSTR("mode"));
+    u8g.drawStrP(27, 37, U8G_PSTR("Test Mode"));
     return;
   }
   

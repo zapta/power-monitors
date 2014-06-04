@@ -40,24 +40,21 @@ namespace display_page {
 }
 
 // Current display page. One of display_page:: values.
+// Not used when in test mode.
 static uint8 selected_display_page;
 
-// Set during reset if the button is pressed. Used to activate the test
-// page on boards without the dip switches. Reset when the user exists the
-// test page.
-static boolean test_page_on_reset_active;
+// Indicates if the unit is in test mode (used for post manufacturing tests). The test
+// mode is activated by pressing the button while turning the unit on. To exist the
+// test mode power cycle the unit (without having the button pressed).
+static boolean is_in_test_mode;
 
+// Not used when in test mode.
+// Increment selected_display_page to the next page.
 static inline void incrementCurrentDisplayPage() {
-  if (test_page_on_reset_active) {
-    test_page_on_reset_active = false;
-    return;  
-  }
-  
   // Assuming upon entry value is valid.
   if (++selected_display_page > display_page::kMaxPage) {
     selected_display_page = display_page::kMinPage;
   }
-  //printf(F("Incremented page: %u\n"), selected_display_page);
 }
 
 // Output pin for debugging.
@@ -120,10 +117,13 @@ void setup() {;
   
   // Wait until button decouncer stabalizes and check if pressed. This will
   // activate the test mode.
+  //
+  // TODO: skip the debouncer stabilization and just read the button pin once. This will
+  // speedup the setup.
   while (!button::hasStableValue()) {
     button::loop();
   }
-  test_page_on_reset_active = button::isButtonPressed();
+  is_in_test_mode = button::isButtonPressed();
   
   // Setup display.
   display::setup();
@@ -138,8 +138,8 @@ void setup() {;
   // Enable global interrupts.
   sei(); 
   
-  if (test_page_on_reset_active) {
-    display::showMessage(display_messages::code::kTestMode, 1000);
+  if (is_in_test_mode) {
+    display::showMessage(display_messages::code::kTestMode, 2000);
   } else {
     display::showMessage(display_messages::code::kSplashScreen, 2500);
   }
@@ -167,15 +167,15 @@ void StateReporting::loop() {
   debug_pin.high();
   debug_pin.low();
   
-  // Handle button events.
-  {
+  // Handle button events. We ignore it if in test mode.
+  if (!is_in_test_mode) {
     const uint8 button_event = button::consumeEvent();
     // Short click- TBD
     if (button_event == button::event::kClick) {
        incrementCurrentDisplayPage();
     }
     // Long press - reset the analysis
-    else if (!test_page_on_reset_active && button_event == button::event::kLongPress) {
+    else if (button_event == button::event::kLongPress) {
        printf(F("\n"));
        // Reenter the state. This also resets the accomulated charge and time.
        StateReporting::enter();
@@ -257,8 +257,9 @@ void StateReporting::loop() {
   display::appendGraphPoint(current_millis);
 
   // Render the current display page.
-  if (test_page_on_reset_active) {
-    display::renderTestPage(printable_voltage, last_slot_amps_printable, button::isButtonPressed());
+  if (is_in_test_mode) {
+    display::renderTestPage(printable_voltage, last_slot_amps_printable, 
+        this_slot_charge_ticks_reading, button::isButtonPressed());
   } else if (selected_display_page == display_page::kGraphPage) {
     const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
     display::renderGraphPage(current_millis, average_current_millis);
