@@ -312,46 +312,6 @@ Source: 008-0260-0_E.pdf</description>
 <text x="-3.81" y="1.27" size="0.4064" layer="25">&gt;NAME</text>
 <text x="-3.81" y="0" size="0.4064" layer="27">&gt;VALUE</text>
 </package>
-<package name="JUMPER_SOLDER_1X2">
-<description>Solder jumper 6mil clearance</description>
-<wire x1="-1.524" y1="1" x2="-1.524" y2="-1" width="0.3048" layer="21"/>
-<wire x1="-1.524" y1="-1" x2="-0.0191" y2="-1" width="0.3048" layer="21"/>
-<wire x1="-0.0191" y1="-1" x2="1.524" y2="-1" width="0.3048" layer="21"/>
-<wire x1="1.524" y1="-1" x2="1.524" y2="1" width="0.3048" layer="21"/>
-<wire x1="1.524" y1="1" x2="-0.0191" y2="1" width="0.3048" layer="21"/>
-<wire x1="-0.0191" y1="1" x2="-1.524" y2="1" width="0.3048" layer="21"/>
-<wire x1="-0.0191" y1="-1" x2="-0.0191" y2="-0.75" width="0.3048" layer="21"/>
-<wire x1="-0.0191" y1="1" x2="-0.0191" y2="0.75" width="0.3048" layer="21"/>
-<smd name="1" x="-0.6858" y="0" dx="1.4224" dy="1.143" layer="1" rot="R90" cream="no"/>
-<smd name="2" x="0.6858" y="0" dx="1.4224" dy="1.143" layer="1" rot="R90" cream="no"/>
-<text x="-1.425" y="1.425" size="1.27" layer="25" font="vector" ratio="10" rot="SR0">&gt;NAME</text>
-</package>
-<package name="1206-LED">
-<wire x1="0.9525" y1="-0.8128" x2="-0.9652" y2="-0.8128" width="0.1524" layer="51"/>
-<wire x1="0.9525" y1="0.8128" x2="-0.9652" y2="0.8128" width="0.1524" layer="51"/>
-<wire x1="-2.473" y1="0.983" x2="2.473" y2="0.983" width="0.0508" layer="39"/>
-<wire x1="2.473" y1="0.983" x2="2.473" y2="-0.983" width="0.0508" layer="39"/>
-<wire x1="2.473" y1="-0.983" x2="-2.473" y2="-0.983" width="0.0508" layer="39"/>
-<wire x1="-2.473" y1="-0.983" x2="-2.473" y2="0.983" width="0.0508" layer="39"/>
-<rectangle x1="-1.6891" y1="-0.8763" x2="-0.9525" y2="0.8763" layer="51"/>
-<rectangle x1="0.9525" y1="-0.8763" x2="1.6891" y2="0.8763" layer="51"/>
-<smd name="A" x="-1.422" y="0" dx="1.6" dy="1.803" layer="1"/>
-<smd name="C" x="1.422" y="0" dx="1.6" dy="1.803" layer="1"/>
-<text x="-1.27" y="1.27" size="1.27" layer="25">&gt;NAME</text>
-<text x="-1.27" y="-2.54" size="1.27" layer="27">&gt;VALUE</text>
-<polygon width="0.127" layer="21">
-<vertex x="0.254" y="0.889"/>
-<vertex x="0.4445" y="0.889"/>
-<vertex x="0.4445" y="-0.889"/>
-<vertex x="0.254" y="-0.889"/>
-</polygon>
-<polygon width="0.127" layer="21">
-<vertex x="0.254" y="0.889"/>
-<vertex x="0.4445" y="0.889"/>
-<vertex x="0.4445" y="-0.889"/>
-<vertex x="0.254" y="-0.889"/>
-</polygon>
-</package>
 <package name="DFN8-3X3">
 <description>&lt;b&gt;DD Package 8-Lead Plastic DFN (3mm × 3mm)&lt;/b&gt;&lt;p&gt;
 Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
@@ -655,6 +615,22 @@ chip</description>
 <text x="7.62" y="-3.81" size="0.4064" layer="25">&gt;NAME</text>
 <text x="7.62" y="-5.08" size="0.4064" layer="27">&gt;VALUE</text>
 </package>
+<package name="JUMPER_SOLDER_1X2">
+<description>Solder jumper 6mil clearance</description>
+<wire x1="-1.524" y1="0.889" x2="-1.524" y2="-0.889" width="0.3048" layer="21"/>
+<wire x1="-1.524" y1="-0.889" x2="-0.0191" y2="-0.889" width="0.3048" layer="21"/>
+<wire x1="-0.0191" y1="-0.889" x2="1.524" y2="-0.889" width="0.3048" layer="21"/>
+<wire x1="1.524" y1="-0.889" x2="1.524" y2="0.889" width="0.3048" layer="21"/>
+<wire x1="1.524" y1="0.889" x2="-0.0191" y2="0.889" width="0.3048" layer="21"/>
+<wire x1="-0.0191" y1="0.889" x2="-1.524" y2="0.889" width="0.3048" layer="21"/>
+<wire x1="-0.0191" y1="-0.889" x2="-0.0191" y2="-0.75" width="0.3048" layer="21"/>
+<wire x1="-0.0191" y1="0.889" x2="-0.0191" y2="0.75" width="0.3048" layer="21"/>
+<rectangle x1="-1.27" y1="-0.5842" x2="-0.1016" y2="0.5842" layer="29"/>
+<rectangle x1="0.1016" y1="-0.5842" x2="1.27" y2="0.5842" layer="29"/>
+<pad name="1" x="-0.6858" y="0" drill="0.3302" diameter="1.143" shape="square" stop="no"/>
+<pad name="2" x="0.6858" y="0" drill="0.3302" diameter="1.143" shape="square" stop="no"/>
+<text x="-1.425" y="1.425" size="1.27" layer="25" font="vector" ratio="10" rot="SR0">&gt;NAME</text>
+</package>
 </packages>
 <symbols>
 <symbol name="+5V">
@@ -799,48 +775,6 @@ chip</description>
 <wire x1="-1.905" y1="0" x2="1.905" y2="0" width="0.254" layer="94"/>
 <pin name="GND" x="0" y="2.54" visible="off" length="short" direction="sup" rot="R270"/>
 </symbol>
-<symbol name="JUMP_SOLDER_1X2">
-<wire x1="-2.54" y1="0" x2="-1.524" y2="0" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="0" x2="1.524" y2="0" width="0.1524" layer="94"/>
-<pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas"/>
-<pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" rot="R180"/>
-<text x="-4.318" y="2.54" size="1.778" layer="95">&gt;NAME</text>
-<polygon width="0.254" layer="94">
-<vertex x="-0.635" y="0.9137"/>
-<vertex x="-0.635" y="-0.9137" curve="-90"/>
-<vertex x="-1.5875" y="0" curve="-90"/>
-</polygon>
-<polygon width="0.254" layer="94">
-<vertex x="0.635" y="-0.9137"/>
-<vertex x="0.635" y="0.9137" curve="-90"/>
-<vertex x="1.5875" y="0" curve="-90"/>
-</polygon>
-</symbol>
-<symbol name="LED">
-<wire x1="1.27" y1="0" x2="0" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="0" y1="-2.54" x2="-1.27" y2="0" width="0.254" layer="94"/>
-<wire x1="1.27" y1="-2.54" x2="0" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="0" y1="-2.54" x2="-1.27" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="1.27" y1="0" x2="0" y2="0" width="0.254" layer="94"/>
-<wire x1="0" y1="0" x2="-1.27" y2="0" width="0.254" layer="94"/>
-<wire x1="0" y1="0" x2="0" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="-2.032" y1="-0.762" x2="-3.429" y2="-2.159" width="0.1524" layer="94"/>
-<wire x1="-1.905" y1="-1.905" x2="-3.302" y2="-3.302" width="0.1524" layer="94"/>
-<pin name="A" x="0" y="2.54" visible="off" length="short" direction="pas" rot="R270"/>
-<pin name="C" x="0" y="-5.08" visible="off" length="short" direction="pas" rot="R90"/>
-<text x="3.556" y="-4.572" size="1.778" layer="95" rot="R90">&gt;NAME</text>
-<text x="5.715" y="-4.572" size="1.778" layer="96" rot="R90">&gt;VALUE</text>
-<polygon width="0.1524" layer="94">
-<vertex x="-3.429" y="-2.159"/>
-<vertex x="-3.048" y="-1.27"/>
-<vertex x="-2.54" y="-1.778"/>
-</polygon>
-<polygon width="0.1524" layer="94">
-<vertex x="-3.302" y="-3.302"/>
-<vertex x="-2.921" y="-2.413"/>
-<vertex x="-2.413" y="-2.921"/>
-</polygon>
-</symbol>
 <symbol name="LTC2943">
 <wire x1="-12.7" y1="7.62" x2="12.7" y2="7.62" width="0.254" layer="94"/>
 <wire x1="12.7" y1="7.62" x2="12.7" y2="-10.16" width="0.254" layer="94"/>
@@ -980,6 +914,23 @@ chip</description>
 <pin name="D-" x="-7.62" y="2.54" length="short" direction="pas"/>
 <text x="7.62" y="-5.08" size="1.778" layer="95">&gt;NAME</text>
 <text x="7.62" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
+</symbol>
+<symbol name="JUMP_SOLDER_1X2">
+<wire x1="-2.54" y1="0" x2="-1.524" y2="0" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="0" x2="1.524" y2="0" width="0.1524" layer="94"/>
+<pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas"/>
+<pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" rot="R180"/>
+<text x="-4.318" y="2.54" size="1.778" layer="95">&gt;NAME</text>
+<polygon width="0.254" layer="94">
+<vertex x="-0.635" y="0.9137"/>
+<vertex x="-0.635" y="-0.9137" curve="-90"/>
+<vertex x="-1.5875" y="0" curve="-90"/>
+</polygon>
+<polygon width="0.254" layer="94">
+<vertex x="0.635" y="-0.9137"/>
+<vertex x="0.635" y="0.9137" curve="-90"/>
+<vertex x="1.5875" y="0" curve="-90"/>
+</polygon>
 </symbol>
 </symbols>
 <devicesets>
@@ -1145,38 +1096,6 @@ chip</description>
 </gates>
 <devices>
 <device name="">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="JUMPER_SOLDER_1X2" prefix="J">
-<gates>
-<gate name="J" symbol="JUMP_SOLDER_1X2" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="JUMPER_SOLDER_1X2">
-<connects>
-<connect gate="J" pin="1" pad="1"/>
-<connect gate="J" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="LED" prefix="LED" uservalue="yes">
-<gates>
-<gate name="G$1" symbol="LED" x="0" y="0"/>
-</gates>
-<devices>
-<device name="1206" package="1206-LED">
-<connects>
-<connect gate="G$1" pin="A" pad="A"/>
-<connect gate="G$1" pin="C" pad="C"/>
-</connects>
 <technologies>
 <technology name=""/>
 </technologies>
@@ -1359,6 +1278,22 @@ chip</description>
 </device>
 </devices>
 </deviceset>
+<deviceset name="JUMPER_SOLDER_1X2" prefix="J">
+<gates>
+<gate name="J" symbol="JUMP_SOLDER_1X2" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="JUMPER_SOLDER_1X2">
+<connects>
+<connect gate="J" pin="1" pad="1"/>
+<connect gate="J" pin="2" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -1385,8 +1320,6 @@ chip</description>
 <part name="C8" library="pmon_5v" deviceset="CAP-" device="C0603" value="0.1uF"/>
 <part name="C2" library="pmon_5v" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
 <part name="GND1" library="pmon_5v" deviceset="GND" device=""/>
-<part name="D1" library="pmon_5v" deviceset="LED" device="1206" value="BLUE"/>
-<part name="R8" library="pmon_5v" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="C7" library="pmon_5v" deviceset="CAP-" device="C0603" value="0.1uF"/>
 <part name="C3" library="pmon_5v" deviceset="CAP-" device="C0603" value="0.1uF"/>
 <part name="U$3" library="pmon_5v" deviceset="NC" device=""/>
@@ -1404,8 +1337,6 @@ chip</description>
 <part name="U$12" library="pmon_5v" deviceset="NC" device=""/>
 <part name="U$16" library="pmon_5v" deviceset="NC" device=""/>
 <part name="U$20" library="pmon_5v" deviceset="DOCFIELD" device=""/>
-<part name="GND18" library="pmon_5v" deviceset="GND" device=""/>
-<part name="P+3" library="pmon_5v" deviceset="+5V" device=""/>
 <part name="GND4" library="pmon_5v" deviceset="GND" device=""/>
 <part name="GND21" library="pmon_5v" deviceset="GND" device=""/>
 <part name="GND23" library="pmon_5v" deviceset="GND" device=""/>
@@ -1495,6 +1426,7 @@ DEVICE</text>
 <text x="122.936" y="49.784" size="2.54" layer="97">DISPLAY</text>
 <text x="165.1" y="152.4" size="2.54" layer="97">RESET*</text>
 <text x="78.994" y="57.404" size="2.032" layer="97">Dev</text>
+<text x="272.034" y="7.62" size="2.54" layer="97">B</text>
 </plain>
 <instances>
 <instance part="C6" gate="G$1" x="68.58" y="60.96" smashed="yes" rot="R90">
@@ -1523,8 +1455,6 @@ DEVICE</text>
 </instance>
 <instance part="C2" gate="G$1" x="12.7" y="48.26"/>
 <instance part="GND1" gate="1" x="170.18" y="208.28" rot="MR0"/>
-<instance part="D1" gate="G$1" x="182.88" y="66.04"/>
-<instance part="R8" gate="G$1" x="182.88" y="76.2" rot="R270"/>
 <instance part="C7" gate="G$1" x="68.58" y="40.64"/>
 <instance part="C3" gate="G$1" x="30.48" y="81.28" smashed="yes" rot="R270">
 <attribute name="NAME" x="31.75" y="82.423" size="1.778" layer="95"/>
@@ -1545,10 +1475,6 @@ DEVICE</text>
 <instance part="U$12" gate="G$1" x="238.76" y="195.58" rot="R180"/>
 <instance part="U$16" gate="G$1" x="238.76" y="177.8" rot="R180"/>
 <instance part="U$20" gate="G$1" x="180.34" y="0"/>
-<instance part="GND18" gate="1" x="182.88" y="55.88" rot="MR0"/>
-<instance part="P+3" gate="1" x="182.88" y="86.36" smashed="yes">
-<attribute name="VALUE" x="185.928" y="84.836" size="1.778" layer="96" rot="R90"/>
-</instance>
 <instance part="GND4" gate="1" x="17.78" y="111.76"/>
 <instance part="GND21" gate="1" x="7.62" y="182.88"/>
 <instance part="GND23" gate="1" x="88.9" y="182.88"/>
@@ -1699,11 +1625,6 @@ DEVICE</text>
 <pinref part="U3" gate="G$1" pin="GND@2"/>
 </segment>
 <segment>
-<pinref part="D1" gate="G$1" pin="C"/>
-<pinref part="GND18" gate="1" pin="GND"/>
-<wire x1="182.88" y1="60.96" x2="182.88" y2="58.42" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="GND15" gate="1" pin="GND"/>
 <pinref part="C3" gate="G$1" pin="2"/>
 <wire x1="22.86" y1="81.28" x2="25.4" y2="81.28" width="0.1524" layer="91"/>
@@ -1823,11 +1744,6 @@ DEVICE</text>
 <pinref part="U3" gate="G$1" pin="VCC@2"/>
 </segment>
 <segment>
-<pinref part="R8" gate="G$1" pin="1"/>
-<wire x1="182.88" y1="83.82" x2="182.88" y2="81.28" width="0.1524" layer="91"/>
-<pinref part="P+3" gate="1" pin="+5V"/>
-</segment>
-<segment>
 <pinref part="P+11" gate="1" pin="+5V"/>
 <pinref part="R2" gate="G$1" pin="2"/>
 <wire x1="48.26" y1="144.78" x2="48.26" y2="142.24" width="0.1524" layer="91"/>
@@ -1885,13 +1801,6 @@ DEVICE</text>
 <label x="167.64" y="167.64" size="1.778" layer="95"/>
 <wire x1="180.34" y1="165.1" x2="180.34" y2="167.64" width="0.1524" layer="91"/>
 <pinref part="U3" gate="G$1" pin="PC6(/RESET)"/>
-</segment>
-</net>
-<net name="N$17" class="0">
-<segment>
-<pinref part="D1" gate="G$1" pin="A"/>
-<pinref part="R8" gate="G$1" pin="2"/>
-<wire x1="182.88" y1="71.12" x2="182.88" y2="68.58" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SCK" class="0">
@@ -2226,10 +2135,10 @@ DEVICE</text>
 </sheet>
 </sheets>
 <errors>
-<approved hash="104,1,190.5,160.02,U4,AGND,GND,,,"/>
-<approved hash="104,1,190.5,213.36,U4,AVCC,+5V,,,"/>
-<approved hash="104,1,190.5,210.82,U4,VCC,+5V,,,"/>
-<approved hash="104,1,190.5,208.28,U4,VCC,+5V,,,"/>
+<approved hash="104,1,190.5,160.02,U3,AGND,GND,,,"/>
+<approved hash="104,1,190.5,213.36,U3,AVCC,+5V,,,"/>
+<approved hash="104,1,190.5,210.82,U3,VCC,+5V,,,"/>
+<approved hash="104,1,190.5,208.28,U3,VCC,+5V,,,"/>
 <approved hash="104,1,63.5,48.26,U2,3V3OUT,N$16,,,"/>
 <approved hash="104,1,38.1,78.74,U2,VCC,VUSB,,,"/>
 <approved hash="104,1,45.72,78.74,U2,VCCIO,VUSB,,,"/>
