@@ -1391,7 +1391,7 @@ chip</description>
 <sheets>
 <sheet>
 <plain>
-<text x="35.56" y="22.86" size="2.54" layer="97">USB/SERIAL</text>
+<text x="35.56" y="22.86" size="2.54" layer="97">USB/SERIAL (OPTIONAL)</text>
 <text x="204.47" y="104.14" size="2.54" layer="97">ICSP (POGO)</text>
 <text x="210.82" y="146.05" size="2.54" layer="97">MCU</text>
 <text x="185.42" y="27.94" size="2.54" layer="97" font="vector">Power Play - 5V</text>
@@ -2112,7 +2112,7 @@ DEVICE</text>
 </net>
 <net name="N$3" class="0">
 <segment>
-<wire x1="223.52" y1="83.82" x2="248.92" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="226.06" y1="83.82" x2="248.92" y2="83.82" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$12" class="0">

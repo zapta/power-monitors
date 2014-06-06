@@ -923,19 +923,6 @@ Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%2
 <text x="-6.35" y="5.715" size="1.778" layer="95">&gt;NAME</text>
 <text x="-6.35" y="-7.62" size="1.778" layer="96">&gt;VALUE</text>
 </symbol>
-<symbol name="PUSH_BUTTON_GHOST">
-<circle x="0" y="-1.524" radius="0.915809375" width="0.254" layer="97"/>
-<circle x="0" y="1.524" radius="0.915809375" width="0.254" layer="97"/>
-<wire x1="-2.032" y1="2.54" x2="-2.032" y2="1.524" width="0.254" layer="97"/>
-<wire x1="-2.032" y1="1.524" x2="-2.032" y2="-1.27" width="0.254" layer="97"/>
-<wire x1="-2.032" y1="-1.27" x2="-2.032" y2="-2.286" width="0.254" layer="97"/>
-<wire x1="-2.032" y1="1.524" x2="-3.048" y2="1.524" width="0.254" layer="97"/>
-<wire x1="-3.048" y1="1.524" x2="-3.048" y2="-1.27" width="0.254" layer="97"/>
-<wire x1="-3.048" y1="-1.27" x2="-2.032" y2="-1.27" width="0.254" layer="97"/>
-<wire x1="0" y1="2.54" x2="0" y2="5.08" width="0.1524" layer="97"/>
-<wire x1="0" y1="-5.08" x2="0" y2="-2.54" width="0.1524" layer="97"/>
-<text x="1.524" y="-0.254" size="1.778" layer="95">&gt;NAME</text>
-</symbol>
 <symbol name="R-US">
 <wire x1="-2.54" y1="0" x2="-2.159" y2="1.016" width="0.2032" layer="94"/>
 <wire x1="-2.159" y1="1.016" x2="-1.524" y2="-1.016" width="0.2032" layer="94"/>
@@ -1325,18 +1312,6 @@ Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%2
 </device>
 </devices>
 </deviceset>
-<deviceset name="PUSH_BUTTON_GHOST">
-<gates>
-<gate name="G$1" symbol="PUSH_BUTTON_GHOST" x="0" y="0"/>
-</gates>
-<devices>
-<device name="">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="RES-" prefix="R" uservalue="yes">
 <description>&lt;B&gt;RESISTOR&lt;/B&gt;, American symbol</description>
 <gates>
@@ -1496,7 +1471,6 @@ Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%2
 <part name="R7" library="pmon_oled" deviceset="TRIM_US-" device="SM-42/43A" value="1K"/>
 <part name="U1" library="pmon_oled" deviceset="LTC2943" device="" value="LTC2943"/>
 <part name="GND17" library="pmon_oled" deviceset="GND" device=""/>
-<part name="GND31" library="pmon_oled" deviceset="GND" device=""/>
 <part name="R1" library="pmon_oled" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="P+10" library="pmon_oled" deviceset="+5V" device=""/>
 <part name="GND22" library="pmon_oled" deviceset="GND" device=""/>
@@ -1504,7 +1478,6 @@ Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%2
 <part name="Q1" library="pmon_oled" deviceset="CRYSTAL" device="CTS406" value="16Mhz"/>
 <part name="C11" library="pmon_oled" deviceset="CAP-" device="C0603" value="20pF"/>
 <part name="C12" library="pmon_oled" deviceset="CAP-" device="C0603" value="20pF"/>
-<part name="U$1" library="pmon_oled" deviceset="PUSH_BUTTON_GHOST" device=""/>
 <part name="U4" library="pmon_oled" deviceset="ATMEGA328" device="TQFP32"/>
 <part name="U2" library="pmon_oled" deviceset="FT232RL" device=""/>
 <part name="U$4" library="pmon_oled" deviceset="NC" device=""/>
@@ -1533,7 +1506,7 @@ Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%2
 <sheets>
 <sheet>
 <plain>
-<text x="35.56" y="22.86" size="2.54" layer="97">USB/SERIAL</text>
+<text x="35.56" y="22.86" size="2.54" layer="97">USB/SERIAL (OPTIONAL)</text>
 <text x="204.47" y="104.14" size="2.54" layer="97">ICSP (POGO)</text>
 <text x="210.82" y="146.05" size="2.54" layer="97">MCU</text>
 <text x="185.42" y="27.94" size="2.54" layer="97" font="vector">Power Play - OLED</text>
@@ -1544,31 +1517,30 @@ Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%2
 <text x="20.32" y="104.14" size="2.54" layer="97">SENSE</text>
 <text x="12.7" y="167.64" size="2.54" layer="97">VOLTAGE REGULATOR</text>
 <text x="-12.7" y="180.34" size="2.54" layer="97">+5V</text>
-<text x="220.98" y="50.8" size="2.54" layer="97">LOGIC ANALYZER *</text>
+<text x="205.74" y="45.72" size="2.54" layer="97">LOGIC ANALYZER
+(PROTOYPE ONLY)</text>
 <text x="-15.24" y="43.18" size="2.54" layer="97">USB</text>
 <text x="134.62" y="194.056" size="2.54" layer="97">TO
 DEVICE</text>
 <text x="104.648" y="208.026" size="2.54" layer="97">3.8V</text>
-<text x="223.774" y="83.058" size="1.778" layer="97">1</text>
-<text x="223.774" y="80.518" size="1.778" layer="97">2</text>
-<text x="223.774" y="77.978" size="1.778" layer="97">3</text>
-<text x="223.774" y="75.438" size="1.778" layer="97">4</text>
-<text x="223.774" y="73.152" size="1.778" layer="97">5</text>
-<text x="223.774" y="70.612" size="1.778" layer="97">6</text>
-<text x="223.774" y="67.818" size="1.778" layer="97">7</text>
-<text x="223.774" y="65.532" size="1.778" layer="97">8</text>
-<text x="223.774" y="62.992" size="1.778" layer="97">G</text>
-<wire x1="220.98" y1="86.36" x2="226.06" y2="86.36" width="0.1524" layer="97"/>
-<wire x1="226.06" y1="86.36" x2="226.06" y2="60.96" width="0.1524" layer="97"/>
-<wire x1="226.06" y1="60.96" x2="220.98" y2="60.96" width="0.1524" layer="97"/>
-<wire x1="220.98" y1="60.96" x2="220.98" y2="86.36" width="0.1524" layer="97"/>
+<text x="208.534" y="77.978" size="1.778" layer="97">1</text>
+<text x="208.534" y="75.438" size="1.778" layer="97">2</text>
+<text x="208.534" y="72.898" size="1.778" layer="97">3</text>
+<text x="208.534" y="70.358" size="1.778" layer="97">4</text>
+<text x="208.534" y="68.072" size="1.778" layer="97">5</text>
+<text x="208.534" y="65.532" size="1.778" layer="97">6</text>
+<text x="208.534" y="62.738" size="1.778" layer="97">7</text>
+<text x="208.534" y="60.452" size="1.778" layer="97">8</text>
+<text x="208.534" y="57.912" size="1.778" layer="97">G</text>
+<wire x1="205.74" y1="81.28" x2="210.82" y2="81.28" width="0.1524" layer="97"/>
+<wire x1="210.82" y1="81.28" x2="210.82" y2="55.88" width="0.1524" layer="97"/>
+<wire x1="210.82" y1="55.88" x2="205.74" y2="55.88" width="0.1524" layer="97"/>
+<wire x1="205.74" y1="55.88" x2="205.74" y2="81.28" width="0.1524" layer="97"/>
 <text x="-25.4" y="7.62" size="2.54" layer="97">* PROTOTYPE ONLY</text>
-<text x="165.1" y="152.4" size="2.54" layer="97">RESET*</text>
 <text x="180.34" y="139.7" size="2.54" layer="97">"ARDUINO MINI PRO 328P 5V 16Mhz"</text>
 <text x="122.174" y="104.14" size="2.54" layer="97">ACTION</text>
 <text x="-7.112" y="213.106" size="2.54" layer="97">SOURCE</text>
-<text x="130.556" y="34.544" size="2.54" layer="97">DISPLAY</text>
-<text x="165.1" y="152.4" size="2.54" layer="97">RESET*</text>
+<text x="135.636" y="47.244" size="2.54" layer="97">DISPLAY</text>
 <text x="78.994" y="57.404" size="2.032" layer="97">Dev</text>
 </plain>
 <instances>
@@ -1671,7 +1643,7 @@ DEVICE</text>
 <instance part="P+12" gate="1" x="53.34" y="147.32" smashed="yes" rot="MR0">
 <attribute name="VALUE" x="50.292" y="145.796" size="1.778" layer="96" rot="MR90"/>
 </instance>
-<instance part="GND29" gate="1" x="248.92" y="60.96"/>
+<instance part="GND29" gate="1" x="233.68" y="55.88"/>
 <instance part="J1" gate="G$1" x="-5.08" y="187.96"/>
 <instance part="R7" gate="G$1" x="104.14" y="185.42" smashed="yes" rot="MR0">
 <attribute name="NAME" x="106.68" y="187.96" size="1.778" layer="95" rot="MR90"/>
@@ -1679,7 +1651,6 @@ DEVICE</text>
 </instance>
 <instance part="U1" gate="G$1" x="22.86" y="129.54"/>
 <instance part="GND17" gate="1" x="2.54" y="111.76"/>
-<instance part="GND31" gate="1" x="180.34" y="149.86"/>
 <instance part="R1" gate="G$1" x="43.18" y="137.16" smashed="yes" rot="R90">
 <attribute name="NAME" x="41.9354" y="131.826" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="41.91" y="136.398" size="1.778" layer="96" rot="R90"/>
@@ -1701,7 +1672,6 @@ DEVICE</text>
 <attribute name="NAME" x="181.356" y="188.595" size="1.778" layer="95"/>
 <attribute name="VALUE" x="172.466" y="188.595" size="1.778" layer="96"/>
 </instance>
-<instance part="U$1" gate="G$1" x="180.34" y="160.02"/>
 <instance part="U4" gate="G$1" x="213.36" y="187.96"/>
 <instance part="U2" gate="1" x="45.72" y="53.34"/>
 <instance part="U$4" gate="G$1" x="63.5" y="55.88" rot="R180"/>
@@ -1713,12 +1683,12 @@ DEVICE</text>
 <instance part="P+6" gate="1" x="25.4" y="215.9" smashed="yes" rot="R270">
 <attribute name="VALUE" x="23.876" y="212.852" size="1.778" layer="96"/>
 </instance>
-<instance part="OLED" gate="G$1" x="137.16" y="55.88" smashed="yes">
-<attribute name="NAME" x="143.764" y="44.704" size="1.778" layer="95"/>
+<instance part="OLED" gate="G$1" x="142.24" y="68.58" smashed="yes">
+<attribute name="NAME" x="148.844" y="57.404" size="1.778" layer="95"/>
 </instance>
-<instance part="GND33" gate="1" x="137.16" y="40.64" smashed="yes"/>
-<instance part="P+7" gate="1" x="137.16" y="73.66" smashed="yes" rot="MR0">
-<attribute name="VALUE" x="133.35" y="70.104" size="1.778" layer="96" rot="MR90"/>
+<instance part="GND33" gate="1" x="142.24" y="53.34" smashed="yes"/>
+<instance part="P+7" gate="1" x="142.24" y="86.36" smashed="yes" rot="MR0">
+<attribute name="VALUE" x="138.43" y="82.804" size="1.778" layer="96" rot="MR90"/>
 </instance>
 <instance part="U$9" gate="G$1" x="238.76" y="162.56" rot="R180"/>
 <instance part="R4" gate="G$1" x="76.2" y="73.66" smashed="yes" rot="R180">
@@ -1844,7 +1814,7 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="GND29" gate="1" pin="GND"/>
-<wire x1="226.06" y1="63.5" x2="248.92" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="210.82" y1="58.42" x2="233.68" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="GND17" gate="1" pin="GND"/>
@@ -1864,10 +1834,6 @@ DEVICE</text>
 <pinref part="C12" gate="G$1" pin="2"/>
 <wire x1="175.26" y1="187.96" x2="170.18" y2="187.96" width="0.1524" layer="91"/>
 <junction x="170.18" y="187.96"/>
-</segment>
-<segment>
-<pinref part="GND31" gate="1" pin="GND"/>
-<wire x1="180.34" y1="154.94" x2="180.34" y2="152.4" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U1" gate="G$1" pin="GND@2"/>
@@ -1903,7 +1869,7 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="GND"/>
-<wire x1="137.16" y1="45.72" x2="137.16" y2="43.18" width="0.1524" layer="91"/>
+<wire x1="142.24" y1="58.42" x2="142.24" y2="55.88" width="0.1524" layer="91"/>
 <pinref part="GND33" gate="1" pin="GND"/>
 </segment>
 </net>
@@ -1951,7 +1917,7 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="VCC"/>
-<wire x1="137.16" y1="68.58" x2="137.16" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="142.24" y1="81.28" x2="142.24" y2="83.82" width="0.1524" layer="91"/>
 <pinref part="P+7" gate="1" pin="+5V"/>
 </segment>
 <segment>
@@ -1995,7 +1961,6 @@ DEVICE</text>
 <wire x1="180.34" y1="167.64" x2="167.64" y2="167.64" width="0.1524" layer="91"/>
 <junction x="180.34" y="167.64"/>
 <label x="167.64" y="167.64" size="1.778" layer="95"/>
-<wire x1="180.34" y1="165.1" x2="180.34" y2="167.64" width="0.1524" layer="91"/>
 <pinref part="U4" gate="G$1" pin="PC6(/RESET)"/>
 </segment>
 </net>
@@ -2012,12 +1977,12 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="SCL"/>
-<wire x1="149.86" y1="60.96" x2="165.1" y2="60.96" width="0.1524" layer="91"/>
-<label x="152.4" y="60.96" size="1.778" layer="95"/>
+<wire x1="154.94" y1="73.66" x2="170.18" y2="73.66" width="0.1524" layer="91"/>
+<label x="157.48" y="73.66" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="226.06" y1="73.66" x2="248.92" y2="73.66" width="0.1524" layer="91"/>
-<label x="233.68" y="73.66" size="1.778" layer="95"/>
+<wire x1="210.82" y1="68.58" x2="233.68" y2="68.58" width="0.1524" layer="91"/>
+<label x="218.44" y="68.58" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SER_RX" class="0">
@@ -2086,12 +2051,12 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="SDA"/>
-<wire x1="149.86" y1="58.42" x2="165.1" y2="58.42" width="0.1524" layer="91"/>
-<label x="152.4" y="58.42" size="1.778" layer="95"/>
+<wire x1="154.94" y1="71.12" x2="170.18" y2="71.12" width="0.1524" layer="91"/>
+<label x="157.48" y="71.12" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="226.06" y1="71.12" x2="248.92" y2="71.12" width="0.1524" layer="91"/>
-<label x="233.68" y="71.12" size="1.778" layer="95"/>
+<wire x1="210.82" y1="66.04" x2="233.68" y2="66.04" width="0.1524" layer="91"/>
+<label x="218.44" y="66.04" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SENSE+" class="0">
@@ -2152,8 +2117,8 @@ DEVICE</text>
 <pinref part="U4" gate="G$1" pin="PC5(ADC5/SCL)"/>
 </segment>
 <segment>
-<wire x1="226.06" y1="81.28" x2="248.92" y2="81.28" width="0.1524" layer="91"/>
-<label x="233.68" y="81.28" size="1.778" layer="95"/>
+<wire x1="210.82" y1="76.2" x2="233.68" y2="76.2" width="0.1524" layer="91"/>
+<label x="218.44" y="76.2" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="I2C-DATA" class="0">
@@ -2172,8 +2137,8 @@ DEVICE</text>
 <pinref part="U4" gate="G$1" pin="PC4(ADC4/SDA)"/>
 </segment>
 <segment>
-<wire x1="226.06" y1="78.74" x2="248.92" y2="78.74" width="0.1524" layer="91"/>
-<label x="233.68" y="78.74" size="1.778" layer="95"/>
+<wire x1="210.82" y1="73.66" x2="233.68" y2="73.66" width="0.1524" layer="91"/>
+<label x="218.44" y="73.66" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$18" class="0">
@@ -2250,12 +2215,12 @@ DEVICE</text>
 </net>
 <net name="N$24" class="0">
 <segment>
-<wire x1="226.06" y1="68.58" x2="248.92" y2="68.58" width="0.1524" layer="91"/>
+<wire x1="210.82" y1="63.5" x2="233.68" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$25" class="0">
 <segment>
-<wire x1="226.06" y1="66.04" x2="248.92" y2="66.04" width="0.1524" layer="91"/>
+<wire x1="210.82" y1="60.96" x2="233.68" y2="60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="DEBUG" class="0">
@@ -2265,8 +2230,8 @@ DEVICE</text>
 <label x="241.3" y="180.34" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="226.06" y1="76.2" x2="248.92" y2="76.2" width="0.1524" layer="91"/>
-<label x="233.68" y="76.2" size="1.778" layer="95"/>
+<wire x1="210.82" y1="71.12" x2="233.68" y2="71.12" width="0.1524" layer="91"/>
+<label x="218.44" y="71.12" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="OLED_D/C" class="0">
@@ -2277,8 +2242,8 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="D/C"/>
-<wire x1="149.86" y1="53.34" x2="165.1" y2="53.34" width="0.1524" layer="91"/>
-<label x="152.4" y="53.34" size="1.778" layer="95"/>
+<wire x1="154.94" y1="66.04" x2="170.18" y2="66.04" width="0.1524" layer="91"/>
+<label x="157.48" y="66.04" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="OLED_RST" class="0">
@@ -2289,8 +2254,8 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="RST"/>
-<wire x1="149.86" y1="55.88" x2="165.1" y2="55.88" width="0.1524" layer="91"/>
-<label x="152.4" y="55.88" size="1.778" layer="95"/>
+<wire x1="154.94" y1="68.58" x2="170.18" y2="68.58" width="0.1524" layer="91"/>
+<label x="157.48" y="68.58" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="MISO" class="0">
@@ -2342,7 +2307,7 @@ DEVICE</text>
 </net>
 <net name="N$3" class="0">
 <segment>
-<wire x1="223.52" y1="83.82" x2="248.92" y2="83.82" width="0.1524" layer="91"/>
+<wire x1="210.82" y1="78.74" x2="233.68" y2="78.74" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$9" class="0">
