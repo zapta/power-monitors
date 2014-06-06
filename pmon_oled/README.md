@@ -10,6 +10,7 @@ Power-Play OLED is an Arduino based measurement tool that is used to measure the
 TODO: add an overall picture with annotation for connectors, display, button and trim pot.
 
 ** FUNCTIONAL BLOCK DIAGRAM ***
+
 ![](doc/block_diagram.jpg)
 
 * Voltage regulator - a 5V to 3.8v low dropout (LDO) voltage regulator. The output voltage (nominal 3.8V) can be set by the small multi turn potentiometer on the right hand of the device.
