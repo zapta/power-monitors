@@ -11,7 +11,7 @@ TODO: add an overall picture with annotation for connectors, display, button and
 
 ** FUNCTIONAL BLOCK DIAGRAM ***
 
-![](doc/block_diagram.jpg)
+![](../../blob/master/pmon_oled/block_diagram.jpg)
 
 * Voltage regulator - a 5V to 3.8v low dropout (LDO) voltage regulator. The output voltage (nominal 3.8V) can be set by the small multi turn potentiometer on the right hand of the device.
 * Shunt resistor - this is a small (25 milliohms) 1% Kelvin resistor that is used to sample the current consummed the the device. The voltage drop on the shunt does not affect the output voltage of the Power-Play OLED because of the feedback loop between the output voltage and the LDO.
