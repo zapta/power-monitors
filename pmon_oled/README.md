@@ -5,11 +5,11 @@ POWER-PLAY OLED
 
 Power-Play OLED is an Arduino based measurement tool that is used to measure the power consumption of mobile devices under different conditions and software versions. It provides 3.8V 2A DC power that simulates a single cell Li-ion battery and is connected to the device **instead of the battery**. The Power-Play OLED analyzes the current pattern consummed by the devcie and provides aggregated data on an integral a 1.3" OLED display. It also output the data to a USB/Serial port so it can be logged by a computer for further analysis. The computer based logging is optional and in most cases not necesary since the Power-Play OLED provides the key aresults on the display in real time (e.g. the average current consumption over the measurement period).
 
-** IMPORTANT using the Power-PLay OLED required modified devices with batteries removed. This modification should be done by qualified persons only due to the risk of fire, personal injury and even death. The Power-Play OLED information is provided here as-is and you must consult a qualifying person before using it in any way. NEVER operate the Power-Play OLED with the battery connected to the device under test. **
+**IMPORTANT using the Power-PLay OLED required modified devices with batteries removed. This modification should be done by qualified persons only due to the risk of fire, personal injury and even death. The Power-Play OLED information is provided here as-is and you must consult a qualifying person before using it in any way. NEVER operate the Power-Play OLED with the battery connected to the device under test. **
 
 TODO: add an overall picture with annotation for connectors, display, button and trim pot.
 
-** FUNCTIONAL BLOCK DIAGRAM ***
+**FUNCTIONAL BLOCK DIAGRAM**
 
 ![](doc/block_diagram.png)
 
@@ -22,24 +22,24 @@ TODO: add an overall picture with annotation for connectors, display, button and
 * Computer - this is an optional computer that logs the data over a USB connection. In most cases, the results displayed on the OLED displayed are suficcien and the comptuer is not necesary. 
 
 
-** CONNECTION DIAGRAM **
+**CONNECTION DIAGRAM**
 
 ![](doc/connection_diagram.png)
 
 Plug the +5V micro usb connector to a USB charger with sufficient current (e.g. 2A). Plug the modified device to the DEVICE connector. Optional: to log the data on a computer connect the USB port to a computer and run a logging program or script (the Power-Play OLED looks like a 115.2kbs FTDI serial over USB port).
 
-** OPERATION **
+**OPERATION**
 TODO
 
-** LOG FORMAT **
+**LOG FORMAT**
 TODO
 
-** INSTRUMETING A DEVICE **
+**INSTRUMETING A DEVICE**
 TODO
 
-** FIRMWARE DEVELOPEMENT **
+**FIRMWARE DEVELOPEMENT**
 TODO
 
-** BUILDING POWER-PLAY OLED **
+**BUILDING POWER-PLAY OLED**
 TODO
 
