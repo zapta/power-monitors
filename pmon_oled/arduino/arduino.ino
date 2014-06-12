@@ -242,6 +242,14 @@ void StateReporting::loop() {
   analysis::ChargeResults last_slot_charge_results;
   analysis::ComputeChargeResults(slot_tracker.last_slot_charge_tracker, &last_slot_charge_results);
   analysis::PrintablePpmValue last_slot_amps_printable(last_slot_charge_results.average_current_micro_amps);
+  const uint16 last_slot_current_millis = last_slot_charge_results.average_current_micro_amps / 1000;
+  
+  // Compute super slot values.
+  analysis::ChargeResults prev_super_slot_charge_results;
+  analysis::ComputeChargeResults(slot_tracker.prev_super_slot_charge_tracker, &prev_super_slot_charge_results);
+  //analysis::PrintablePpmValue prev_super_slot_amps_printable(prev_super_slot_charge_results.average_current_micro_amps);
+  const uint16 prev_super_slot_current_millis = prev_super_slot_charge_results.average_current_micro_amps / 1000;
+
   // Compute total values in this analyais. 
   analysis::ChargeResults total_charge_results;
   analysis::ComputeChargeResults(slot_tracker.total_charge_tracker, &total_charge_results); 
@@ -253,22 +261,22 @@ void StateReporting::loop() {
   analysis::ChargeResults wake_slots_charge_results;
   analysis::ComputeChargeResults(slot_tracker.wake_slots_charge_tracker, &wake_slots_charge_results);
   
-  const uint16 current_millis = last_slot_charge_results.average_current_micro_amps / 1000;
-  display::appendGraphPoint(current_millis);
-
+  // Append the last slot current to the display graph buffer.
+  display::appendGraphPoint(last_slot_current_millis);
+  
   // Render the current display page.
   if (is_in_test_mode) {
     display::renderTestPage(printable_voltage, last_slot_amps_printable, 
         this_slot_charge_ticks_reading, button::isButtonPressed());
   } else if (selected_display_page == display_page::kGraphPage) {
     const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
-    display::renderGraphPage(current_millis, average_current_millis);
+    display::renderGraphPage(prev_super_slot_current_millis, average_current_millis);
   } else if (selected_display_page == display_page::kSummary1Page) {
     //const uint16 current_millis = major_slot_charge_results.average_current_micro_amps / 1000;
     const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
     const uint16 total_charge_milli_amp_hour = total_charge_results.charge_micro_amps_hour / 1000;
-    display::appendGraphPoint(current_millis);
-    display::renderSummary1Page(current_millis, average_current_millis,
+    display::appendGraphPoint(last_slot_current_millis);
+    display::renderSummary1Page(last_slot_current_millis, average_current_millis,
         total_charge_milli_amp_hour, timestamp_secs_printable.units);     
   } else if (selected_display_page == display_page::kSummary2Page) {
     display::renderSummary2Page(

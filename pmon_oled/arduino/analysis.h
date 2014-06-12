@@ -35,6 +35,11 @@ static const uint8 kMinChargeTicksPerWakeSlot = 10;
 // The basic measurment period, in millis.
 static const uint16 kMillisPerSlot = 100;
 
+// We display the avarage momentary current every this number of slots.
+//
+// TODO: make this private.
+static const uint8 kSlotsInSuperSlot = 10;
+
 // Data container for tracking charge over a time period. 
 struct ChargeTracker {
   // TODO: consider to count slots rather than milli seconds.
@@ -91,12 +96,19 @@ struct PrintableMilsValue {
 // Tracks the various slots data. 
 class SlotTracker {
  public:
+  // Single slot data.
   ChargeTracker last_slot_charge_tracker;
   boolean last_slot_was_wake;
+  
+  // Super slot data. 
+  ChargeTracker prev_super_slot_charge_tracker;
+  ChargeTracker current_super_slot_charge_tracker;
+  uint8 num_slots_in_current_super_slot;
+  
+  // Analysis total data.
   ChargeTracker total_charge_tracker; 
   ChargeTracker standby_slots_charge_tracker;
   ChargeTracker wake_slots_charge_tracker;
-
   uint32 total_standby_slots;
   uint32 total_wake_slots;
   // Num of transitions from a standby slot to an wake sloke.
@@ -106,8 +118,16 @@ class SlotTracker {
   }
   
   inline void ResetAll() {
+    // Slot data.
     last_slot_charge_tracker.Reset();
     last_slot_was_wake = false;
+    
+    // Super slot data.
+    prev_super_slot_charge_tracker.Reset();
+    current_super_slot_charge_tracker.Reset();
+    num_slots_in_current_super_slot = 0;
+    
+    // Total analysis data.
     total_charge_tracker.Reset();
     standby_slots_charge_tracker.Reset();
     wake_slots_charge_tracker.Reset();
@@ -127,6 +147,16 @@ class SlotTracker {
     last_slot_charge_tracker.Reset();
     last_slot_charge_tracker.AddCharge(kMillisPerSlot, charge_ticks);
     last_slot_was_wake = is_wake_slot;
+    
+    current_super_slot_charge_tracker.AddCharge(kMillisPerSlot, charge_ticks);
+    num_slots_in_current_super_slot++;
+    if (num_slots_in_current_super_slot >= kSlotsInSuperSlot) {
+      prev_super_slot_charge_tracker.Reset();
+      // TODO: add a Init() method instead of reset + add.
+      prev_super_slot_charge_tracker.AddCharge(current_super_slot_charge_tracker.time_millis, current_super_slot_charge_tracker.charge_ticks);
+      current_super_slot_charge_tracker.Reset();
+      num_slots_in_current_super_slot = 0;
+    }
     
     total_charge_tracker.AddCharge(kMillisPerSlot, charge_ticks); 
          
