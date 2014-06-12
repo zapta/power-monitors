@@ -276,7 +276,7 @@ void StateReporting::loop() {
     const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
     const uint16 total_charge_milli_amp_hour = total_charge_results.charge_micro_amps_hour / 1000;
     display::appendGraphPoint(last_slot_current_millis);
-    display::renderSummary1Page(last_slot_current_millis, average_current_millis,
+    display::renderSummary1Page(prev_super_slot_current_millis, average_current_millis,
         total_charge_milli_amp_hour, timestamp_secs_printable.units);     
   } else if (selected_display_page == display_page::kSummary2Page) {
     display::renderSummary2Page(
