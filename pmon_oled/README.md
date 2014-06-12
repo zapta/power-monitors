@@ -6,8 +6,25 @@ POWER-PLAY OLED
 ## OVERVIEW
 Power-Play OLED is an Arduino based measurement tool that is used to measure the power consumption of mobile devices under different conditions and software versions. It provides 3.8V 2A DC power that simulates a single cell Li-ion battery and is connected to the device **instead of the battery**. The Power-Play OLED analyzes the current pattern consummed by the devcie and provides aggregated data on an integral a 1.3" OLED display. It also output the data to a USB/Serial port so it can be logged by a computer for further analysis. The computer based logging is optional and in most cases not necesary since the Power-Play OLED provides the key aresults on the display in real time (e.g. the average current consumption over the measurement period).
 
-**IMPORTANT using the Power-PLay OLED required modified devices with batteries removed. This modification should be done by qualified persons only due to the risk of fire, personal injury and even death. The Power-Play OLED information is provided here as-is and you must consult a qualifying person before using it in any way. NEVER operate the Power-Play OLED with the battery connected to the device under test.**
+**WARNING using the Power-PLay OLED required modified devices with batteries removed. This modification should be done by qualified persons only due to the risk of fire, personal injury and even death. The Power-Play OLED information is provided here as-is and you must consult a qualified person before using it in any way. NEVER operate the Power-Play OLED with the battery connected to the device under test.**
 
+![](doc/pmon_oled_closeup_annotated.png)
+
+1. +5V power input micro USB connector. This connector should be connected to a standard 5V charger and is used to power the Power-Play OLED and the device under test. It is important to use a charger that can provide sufficient current even during peak current consumption by the device under test. When testing a typicall smark phone, powering the Power-Play OLED from a USB port or a small 1A charger typically result in insufficient current and unstable operation.
+
+2. Power output connection to the device. This is a 3 pin standard servo connector (JR and Hitec style) with ground at the center pin and 3.8V DC (typical) at the two end pins (it's sufficient to use only one of them). This output voltage is adjustable (see below) and is connected to the devcie instead of the battery, emulating a single cell Lithium-ion battery.
+
+3. USB connector. Using this connector is optional. It allows to log the raw data on an attached computer for later analysis. This connector implements a FTDI serial over USB port and can be access as a serial port on standard Mac OSX, Linux and Windows computers without additional drivers. The emulated serial port is 115.2kbs, 8 data bit, no parity and the data is in ASCII text format.
+
+4. Display. This is a 1.3" monochrome OLED display that shows the analysis results. The display supports multiple pages with different data items.
+
+5. Operation button. A short click switch the displyed data page and a long press (~4 seconds) resets the analysis variables and starts a new analysis session. Holding this button pressed while powering the Power-Play OLED activates the test screen (for post manufacturing tests).
+
+6. This is a multi turn trim potentionameter that allows to adjust the output voltage in the range 3.6V - 4.2V. It is acceccible from the side of the Power-Play OLED and requires a small flat screwdriver.
+
+7. Auto Reset. This is a solder jumper on the PCB that controls the the USB auto reset feature. When shorted, establishing a new connection via the USB connector resets the Power-Play OLED. This is useful when developing firmaware for the Power-Play OLED using the Arduino IDE. If the auto reset is not desired (e.g. in order to have analysis sessions non interuppted by connecting the USB port), the short should be disconnected with a solder iron (after removing the 4 top screws and top cover).
+
+pmon_oled_closeup_annotated.png
 TODO: add an overall picture with annotation for connectors, display, button and trim pot.
 
 ## FUNCTIONAL BLOCK DIAGRAM
@@ -50,7 +67,7 @@ Note: the ananlysis also samples and reports the momentary voltage levle at each
 
 Operating the Power-Play OLED is very simple. Connect the Power-Play OLED to a 5V charger and the device under test as described above, reset the analysis by long pressing the button (~4 seconds) and let the device operate under the desired conditions. The analysis is done is real time and the results are shown on the display. Click the button to switch between display pages to see the desired values. 
 
-TODO: include sample screen shots.
+![](doc/pmon_oled_with_phone.jpg)
 
 ## LOG FORMAT
 TODO
