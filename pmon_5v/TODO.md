@@ -1,6 +1,7 @@
 TODO list for The Arduino PMON UNO
 
 **SCHEMATIC**
+* Add solder jumpers for OLED soft configuration.
 
 **LAYOUT**
 * Add to the OLED footprint a tplace rectangle with the active display area.
