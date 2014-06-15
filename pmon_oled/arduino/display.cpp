@@ -17,9 +17,10 @@
 #include "passive_timer.h"
 #include "U8glib.h"
 
-// TODO: *** make all the literal string F() strings (flash).
-
 namespace display {
+  
+// TODO: move to a common file.
+#define FIRMWARE_VERSION "0.210"
   
 // Mapping from AVR port/pin Arduino Mini Pro digital pint number.
 // Requires for the U8Glib graphic lib which accept pin ids using the
@@ -46,7 +47,7 @@ static uint8 current_display_message_code;
 static uint16 current_display_message_min_time_millis;
 static PassiveTimer time_in_current_display_message;
 
-// Realtime momentrary current graph data.
+// Realtime momentary current graph data.
 static const uint8 kGraphMaxPoints = 64;
 static uint8 graph_y_points[kGraphMaxPoints];
 static uint8 graph_first_y_index;
@@ -70,7 +71,7 @@ static inline uint8 currentMilliAmpsToDisplayY(uint16 current_milli_amps) {
   }
 
   // Using a sub logarithmic function (k1 > 0) to reduce the gain at the lower range
-  // and increase the gain at the higher end. This function is betwene linear and 
+  // and increase the gain at the higher end. This function is between linear and 
   // log().
   //
   // Formulas (depending for a given a)
@@ -84,12 +85,12 @@ static inline uint8 currentMilliAmpsToDisplayY(uint16 current_milli_amps) {
   // Maps [0..2000] to [0..31]
   const int scalledValue = 0.5f + ((log(current_milli_amps + kA) * kB) - kC);
   
-  // Mapss [0..2000] to [63..32] (the bottom half of the display).
+  // Maps [0..2000] to [63..32] (the bottom half of the display).
   return 63 - scalledValue;
 }
 
 void appendGraphPoint(uint16 current_milli_amps) {
-  // Convert current milliamps to screen y coordinate.
+  // Convert current milliamp to screen y coordinate.
   const uint8 y_value = currentMilliAmpsToDisplayY(current_milli_amps);
   
   // Handle the case where the buffer is full.
@@ -133,22 +134,40 @@ static boolean isActiveDisplayMessage() {
   return false;
 }
 
+// Global formatting buffer. Beware of conflicts.
+static char formatting_buffer[12];
+
+// Draw a value with one digit after the decimal point. Users formatting_buffer.
+static void drawFraction(uint8 x, uint8 y, uint32 value, uint16 divider) {
+    const uint32 actual_value = value / divider;
+    const uint16 units = actual_value / 10;
+    const uint16 fraction = actual_value - (10L * units);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%4u"), units);
+    u8g.drawStr(x, y, formatting_buffer);
+    u8g.drawStrP(x + 31, y, U8G_PSTR("."));
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%01u"), fraction);
+    u8g.drawStr(x + 37, y, formatting_buffer);
+}
+
 // ----- Graph Page
 
 // The picture loop function. Check u8glib documentation for restrictions. This function
 // is called multiple time per onw screen draw.
-static inline void drawGraphPage(uint8 drawing_stripe_index, const char* current, const char* average_current) {
-  // TODO: move the numeric to string conversion from the caller to here (per stripe).
+static inline void drawGraphPage(uint8 drawing_stripe_index, uint32 current_micro_amps, uint32 average_current_micro_amps) {
+
   if (drawing_stripe_index == 0) {
-    u8g.setFont(u8g_font_8x13);
-    u8g.drawStrP(0, 10, U8G_PSTR("I"));
-    u8g.drawStr(70, 10, current);
+    const uint8 kBaseY = 10;
+    u8g.drawStrP(0, kBaseY, U8G_PSTR("I"));
+    drawFraction(62, kBaseY, current_micro_amps, 100);
+    u8g.drawStrP(113, kBaseY, U8G_PSTR("ma"));
   }
   
   if (drawing_stripe_index == 1) { 
-    u8g.setFont(u8g_font_8x13);
-    u8g.drawStrP(0, 25, U8G_PSTR("Iavg"));
-    u8g.drawStr(70, 25, average_current);
+//    snprintf_P(bfr, sizeof(bfr), PSTR("%4d ma"), average_current_milli_amps);
+    const uint8 kBaseY = 25;
+    u8g.drawStrP(0, kBaseY, U8G_PSTR("Iavg"));  
+    drawFraction(62, kBaseY, average_current_micro_amps, 100);
+    u8g.drawStrP(113, kBaseY, U8G_PSTR("ma"));
   }
 
   if (drawing_stripe_index >= 2) {
@@ -180,17 +199,11 @@ static inline void drawGraphPage(uint8 drawing_stripe_index, const char* current
   }
 }
 
-void renderGraphPage(uint16 current_milli_amps, uint16 average_current_milli_amps) {
+void renderGraphPage(uint32 current_micro_amps, uint32 average_current_micro_amps) {
   // Active display messages have higher priority.
   if (isActiveDisplayMessage()) {
     return;
   }
-  
-  char bfr1[10];
-  snprintf_P(bfr1, sizeof(bfr1), PSTR("%4d ma"), current_milli_amps);
-  
-  char bfr2[10];
-  snprintf_P(bfr2, sizeof(bfr2), PSTR("%4d ma"), average_current_milli_amps);
   
   // Execute the picture loop. We track the draw stripe index so we can 
   // render on each stripe so we can skip drawing graphics object on stripes
@@ -198,54 +211,50 @@ void renderGraphPage(uint16 current_milli_amps, uint16 average_current_milli_amp
   u8g.firstPage();   
   uint8 drawing_stripe_index = 0;
   do {
-    drawGraphPage(drawing_stripe_index++, bfr1, bfr2);
+    drawGraphPage(drawing_stripe_index++, current_micro_amps, average_current_micro_amps);
   } while (u8g.nextPage());
 }
 
 // ----- Summary 1 Page
 
 // The picture loop function. Check u8glib documentation for restrictions. This function
-// is called multiple time per onw screen draw.
+// is called multiple time per a single screen draw.
 static inline void drawSummary1Page(uint8 drawing_stripe_index, 
-    uint16 current_milli_amps, uint16 average_current_milli_amps, uint16 total_charge_mah, uint16 time_seconds) {
+    uint32 current_micro_amps, uint32 average_current_micro_amps, uint16 total_charge_mah, uint16 time_seconds) {
   u8g.setFont(u8g_font_8x13);
   
-  char bfr[12];
-
   if (drawing_stripe_index == 0) {
     const uint8 kBaseY = 10;
-    u8g.drawStrP(0, kBaseY, U8G_PSTR("I"));
-    snprintf_P(bfr, sizeof(bfr), PSTR("%4u"), current_milli_amps);
-    u8g.drawStr(65, kBaseY, bfr);
+    u8g.drawStrP(0, kBaseY, U8G_PSTR("I"));   
+    drawFraction(52, kBaseY, current_micro_amps, 100);
     u8g.drawStrP(103, kBaseY, U8G_PSTR("ma"));
   }
   
   if (drawing_stripe_index == 1) {
     const uint8 kBaseY = 27;
-    u8g.drawStrP(0, kBaseY, U8G_PSTR("Iavg"));
-    snprintf_P(bfr, sizeof(bfr), PSTR("%4u"), average_current_milli_amps);
-    u8g.drawStr(65, kBaseY, bfr);
+    u8g.drawStrP(0, kBaseY, U8G_PSTR("Iavg"));   
+    drawFraction(52, kBaseY, average_current_micro_amps, 100);
     u8g.drawStrP(103, kBaseY, U8G_PSTR("ma"));
   }
   
   if (drawing_stripe_index == 2) {
     const uint8 kBaseY = 44;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("Q"));
-    snprintf_P(bfr, sizeof(bfr), PSTR("%4u"), total_charge_mah);
-    u8g.drawStr(65, kBaseY, bfr);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%4u"), total_charge_mah);
+    u8g.drawStr(65, kBaseY, formatting_buffer);
     u8g.drawStrP(103, kBaseY, U8G_PSTR("mah"));
   }
 
   if (drawing_stripe_index == 3) {
     const uint8 kBaseY = 61;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("T"));
-    snprintf_P(bfr, sizeof(bfr), PSTR("%6u"), time_seconds);
-    u8g.drawStr(49, kBaseY, bfr);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%6u"), time_seconds);
+    u8g.drawStr(49, kBaseY, formatting_buffer);
     u8g.drawStrP(101, kBaseY, U8G_PSTR("sec"));
   }
 }
 
-void renderSummary1Page(uint16 current_milli_amps, uint16 average_current_milli_amps, 
+void renderSummary1Page(uint32 current_micro_amps, uint32 average_current_micro_amps, 
     uint16 total_charge_mah, uint16 time_seconds) {
   // Active display messages have higher priority.
   if (isActiveDisplayMessage()) {
@@ -255,7 +264,7 @@ void renderSummary1Page(uint16 current_milli_amps, uint16 average_current_milli_
   u8g.firstPage();   
   uint8 drawing_stripe_index = 0;
   do {
-    drawSummary1Page(drawing_stripe_index++, current_milli_amps, average_current_milli_amps, total_charge_mah, time_seconds);
+    drawSummary1Page(drawing_stripe_index++, current_micro_amps, average_current_micro_amps, total_charge_mah, time_seconds);
   } while (u8g.nextPage());      
 }
 
@@ -268,21 +277,19 @@ static inline void drawSummary2Page(
     uint16 awake_charge_mah, uint16 time_seconds) {
   u8g.setFont(u8g_font_8x13);
   
-  char bfr[12];
-
   if (drawing_stripe_index == 0) {
     const uint8 kBaseY = 10;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("V"));
-    snprintf_P(bfr, sizeof(bfr), PSTR("%u.%03u"), printable_voltage.units, printable_voltage.mils);
-    u8g.drawStr(57, kBaseY, bfr);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%u.%03u"), printable_voltage.units, printable_voltage.mils);
+    u8g.drawStr(57, kBaseY, formatting_buffer);
     u8g.drawStrP(103, kBaseY, U8G_PSTR("v"));
   }
   
   if (drawing_stripe_index == 1) {
     const uint8 kBaseY = 27;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("Nwake"));
-    snprintf_P(bfr, sizeof(bfr), PSTR("%5lu"), awake_count);
-    u8g.drawStr(57, kBaseY, bfr);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%5lu"), awake_count);
+    u8g.drawStr(57, kBaseY, formatting_buffer);
     if (is_awake) {
       u8g.drawStrP(103, kBaseY, U8G_PSTR("*"));
     }
@@ -291,16 +298,16 @@ static inline void drawSummary2Page(
   if (drawing_stripe_index == 2) {
     const uint8 kBaseY = 44;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("Qwake"));
-    snprintf_P(bfr, sizeof(bfr), PSTR("%4u"), awake_charge_mah);
-    u8g.drawStr(65, kBaseY, bfr);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%4u"), awake_charge_mah);
+    u8g.drawStr(65, kBaseY, formatting_buffer);
     u8g.drawStrP(103, kBaseY, U8G_PSTR("mah"));
   }
 
   if (drawing_stripe_index == 3) {
     const uint8 kBaseY = 61;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("T"));
-    snprintf_P(bfr, sizeof(bfr), PSTR("%6u"), time_seconds);
-    u8g.drawStr(49, kBaseY, bfr);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%6u"), time_seconds);
+    u8g.drawStr(49, kBaseY, formatting_buffer);
     u8g.drawStrP(101, kBaseY, U8G_PSTR("sec"));
   }         
 }
@@ -332,27 +339,25 @@ static inline void drawTestPage(
     uint16 charge_register, boolean is_button_pressed) {
   u8g.setFont(u8g_font_8x13);
   
-  char bfr[12];
-  
   if (drawing_stripe_index == 0) {
     const uint8 kBaseY = 10;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("V"));
-    snprintf_P(bfr, sizeof(bfr), PSTR("%u.%03u"), printable_voltage.units, printable_voltage.mils);
-    u8g.drawStr(57, kBaseY, bfr);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%u.%03u"), printable_voltage.units, printable_voltage.mils);
+    u8g.drawStr(57, kBaseY, formatting_buffer);
   }
   
   if (drawing_stripe_index == 1) {
     const uint8 kBaseY = 27;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("I"));
-    snprintf_P(bfr, sizeof(bfr), PSTR("%u.%03u"), printable_current.units, printable_current.mils);
-    u8g.drawStr(57, kBaseY, bfr);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%u.%03u"), printable_current.units, printable_current.mils);
+    u8g.drawStr(57, kBaseY, formatting_buffer);
   }
   
   if (drawing_stripe_index == 2) {
     const uint8 kBaseY = 44;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("R"));
-    snprintf_P(bfr, sizeof(bfr), PSTR("%04X"), charge_register);
-    u8g.drawStr(57, kBaseY, bfr);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%04X"), charge_register);
+    u8g.drawStr(57, kBaseY, formatting_buffer);
   }
   
   if (drawing_stripe_index == 3) {
@@ -384,13 +389,13 @@ void renderTestPage(
 static void drawCurrentDisplayMessage() {
   u8g.setFont(u8g_font_8x13);
   // NOTE: drawRFrame adds about 600 bytes to the flash size compared to drawFrame.
-  // May be pulling the cirlce code for the rounded corners.
+  // May be pulling the circle code for the rounded corners.
   u8g.drawRFrame(0, 0, 128, 64, 5);
   
   if (current_display_message_code == display_messages::code::kSplashScreen) {
     u8g.drawStrP(22, 25, U8G_PSTR("POWER PLAY"));
-    // TODO: define the version id in a common file and also print to serial output.
-    u8g.drawStrP(27, 46, U8G_PSTR("Ver 0.200"));
+    // NOTE: using compile time literal string concatenation.
+    u8g.drawStrP(27, 46, U8G_PSTR("Ver " FIRMWARE_VERSION));
     return;
   }
   
@@ -449,5 +454,5 @@ void showMessage(uint8 display_message_code, uint16 min_display_time_millis) {
   renderCurrentDisplayMessage();
 }
 
-}  // namepsace display
+}  // namespace display
 

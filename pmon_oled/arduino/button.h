@@ -36,12 +36,12 @@ extern void loop();
 // Consumes and returns the next button event (one of event:: values).
 extern uint8 consumeEvent();
 
-// For diangostics.
+// For diagnostics.
 extern boolean isButtonPressed();
 
 extern boolean hasStableValue();
 
-}  // namepsace buttons
+}  // namespace buttons
 
 #endif
 

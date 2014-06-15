@@ -46,7 +46,7 @@ void setup() {
 
 void loop() {
   // Read the button and update the debouncer.
-  // NOTE: since we debounce the entrie byte we must used unique values for true and false.
+  // NOTE: since we debounce the entire byte we must used unique values for true and false.
   // NOTE: the button is active low so we invert the signal.
   const uint8 new_value = button_pin.isHigh() ? 0 : 1; 
   byte_debouncer.update(new_value);
@@ -100,7 +100,7 @@ boolean hasStableValue() {
   return byte_debouncer.hasStableValue();
 }
   
-}  // namepsace buttons
+}  // namespace buttons
 
 
 

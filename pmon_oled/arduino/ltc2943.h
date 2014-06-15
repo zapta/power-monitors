@@ -15,7 +15,7 @@
 
 #include "avr_util.h"
 
-// Linear Technology LTC2942 Fuel Guage IC driver.
+// Linear Technology LTC2942 Fuel Gauge IC driver.
 namespace ltc2943 {
 
 // Called once from main setup(). Also setup I2C.
@@ -30,7 +30,7 @@ extern boolean readAccumCharge(uint16* value);
 
 // Returns true if ok. Requires non null raw_register_value and voltage_mv.
 // This reads the voltage at the (-) side of the shunt resistor. The LTC2943 is 
-// initialized to perform continious a/d conversion and this function just returns
+// initialized to perform continuous a/d conversion and this function just returns
 // the current reading in the voltage register.
 extern boolean readVoltage(uint16* raw_register_value, uint16* voltage_mv);
 

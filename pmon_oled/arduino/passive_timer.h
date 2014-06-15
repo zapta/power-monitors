@@ -15,7 +15,7 @@
 
 #include <arduino.h>
 
-// A wrapper around system clock that provides millisecond based time measurments.
+// A wrapper around system clock that provides millisecond based time measurements.
 class PassiveTimer {
 public:
   PassiveTimer() {

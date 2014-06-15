@@ -43,7 +43,7 @@ private:
       return;
     } 
 
-    // If latest value is stable for debouncing time period, propogate value
+    // If latest value is stable for debouncing time period, propagate value
     // to stable.
     if (time_in_latest_value_.timeMillis() > debounce_time_millis_) {
       has_stable_value_ = true;

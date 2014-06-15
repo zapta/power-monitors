@@ -33,12 +33,12 @@ inline static void waitForTwcrBitHighWithTimeout(uint8 bit_index) {
 void setup()
 {
   TWSR = 0; 
-  // Should be >= 10 to have stable operation.  For 16Mhz cpu and 400k I2C clock we
+  // Should be >= 10 to have stable operation.  For 16Mhz CPU and 400khz I2C clock we
   // get here 12 which is fine.
   TWBR = ((F_CPU / kSclFrequency) - 16) / 2; 
 }
 
-// Returns true if ok.
+// Returns true if OK.
 bool start(uint8 addr_with_op)
 {
   // send START condition
@@ -67,7 +67,7 @@ bool start(uint8 addr_with_op)
   return is_ok;
 }
 
-// Returns true iff ok.
+// Returns true if OK.
 void stop() {
   // Send stop condition.
   TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWSTO);	
@@ -75,7 +75,7 @@ void stop() {
   waitForTwcrBitHighWithTimeout(TWSTO);
 }
 
-// Returns true if ok.
+// Returns true if OK.
 bool writeByte(uint8 data ) {	
   TWDR = data;
   TWCR = (1<<TWINT) | (1<<TWEN);
@@ -89,7 +89,7 @@ bool writeByte(uint8 data ) {
 }
 
 
-// Return true iff ok
+// Return true if ok
 bool readByteWithAck(uint8* result) {
   TWCR = (1<<TWINT) | (1<<TWEN) | (1<<TWEA);
   // Wait done.

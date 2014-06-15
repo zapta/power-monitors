@@ -10,6 +10,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// NOTE: to examine the static RAM used by this program run 
+// avr-size -C --mcu=atmega328p  <build_output_path>/arduino.cpp.elf
+
 // If any of these checks fail, make sure you setup the Arduino IDE Board to
 // Arduino Pro or Pro Mini (5V, 16Mhz) w/ Atmega 328P'.
 #ifndef __AVR_ATmega328P__
@@ -115,7 +118,7 @@ void setup() {;
 
   button::setup();
   
-  // Wait until button decouncer stabalizes and check if pressed. This will
+  // Wait until button debouncer stabilizes and check if pressed. This will
   // activate the test mode.
   //
   // TODO: skip the debouncer stabilization and just read the button pin once. This will
@@ -177,7 +180,7 @@ void StateReporting::loop() {
     // Long press - reset the analysis
     else if (button_event == button::event::kLongPress) {
        printf(F("\n"));
-       // Reenter the state. This also resets the accomulated charge and time.
+       // Reenter the state. This also resets the accumulated charge and time.
        StateReporting::enter();
        display::showMessage(display_messages::code::kAnalysisReset, 750);
        return;  
@@ -200,7 +203,7 @@ void StateReporting::loop() {
     return;
   }
   
-  // Check if thsi time slot is over.
+  // Check if this time slot is over.
   // NOTE: the time check below should handle correctly 52 days wraparound of the uint32
   // time in millis.
   const int32 millis_in_current_slot = millis() - last_slot_time_millis;
@@ -208,8 +211,8 @@ void StateReporting::loop() {
     return;
   }
   
-  // NOTE: we keedp the nominal reporting rate. Jitter in the reporting time will not 
-  // create an accmulating errors in the reporting charge since we map the charge to
+  // NOTE: we keep the nominal reporting rate. Jitter in the reporting time will not 
+  // create an accumulating errors in the reporting charge since we map the charge to
   // current using the nominal reporting rate as used by the consumers of this data.
   last_slot_time_millis += analysis::kMillisPerSlot;
   
@@ -225,14 +228,14 @@ void StateReporting::loop() {
       (this_slot_charge_ticks_reading - last_slot_charge_ticks_reading);
   last_slot_charge_ticks_reading = this_slot_charge_ticks_reading;
 
-  // Update slot data
+  // Update analysis with slot data.
   slot_tracker.AddSlot(charge_ticks_in_this_slot);
 
   // Read also the current voltage
   uint16 voltage_raw_register_value;
   uint16 voltage_mv;
   if (!ltc2943::readVoltage(&voltage_raw_register_value, &voltage_mv)) {
-    printf(F("# LTC2943 volage reading failed\n"));
+    printf(F("# LTC2943 voltage reading failed\n"));
     StateError::enter();
     return;
   }
@@ -248,8 +251,10 @@ void StateReporting::loop() {
   analysis::ChargeResults prev_super_slot_charge_results;
   analysis::ComputeChargeResults(slot_tracker.prev_super_slot_charge_tracker, &prev_super_slot_charge_results);
   //analysis::PrintablePpmValue prev_super_slot_amps_printable(prev_super_slot_charge_results.average_current_micro_amps);
-  const uint16 prev_super_slot_current_millis = prev_super_slot_charge_results.average_current_micro_amps / 1000;
-
+  
+  analysis::ChargeResults prev_super_slot_total_charge_results;
+  analysis::ComputeChargeResults(slot_tracker.total_charge_tracker_at_prev_super_slot, &prev_super_slot_total_charge_results); 
+  
   // Compute total values in this analyais. 
   analysis::ChargeResults total_charge_results;
   analysis::ComputeChargeResults(slot_tracker.total_charge_tracker, &total_charge_results); 
@@ -269,14 +274,14 @@ void StateReporting::loop() {
     display::renderTestPage(printable_voltage, last_slot_amps_printable, 
         this_slot_charge_ticks_reading, button::isButtonPressed());
   } else if (selected_display_page == display_page::kGraphPage) {
-    const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
-    display::renderGraphPage(prev_super_slot_current_millis, average_current_millis);
+    display::renderGraphPage(prev_super_slot_charge_results.average_current_micro_amps, 
+        prev_super_slot_total_charge_results.average_current_micro_amps);
   } else if (selected_display_page == display_page::kSummary1Page) {
     //const uint16 current_millis = major_slot_charge_results.average_current_micro_amps / 1000;
-    const uint16 average_current_millis = total_charge_results.average_current_micro_amps / 1000;
     const uint16 total_charge_milli_amp_hour = total_charge_results.charge_micro_amps_hour / 1000;
-    display::appendGraphPoint(last_slot_current_millis);
-    display::renderSummary1Page(prev_super_slot_current_millis, average_current_millis,
+    display::renderSummary1Page(
+        prev_super_slot_charge_results.average_current_micro_amps, 
+        prev_super_slot_total_charge_results.average_current_micro_amps, 
         total_charge_milli_amp_hour, timestamp_secs_printable.units);     
   } else if (selected_display_page == display_page::kSummary2Page) {
     display::renderSummary2Page(
@@ -308,14 +313,14 @@ void StateReporting::loop() {
 inline void StateError::enter() {
   state = states::ERROR;
   time_in_state.restart(); 
-  // NOTE: to trigger this error, bypass the 8.2k resistor between the device (+) output
-  // and the voltage adjustment potentiometer. This will reduce the output voltage to 
-  // ~1.5V and will make the LTC2942 non responsive. 
+  // NOTE: to trigger this error for testing, short the 8.2k resistor between the 
+  // device (+) output and the voltage adjustment potentiometer. 
+  // This will reduce the output voltage to ~1.5V and will make the LTC2942 non responsive. 
   display::showMessage(display_messages::code::kLtc2943InitError, 1500);
 }
 
 inline void StateError::loop() {
-  // Insert a short delay to avoid flodding teh serial output with error messages
+  // Insert a short delay to avoid flooding the serial output with error messages
   // in case we have a permanent error condition.
   if (time_in_state.timeMillis() < 1000) {
     return;

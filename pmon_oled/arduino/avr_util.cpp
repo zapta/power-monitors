@@ -14,7 +14,7 @@
 
 void printf(const __FlashStringHelper *format, ...)
 {
-  // Assuming single thread so a static buffer should be ok.
+  // Assuming single thread so a static buffer should be OK.
   static char buf[80];
   
   // Format the string.

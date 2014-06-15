@@ -27,10 +27,10 @@ namespace display {
   extern void appendGraphPoint(uint16 currentMilliAmps);
   
   // Render a page with the current graph and momentary and analysis session average current.
-  extern void renderGraphPage(uint16 current_milli_amps, uint16 average_current_milli_amps);
+  extern void renderGraphPage(uint32 current_micro_amps, uint32 average_current_micro_amps);
   
   // Render a page with the summary part 1 of the analysis.
-  extern void renderSummary1Page(uint16 current_milli_amps, uint16 average_current_milli_amps, 
+  extern void renderSummary1Page(uint32 current_micro_amps, uint32 average_current_micro_amps, 
       uint16 total_charge_mah, uint16 time_seconds);
   
   // Render a page with the summary part 2 of the analysis.
@@ -51,7 +51,7 @@ namespace display {
   // but does not modify the display. 
   extern void showMessage(uint8 display_message_code, uint16 min_display_time_millis);
   
-}  // namepsace display
+}  // namespace display
 
 #endif
 

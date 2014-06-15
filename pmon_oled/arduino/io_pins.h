@@ -16,7 +16,7 @@
 #include "avr_util.h"
 
 namespace io_pins {
-  // A class to abstract an output pin that is not necesarily an arduino 
+  // A class to abstract an output pin that is not necessarily an arduino 
   // digital pin. Also optimized for fast setOn/Off.
   //
   // Assumes that interrupts are enabled and thus should not be called
@@ -78,7 +78,7 @@ namespace io_pins {
     const uint8 bit_mask_;
   };
 
-  // A class to abstract an input pin that is not necesarily an arduino 
+  // A class to abstract an input pin that is not necessarily an arduino 
   // digital pin. Also optimized for quick access.
   class InputPin {
    public:
@@ -89,7 +89,7 @@ namespace io_pins {
       bit_mask_(1 << bitIndex) { 
         volatile uint8& ddr = *((&port)-1);
         ddr &= ~bit_mask_;  // input
-        port |= bit_mask_;  // pullup
+        port |= bit_mask_;  // pull up
       } 
 
     inline boolean isHigh() {
@@ -104,8 +104,3 @@ namespace io_pins {
 }  // namespace io_pins
 
 #endif
-
-
-
-
-

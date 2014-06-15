@@ -17,7 +17,7 @@
 #include "io_pins.h"
 #include "passive_timer.h"
 
-// Wrapes an OutputPin with logic to blick an LED while some events occur.
+// Wraps an OutputPin with logic to blink an LED as lons as new event occur.
 // Designed to be visible regardless of the event frequency and duration.
 // Requires loop() calls from main loop().
 class ActionLed {

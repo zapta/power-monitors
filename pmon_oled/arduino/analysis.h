@@ -20,29 +20,29 @@ namespace analysis {
   
 // The charge in pico amps / hour per a single charge tick from the LTC2943. Based on the
 // formula in the LTC2943's datasheet and the following board specifics
-// * Shunt resistor: 25 millohms.
-// * Columb counter prescaler : 1
+// * Shunt resistor: 25 milliohms.
+// * Coulomb counter prescaler : 1
 static const uint32 kChargePerTickPicoAmpHour = 166016L;
 
 // A slot with at least this number of charge ticks is considered to 
 // be a wake. Otherwise, a standby.
 // With 25mhoms shunt, prescaler of 1 and 100ms slot, each unit here
 // represents about 5.976ma. Note that the accuracy is +/- 1 tick so this 
-// number should not be too small (alternativly, increase the length of
+// number should not be too small (alternatively, increase the length of
 // the slot).
 static const uint8 kMinChargeTicksPerWakeSlot = 10;
 
-// The basic measurment period, in millis.
+// The basic measurement period, in millis.
 static const uint16 kMillisPerSlot = 100;
 
-// We display the avarage momentary current every this number of slots.
+// We display the average momentary current every this number of slots.
 //
 // TODO: make this private.
 static const uint8 kSlotsInSuperSlot = 10;
 
 // Data container for tracking charge over a time period. 
 struct ChargeTracker {
-  // TODO: consider to count slots rather than milli seconds.
+  // TODO: consider to count slots rather than milliseconds.
   uint32 time_millis;
   uint32 charge_ticks;
   
@@ -51,13 +51,19 @@ struct ChargeTracker {
     charge_ticks = 0;
   } 
   
-  inline void AddCharge(uint16 delta_time_millis, uint16 delta_charge_ticks) {
+  // NOTE: the detlas are limited to 16 bits which is sufficient in our use case.
+  inline void AddSmallCharge(uint16 delta_time_millis, uint16 delta_charge_ticks) {
     time_millis += delta_time_millis;
     charge_ticks += delta_charge_ticks;
   }
+  
+  inline void CopyFrom(const ChargeTracker& other) {
+    time_millis = other.time_millis;
+    charge_ticks = other.charge_ticks;
+  }
 };
 
-// The data of a ChargeTracker mapped to usefull units.
+// The data of a ChargeTracker mapped to useful units.
 struct ChargeResults {
   // The charge in micro amp hours.
   uint32 charge_micro_amps_hour;
@@ -104,6 +110,9 @@ class SlotTracker {
   ChargeTracker prev_super_slot_charge_tracker;
   ChargeTracker current_super_slot_charge_tracker;
   uint8 num_slots_in_current_super_slot;
+  // Total charge at the end of previous super slot. Used to display the total charge
+  // at same interval as previous slot current.
+  ChargeTracker total_charge_tracker_at_prev_super_slot; 
   
   // Analysis total data.
   ChargeTracker total_charge_tracker; 
@@ -111,7 +120,7 @@ class SlotTracker {
   ChargeTracker wake_slots_charge_tracker;
   uint32 total_standby_slots;
   uint32 total_wake_slots;
-  // Num of transitions from a standby slot to an wake sloke.
+  // Number of transitions from a standby slot to an wake slot.
   uint32 total_wakes;
 
   SlotTracker() {
@@ -126,6 +135,7 @@ class SlotTracker {
     prev_super_slot_charge_tracker.Reset();
     current_super_slot_charge_tracker.Reset();
     num_slots_in_current_super_slot = 0;
+    total_charge_tracker_at_prev_super_slot.Reset();
     
     // Total analysis data.
     total_charge_tracker.Reset();
@@ -138,37 +148,41 @@ class SlotTracker {
     total_wakes = 0;
   }
   
-  inline void AddSlot(uint16 charge_ticks) {
-    
+  inline void AddSlot(uint16 charge_ticks) {   
     const boolean is_wake_slot = charge_ticks >= kMinChargeTicksPerWakeSlot;
     const boolean is_wake_count = is_wake_slot && !last_slot_was_wake;
     
     // TODO: add a Init() method instead of reset + add.
     last_slot_charge_tracker.Reset();
-    last_slot_charge_tracker.AddCharge(kMillisPerSlot, charge_ticks);
+    last_slot_charge_tracker.AddSmallCharge(kMillisPerSlot, charge_ticks);
     last_slot_was_wake = is_wake_slot;
     
-    current_super_slot_charge_tracker.AddCharge(kMillisPerSlot, charge_ticks);
+    total_charge_tracker.AddSmallCharge(kMillisPerSlot, charge_ticks); 
+    
+    current_super_slot_charge_tracker.AddSmallCharge(kMillisPerSlot, charge_ticks);
     num_slots_in_current_super_slot++;
     if (num_slots_in_current_super_slot >= kSlotsInSuperSlot) {
-      prev_super_slot_charge_tracker.Reset();
+      prev_super_slot_charge_tracker.CopyFrom(current_super_slot_charge_tracker);
+      //prev_super_slot_charge_tracker.Reset();
       // TODO: add a Init() method instead of reset + add.
-      prev_super_slot_charge_tracker.AddCharge(current_super_slot_charge_tracker.time_millis, current_super_slot_charge_tracker.charge_ticks);
+      //prev_super_slot_charge_tracker.AddCharge(current_super_slot_charge_tracker.time_millis, current_super_slot_charge_tracker.charge_ticks);
       current_super_slot_charge_tracker.Reset();
       num_slots_in_current_super_slot = 0;
+      
+      //total_charge_tracker_at_prev_super_slot.Reset();
+      //total_charge_tracker_at_prev_super_slot.AddCharge(total_charge_tracker.time_millis, total_charge_tracker.charge_ticks);
+      total_charge_tracker_at_prev_super_slot.CopyFrom(total_charge_tracker);
     }
-    
-    total_charge_tracker.AddCharge(kMillisPerSlot, charge_ticks); 
-         
+        
     if (is_wake_slot) {
-      wake_slots_charge_tracker.AddCharge(kMillisPerSlot, charge_ticks);
+      wake_slots_charge_tracker.AddSmallCharge(kMillisPerSlot, charge_ticks);
       total_wake_slots++;
       if (is_wake_count) {
         total_wakes++;
       }
       //wake_minor_slots_in_current_major_slot++;
     } else {
-      standby_slots_charge_tracker.AddCharge(kMillisPerSlot, charge_ticks);
+      standby_slots_charge_tracker.AddSmallCharge(kMillisPerSlot, charge_ticks);
       total_standby_slots++;
     }
   }

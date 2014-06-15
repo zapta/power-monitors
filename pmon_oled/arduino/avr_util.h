@@ -15,7 +15,7 @@
 
 #include <arduino.h>
 
-// Get rid of the _t type suffix.
+// Get rid of the '_t' suffixes or the basic types.
 typedef uint8_t  uint8;
 typedef uint16_t uint16;
 typedef uint32_t uint32;
@@ -27,7 +27,7 @@ typedef int32_t int32;
 typedef int64_t int64;
 
 // Bit index to bit mask.
-// AVR registers bit indices are defined in iom328p.h.
+// AVR registers bit indexes are defined in iom328p.h.
 #define H(x) (1 << (x))
 #define L(x) (0 << (x))
 
