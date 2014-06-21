@@ -112,7 +112,7 @@
 </layers>
 <schematic xreflabel="%F%N/%S.%C%R" xrefpart="/%S.%C%R">
 <libraries>
-<library name="pmon_oled">
+<library name="pmon_3v8">
 <description>Generated from &lt;b&gt;pmon_uno.sch&lt;/b&gt;&lt;p&gt;
 by exp-lbrs-filter.ulp</description>
 <packages>
@@ -414,11 +414,11 @@ Source: 008-0260-0_E.pdf</description>
 <wire x1="-0.0191" y1="0.889" x2="-1.524" y2="0.889" width="0.3048" layer="21"/>
 <wire x1="-0.0191" y1="-0.889" x2="-0.0191" y2="-0.75" width="0.3048" layer="21"/>
 <wire x1="-0.0191" y1="0.889" x2="-0.0191" y2="0.75" width="0.3048" layer="21"/>
-<text x="-1.425" y="1.425" size="1.27" layer="25" font="vector" ratio="10" rot="SR0">&gt;NAME</text>
-<pad name="1" x="-0.6858" y="0" drill="0.3302" diameter="1.143" shape="square" stop="no"/>
-<pad name="2" x="0.6858" y="0" drill="0.3302" diameter="1.143" shape="square" stop="no"/>
 <rectangle x1="-1.27" y1="-0.5842" x2="-0.1016" y2="0.5842" layer="29"/>
 <rectangle x1="0.1016" y1="-0.5842" x2="1.27" y2="0.5842" layer="29"/>
+<pad name="1" x="-0.6858" y="0" drill="0.3302" diameter="1.143" shape="square" stop="no"/>
+<pad name="2" x="0.6858" y="0" drill="0.3302" diameter="1.143" shape="square" stop="no"/>
+<text x="-1.425" y="1.425" size="1.27" layer="25" font="vector" ratio="10" rot="SR0">&gt;NAME</text>
 </package>
 <package name="DFN8-3X3">
 <description>&lt;b&gt;DD Package 8-Lead Plastic DFN (3mm × 3mm)&lt;/b&gt;&lt;p&gt;
@@ -445,6 +445,7 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <rectangle x1="0.15" y1="-1.55" x2="0.35" y2="-1.15" layer="31"/>
 <rectangle x1="0.65" y1="-1.55" x2="0.85" y2="-1.15" layer="31"/>
 <rectangle x1="-1.1" y1="-0.75" x2="1.125" y2="0.75" layer="31"/>
+<rectangle x1="-1.225" y1="-0.85" x2="1.225" y2="0.85" layer="29"/>
 <smd name="1" x="-0.75" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
 <smd name="2" x="-0.25" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
 <smd name="3" x="0.25" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
@@ -456,7 +457,6 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <smd name="EXP" x="0" y="0" dx="2.38" dy="1.65" layer="1" stop="no" cream="no"/>
 <text x="-1.905" y="1.905" size="1.27" layer="25">&gt;NAME</text>
 <text x="-1.905" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
-<rectangle x1="-1.225" y1="-0.85" x2="1.225" y2="0.85" layer="29"/>
 </package>
 <package name="TO263-5">
 <description>&lt;b&gt;Transistor Outline Package&lt;/b&gt; P-TO263-5-1</description>
@@ -1409,93 +1409,93 @@ Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%2
 </class>
 </classes>
 <parts>
-<part name="C6" library="pmon_oled" deviceset="CAP-" device="C0603" value="0.1uF"/>
-<part name="P+2" library="pmon_oled" deviceset="+5V" device=""/>
-<part name="GND16" library="pmon_oled" deviceset="GND" device=""/>
-<part name="J5" library="pmon_oled" deviceset="PINHD-2X3" device="" value="PINHD-2X3"/>
-<part name="GND14" library="pmon_oled" deviceset="GND" device=""/>
-<part name="P+5" library="pmon_oled" deviceset="+5V" device=""/>
-<part name="GND8" library="pmon_oled" deviceset="GND" device=""/>
-<part name="R10" library="pmon_oled" deviceset="RES-" device="R0603" value="10K"/>
-<part name="P+1" library="pmon_oled" deviceset="+5V" device=""/>
-<part name="C10" library="pmon_oled" deviceset="CAP-" device="C0603" value="0.1uF"/>
-<part name="C2" library="pmon_oled" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
-<part name="GND1" library="pmon_oled" deviceset="GND" device=""/>
-<part name="C7" library="pmon_oled" deviceset="CAP-" device="C0603" value="0.1uF"/>
-<part name="C5" library="pmon_oled" deviceset="CAP-" device="C0603" value="0.1uF"/>
-<part name="U$3" library="pmon_oled" deviceset="NC" device=""/>
-<part name="GND5" library="pmon_oled" deviceset="GND" device=""/>
-<part name="GND6" library="pmon_oled" deviceset="GND" device=""/>
-<part name="GND7" library="pmon_oled" deviceset="GND" device=""/>
-<part name="GND9" library="pmon_oled" deviceset="GND" device=""/>
-<part name="GND10" library="pmon_oled" deviceset="GND" device=""/>
-<part name="GND11" library="pmon_oled" deviceset="GND" device=""/>
-<part name="GND12" library="pmon_oled" deviceset="GND" device=""/>
-<part name="GND13" library="pmon_oled" deviceset="GND" device=""/>
-<part name="GND15" library="pmon_oled" deviceset="GND" device=""/>
-<part name="U$5" library="pmon_oled" deviceset="NC" device=""/>
-<part name="U$11" library="pmon_oled" deviceset="NC" device=""/>
-<part name="U$12" library="pmon_oled" deviceset="NC" device=""/>
-<part name="U$16" library="pmon_oled" deviceset="NC" device=""/>
-<part name="U$20" library="pmon_oled" deviceset="DOCFIELD" device=""/>
-<part name="GND4" library="pmon_oled" deviceset="GND" device=""/>
-<part name="U3" library="pmon_oled" deviceset="LTE1764" device="" value="LT1764AEQ"/>
-<part name="GND19" library="pmon_oled" deviceset="GND" device=""/>
-<part name="GND20" library="pmon_oled" deviceset="GND" device=""/>
-<part name="GND21" library="pmon_oled" deviceset="GND" device=""/>
-<part name="R8" library="pmon_oled" deviceset="RES-" device="R0603" value="8K2 1%"/>
-<part name="R9" library="pmon_oled" deviceset="RES-" device="R0603" value="3K3 1%"/>
-<part name="GND23" library="pmon_oled" deviceset="GND" device=""/>
-<part name="C8" library="pmon_oled" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
-<part name="C3" library="pmon_oled" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
-<part name="GND24" library="pmon_oled" deviceset="GND" device=""/>
-<part name="C4" library="pmon_oled" deviceset="CAP-" device="C0603" value="0.1uF"/>
-<part name="GND25" library="pmon_oled" deviceset="GND" device=""/>
-<part name="C9" library="pmon_oled" deviceset="CAP-" device="C0603" value="0.1uF"/>
-<part name="GND26" library="pmon_oled" deviceset="GND" device=""/>
-<part name="GND27" library="pmon_oled" deviceset="GND" device=""/>
-<part name="C1" library="pmon_oled" deviceset="CAP-" device="C0603" value="1uF"/>
-<part name="R6" library="pmon_oled" deviceset="RES-SHUNT-" device="6432" value="0.025R 1%"/>
-<part name="R2" library="pmon_oled" deviceset="RES-" device="R0603" value="3K3"/>
-<part name="R3" library="pmon_oled" deviceset="RES-" device="R0603" value="3K3"/>
-<part name="P+11" library="pmon_oled" deviceset="+5V" device=""/>
-<part name="P+12" library="pmon_oled" deviceset="+5V" device=""/>
-<part name="GND29" library="pmon_oled" deviceset="GND" device=""/>
-<part name="J1" library="pmon_oled" deviceset="USB" device=""/>
-<part name="R7" library="pmon_oled" deviceset="TRIM_US-" device="SM-42/43A" value="1K"/>
-<part name="U1" library="pmon_oled" deviceset="LTC2943" device="" value="LTC2943"/>
-<part name="GND17" library="pmon_oled" deviceset="GND" device=""/>
-<part name="R1" library="pmon_oled" deviceset="RES-" device="R0603" value="3K3"/>
-<part name="P+10" library="pmon_oled" deviceset="+5V" device=""/>
-<part name="GND22" library="pmon_oled" deviceset="GND" device=""/>
-<part name="J2" library="pmon_oled" deviceset="USB" device=""/>
-<part name="Q1" library="pmon_oled" deviceset="CRYSTAL" device="CTS406" value="16Mhz"/>
-<part name="C11" library="pmon_oled" deviceset="CAP-" device="C0603" value="20pF"/>
-<part name="C12" library="pmon_oled" deviceset="CAP-" device="C0603" value="20pF"/>
-<part name="U4" library="pmon_oled" deviceset="ATMEGA328" device="TQFP32"/>
-<part name="U2" library="pmon_oled" deviceset="FT232RL" device=""/>
-<part name="U$4" library="pmon_oled" deviceset="NC" device=""/>
-<part name="U$6" library="pmon_oled" deviceset="NC" device=""/>
-<part name="U$2" library="pmon_oled" deviceset="NC" device=""/>
-<part name="U$7" library="pmon_oled" deviceset="NC" device=""/>
-<part name="U$8" library="pmon_oled" deviceset="NC" device=""/>
-<part name="J4" library="pmon_oled" deviceset="PINHD-1X3" device="" value="PINHD-1X3"/>
-<part name="P+6" library="pmon_oled" deviceset="+5V" device=""/>
-<part name="OLED" library="pmon_oled" deviceset="OLED" device=""/>
-<part name="GND33" library="pmon_oled" deviceset="GND" device=""/>
-<part name="P+7" library="pmon_oled" deviceset="+5V" device=""/>
-<part name="U$9" library="pmon_oled" deviceset="NC" device=""/>
-<part name="R4" library="pmon_oled" deviceset="RES-" device="R0603" value="10K"/>
-<part name="R5" library="pmon_oled" deviceset="RES-" device="R0603" value="10K"/>
-<part name="U$10" library="pmon_oled" deviceset="NC" device=""/>
-<part name="U$13" library="pmon_oled" deviceset="NC" device=""/>
-<part name="SB1" library="pmon_oled" deviceset="JUMPER_SOLDER_1X2" device=""/>
-<part name="U$14" library="pmon_oled" deviceset="NC" device=""/>
-<part name="S1" library="pmon_oled" deviceset="PUSH_BUTTON" device=""/>
-<part name="U$15" library="pmon_oled" deviceset="NC" device=""/>
-<part name="U$17" library="pmon_oled" deviceset="NC" device=""/>
-<part name="U$18" library="pmon_oled" deviceset="NC" device=""/>
-<part name="U$19" library="pmon_oled" deviceset="NC" device=""/>
+<part name="C6" library="pmon_3v8" deviceset="CAP-" device="C0603" value="0.1uF"/>
+<part name="P+2" library="pmon_3v8" deviceset="+5V" device=""/>
+<part name="GND16" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="J5" library="pmon_3v8" deviceset="PINHD-2X3" device="" value="PINHD-2X3"/>
+<part name="GND14" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="P+5" library="pmon_3v8" deviceset="+5V" device=""/>
+<part name="GND8" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="R10" library="pmon_3v8" deviceset="RES-" device="R0603" value="10K"/>
+<part name="P+1" library="pmon_3v8" deviceset="+5V" device=""/>
+<part name="C10" library="pmon_3v8" deviceset="CAP-" device="C0603" value="0.1uF"/>
+<part name="C2" library="pmon_3v8" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
+<part name="GND1" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="C7" library="pmon_3v8" deviceset="CAP-" device="C0603" value="0.1uF"/>
+<part name="C5" library="pmon_3v8" deviceset="CAP-" device="C0603" value="0.1uF"/>
+<part name="U$3" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="GND5" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="GND6" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="GND7" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="GND9" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="GND10" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="GND11" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="GND12" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="GND13" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="GND15" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="U$5" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="U$11" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="U$12" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="U$16" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="U$20" library="pmon_3v8" deviceset="DOCFIELD" device=""/>
+<part name="GND4" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="U3" library="pmon_3v8" deviceset="LTE1764" device="" value="LT1764AEQ"/>
+<part name="GND19" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="GND20" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="GND21" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="R8" library="pmon_3v8" deviceset="RES-" device="R0603" value="8K2 1%"/>
+<part name="R9" library="pmon_3v8" deviceset="RES-" device="R0603" value="3K3 1%"/>
+<part name="GND23" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="C8" library="pmon_3v8" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
+<part name="C3" library="pmon_3v8" deviceset="CPOL-US" device="A/3216-18R" value="10uF"/>
+<part name="GND24" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="C4" library="pmon_3v8" deviceset="CAP-" device="C0603" value="0.1uF"/>
+<part name="GND25" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="C9" library="pmon_3v8" deviceset="CAP-" device="C0603" value="0.1uF"/>
+<part name="GND26" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="GND27" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="C1" library="pmon_3v8" deviceset="CAP-" device="C0603" value="1uF"/>
+<part name="R6" library="pmon_3v8" deviceset="RES-SHUNT-" device="6432" value="0.025R 1%"/>
+<part name="R2" library="pmon_3v8" deviceset="RES-" device="R0603" value="3K3"/>
+<part name="R3" library="pmon_3v8" deviceset="RES-" device="R0603" value="3K3"/>
+<part name="P+11" library="pmon_3v8" deviceset="+5V" device=""/>
+<part name="P+12" library="pmon_3v8" deviceset="+5V" device=""/>
+<part name="GND29" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="J1" library="pmon_3v8" deviceset="USB" device=""/>
+<part name="R7" library="pmon_3v8" deviceset="TRIM_US-" device="SM-42/43A" value="1K"/>
+<part name="U1" library="pmon_3v8" deviceset="LTC2943" device="" value="LTC2943"/>
+<part name="GND17" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="R1" library="pmon_3v8" deviceset="RES-" device="R0603" value="3K3"/>
+<part name="P+10" library="pmon_3v8" deviceset="+5V" device=""/>
+<part name="GND22" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="J2" library="pmon_3v8" deviceset="USB" device=""/>
+<part name="Q1" library="pmon_3v8" deviceset="CRYSTAL" device="CTS406" value="16Mhz"/>
+<part name="C11" library="pmon_3v8" deviceset="CAP-" device="C0603" value="20pF"/>
+<part name="C12" library="pmon_3v8" deviceset="CAP-" device="C0603" value="20pF"/>
+<part name="U4" library="pmon_3v8" deviceset="ATMEGA328" device="TQFP32"/>
+<part name="U2" library="pmon_3v8" deviceset="FT232RL" device=""/>
+<part name="U$4" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="U$6" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="U$2" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="U$7" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="U$8" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="J4" library="pmon_3v8" deviceset="PINHD-1X3" device="" value="PINHD-1X3"/>
+<part name="P+6" library="pmon_3v8" deviceset="+5V" device=""/>
+<part name="OLED" library="pmon_3v8" deviceset="OLED" device=""/>
+<part name="GND33" library="pmon_3v8" deviceset="GND" device=""/>
+<part name="P+7" library="pmon_3v8" deviceset="+5V" device=""/>
+<part name="U$9" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="R4" library="pmon_3v8" deviceset="RES-" device="R0603" value="10K"/>
+<part name="R5" library="pmon_3v8" deviceset="RES-" device="R0603" value="10K"/>
+<part name="U$10" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="U$13" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="SB1" library="pmon_3v8" deviceset="JUMPER_SOLDER_1X2" device=""/>
+<part name="U$14" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="S1" library="pmon_3v8" deviceset="PUSH_BUTTON" device=""/>
+<part name="U$15" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="U$17" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="U$18" library="pmon_3v8" deviceset="NC" device=""/>
+<part name="U$19" library="pmon_3v8" deviceset="NC" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -1503,7 +1503,7 @@ Source: http://dkc3.digikey.com/Media/PDF/Data%20Sheets/E-Switch%20PDFs/TL1105%2
 <text x="35.56" y="22.86" size="2.54" layer="97">USB/SERIAL (OPTIONAL)</text>
 <text x="204.47" y="104.14" size="2.54" layer="97">ICSP (POGO)</text>
 <text x="210.82" y="146.05" size="2.54" layer="97">MCU</text>
-<text x="185.42" y="27.94" size="2.54" layer="97" font="vector">Power Play - OLED</text>
+<text x="185.42" y="27.94" size="2.54" layer="97" font="vector">POWER PLAY 3.8V</text>
 <wire x1="-35.56" y1="238.76" x2="281.94" y2="238.76" width="0.1524" layer="94"/>
 <wire x1="281.94" y1="238.76" x2="281.94" y2="0" width="0.1524" layer="94"/>
 <wire x1="281.94" y1="0" x2="-35.56" y2="0" width="0.1524" layer="94"/>

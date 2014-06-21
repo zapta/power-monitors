@@ -1,4 +1,4 @@
-TODO list for The Arduino PMON UNO
+TODO list for POWER PLAY 3V8
 
 **SCHEMATIC**
 * Find part number of a button without the fifth ground pin.
