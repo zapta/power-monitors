@@ -320,14 +320,14 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <wire x1="-1.4" y1="1.4" x2="1.4" y2="1.4" width="0.2032" layer="21"/>
 <wire x1="1.4" y1="1.4" x2="1.4" y2="-1.4" width="0.2032" layer="21"/>
 <wire x1="1.4" y1="-1.4" x2="-1.4" y2="-1.4" width="0.2032" layer="21"/>
-<rectangle x1="-0.9" y1="1.1" x2="-0.6" y2="1.6" layer="29"/>
-<rectangle x1="-0.4" y1="1.1" x2="-0.1" y2="1.6" layer="29"/>
-<rectangle x1="0.1" y1="1.1" x2="0.4" y2="1.6" layer="29"/>
-<rectangle x1="0.6" y1="1.1" x2="0.9" y2="1.6" layer="29"/>
-<rectangle x1="-0.9" y1="-1.6" x2="-0.6" y2="-1.1" layer="29"/>
-<rectangle x1="-0.4" y1="-1.6" x2="-0.1" y2="-1.1" layer="29"/>
-<rectangle x1="0.1" y1="-1.6" x2="0.4" y2="-1.1" layer="29"/>
-<rectangle x1="0.6" y1="-1.6" x2="0.9" y2="-1.1" layer="29"/>
+<rectangle x1="-0.9" y1="1.025" x2="-0.6" y2="1.775" layer="29"/>
+<rectangle x1="-0.4" y1="1.025" x2="-0.1" y2="1.775" layer="29"/>
+<rectangle x1="0.1" y1="1.025" x2="0.4" y2="1.775" layer="29"/>
+<rectangle x1="0.6" y1="1.025" x2="0.9" y2="1.775" layer="29"/>
+<rectangle x1="-0.9" y1="-1.775" x2="-0.6" y2="-1.025" layer="29"/>
+<rectangle x1="-0.4" y1="-1.775" x2="-0.1" y2="-1.025" layer="29"/>
+<rectangle x1="0.1" y1="-1.775" x2="0.4" y2="-1.025" layer="29"/>
+<rectangle x1="0.6" y1="-1.775" x2="0.9" y2="-1.025" layer="29"/>
 <rectangle x1="-0.85" y1="1.15" x2="-0.65" y2="1.55" layer="31"/>
 <rectangle x1="-0.35" y1="1.15" x2="-0.15" y2="1.55" layer="31"/>
 <rectangle x1="0.15" y1="1.15" x2="0.35" y2="1.55" layer="31"/>
@@ -337,24 +337,18 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <rectangle x1="0.15" y1="-1.55" x2="0.35" y2="-1.15" layer="31"/>
 <rectangle x1="0.65" y1="-1.55" x2="0.85" y2="-1.15" layer="31"/>
 <rectangle x1="-1.1" y1="-0.75" x2="1.125" y2="0.75" layer="31"/>
-<smd name="1" x="-0.75" y="-1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="2" x="-0.25" y="-1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="3" x="0.25" y="-1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="4" x="0.75" y="-1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="5" x="0.75" y="1.35" dx="0.25" dy="0.45" layer="1" roundness="25" rot="R180" stop="no" cream="no"/>
-<smd name="6" x="0.25" y="1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="7" x="-0.25" y="1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="8" x="-0.75" y="1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="1" x="-0.75" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="2" x="-0.25" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="3" x="0.25" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="4" x="0.75" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="5" x="0.75" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" rot="R180" stop="no" cream="no"/>
+<smd name="6" x="0.25" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="7" x="-0.25" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="8" x="-0.75" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
 <smd name="EXP" x="0" y="0" dx="2.38" dy="1.65" layer="1" stop="no" cream="no"/>
 <text x="-1.905" y="1.905" size="1.27" layer="25">&gt;NAME</text>
 <text x="-1.905" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
-<polygon width="0.2032" layer="29">
-<vertex x="-1.15" y="0.775"/>
-<vertex x="-1.15" y="-0.615"/>
-<vertex x="-0.965" y="-0.775"/>
-<vertex x="1.125" y="-0.775"/>
-<vertex x="1.125" y="0.775"/>
-</polygon>
+<rectangle x1="-1.225" y1="-0.85" x2="1.225" y2="0.85" layer="29"/>
 </package>
 <package name="OLED">
 <description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
@@ -838,19 +832,6 @@ chip</description>
 <pin name="2" x="0" y="5.08" visible="off" length="short" direction="pas" rot="R270"/>
 <text x="-10.16" y="3.81" size="1.778" layer="95">&gt;NAME</text>
 </symbol>
-<symbol name="PUSH_BUTTON_GHOST">
-<circle x="0" y="-1.524" radius="0.915809375" width="0.254" layer="97"/>
-<circle x="0" y="1.524" radius="0.915809375" width="0.254" layer="97"/>
-<wire x1="-2.032" y1="2.54" x2="-2.032" y2="1.524" width="0.254" layer="97"/>
-<wire x1="-2.032" y1="1.524" x2="-2.032" y2="-1.27" width="0.254" layer="97"/>
-<wire x1="-2.032" y1="-1.27" x2="-2.032" y2="-2.286" width="0.254" layer="97"/>
-<wire x1="-2.032" y1="1.524" x2="-3.048" y2="1.524" width="0.254" layer="97"/>
-<wire x1="-3.048" y1="1.524" x2="-3.048" y2="-1.27" width="0.254" layer="97"/>
-<wire x1="-3.048" y1="-1.27" x2="-2.032" y2="-1.27" width="0.254" layer="97"/>
-<wire x1="0" y1="2.54" x2="0" y2="5.08" width="0.1524" layer="97"/>
-<wire x1="0" y1="-5.08" x2="0" y2="-2.54" width="0.1524" layer="97"/>
-<text x="1.524" y="-0.254" size="1.778" layer="95">&gt;NAME</text>
-</symbol>
 <symbol name="R-US">
 <wire x1="-2.54" y1="0" x2="-2.159" y2="1.016" width="0.2032" layer="94"/>
 <wire x1="-2.159" y1="1.016" x2="-1.524" y2="-1.016" width="0.2032" layer="94"/>
@@ -1193,18 +1174,6 @@ chip</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="PUSH_BUTTON_GHOST">
-<gates>
-<gate name="G$1" symbol="PUSH_BUTTON_GHOST" x="0" y="0"/>
-</gates>
-<devices>
-<device name="">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="RES-" prefix="R" uservalue="yes">
 <description>&lt;B&gt;RESISTOR&lt;/B&gt;, American symbol</description>
 <gates>
@@ -1354,7 +1323,6 @@ chip</description>
 <part name="J2" library="pmon_5v" deviceset="USB" device=""/>
 <part name="U1" library="pmon_5v" deviceset="LTC2943" device="" value="LTC2943"/>
 <part name="GND17" library="pmon_5v" deviceset="GND" device=""/>
-<part name="GND31" library="pmon_5v" deviceset="GND" device=""/>
 <part name="R1" library="pmon_5v" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="P+10" library="pmon_5v" deviceset="+5V" device=""/>
 <part name="GND22" library="pmon_5v" deviceset="GND" device=""/>
@@ -1362,7 +1330,6 @@ chip</description>
 <part name="Q1" library="pmon_5v" deviceset="CRYSTAL" device="CTS406" value="16Mhz"/>
 <part name="C9" library="pmon_5v" deviceset="CAP-" device="C0603" value="20pF"/>
 <part name="C10" library="pmon_5v" deviceset="CAP-" device="C0603" value="20pF"/>
-<part name="U$1" library="pmon_5v" deviceset="PUSH_BUTTON_GHOST" device=""/>
 <part name="U3" library="pmon_5v" deviceset="ATMEGA328" device="TQFP32"/>
 <part name="U2" library="pmon_5v" deviceset="FT232RL" device=""/>
 <part name="U$4" library="pmon_5v" deviceset="NC" device=""/>
@@ -1420,11 +1387,9 @@ DEVICE</text>
 <wire x1="226.06" y1="60.96" x2="220.98" y2="60.96" width="0.1524" layer="97"/>
 <wire x1="220.98" y1="60.96" x2="220.98" y2="86.36" width="0.1524" layer="97"/>
 <text x="-25.4" y="7.62" size="2.54" layer="97">* PROTOTYPE ONLY</text>
-<text x="165.1" y="152.4" size="2.54" layer="97">RESET*</text>
 <text x="180.34" y="139.7" size="2.54" layer="97">"ARDUINO MINI PRO 328P 5V 16Mhz"</text>
 <text x="112.014" y="104.14" size="2.54" layer="97">ACTION</text>
 <text x="122.936" y="49.784" size="2.54" layer="97">DISPLAY</text>
-<text x="165.1" y="152.4" size="2.54" layer="97">RESET*</text>
 <text x="78.994" y="57.404" size="2.032" layer="97">Dev</text>
 <text x="272.034" y="7.62" size="2.54" layer="97">B</text>
 </plain>
@@ -1511,7 +1476,6 @@ DEVICE</text>
 <instance part="J2" gate="G$1" x="-2.54" y="190.5"/>
 <instance part="U1" gate="G$1" x="22.86" y="129.54"/>
 <instance part="GND17" gate="1" x="2.54" y="111.76"/>
-<instance part="GND31" gate="1" x="180.34" y="149.86"/>
 <instance part="R1" gate="G$1" x="43.18" y="137.16" smashed="yes" rot="R90">
 <attribute name="NAME" x="41.9354" y="131.826" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="41.91" y="136.398" size="1.778" layer="96" rot="R90"/>
@@ -1533,7 +1497,6 @@ DEVICE</text>
 <attribute name="NAME" x="181.356" y="188.595" size="1.778" layer="95"/>
 <attribute name="VALUE" x="172.466" y="188.595" size="1.778" layer="96"/>
 </instance>
-<instance part="U$1" gate="G$1" x="180.34" y="160.02"/>
 <instance part="U3" gate="G$1" x="213.36" y="187.96"/>
 <instance part="U2" gate="1" x="45.72" y="53.34"/>
 <instance part="U$4" gate="G$1" x="63.5" y="55.88" rot="R180"/>
@@ -1675,10 +1638,6 @@ DEVICE</text>
 <junction x="170.18" y="187.96"/>
 </segment>
 <segment>
-<pinref part="GND31" gate="1" pin="GND"/>
-<wire x1="180.34" y1="154.94" x2="180.34" y2="152.4" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="U1" gate="G$1" pin="GND@2"/>
 <wire x1="15.24" y1="116.84" x2="15.24" y2="114.3" width="0.1524" layer="91"/>
 <wire x1="15.24" y1="114.3" x2="17.78" y2="114.3" width="0.1524" layer="91"/>
@@ -1799,7 +1758,6 @@ DEVICE</text>
 <wire x1="180.34" y1="167.64" x2="167.64" y2="167.64" width="0.1524" layer="91"/>
 <junction x="180.34" y="167.64"/>
 <label x="167.64" y="167.64" size="1.778" layer="95"/>
-<wire x1="180.34" y1="165.1" x2="180.34" y2="167.64" width="0.1524" layer="91"/>
 <pinref part="U3" gate="G$1" pin="PC6(/RESET)"/>
 </segment>
 </net>

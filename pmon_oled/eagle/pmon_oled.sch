@@ -428,14 +428,14 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <wire x1="-1.4" y1="1.4" x2="1.4" y2="1.4" width="0.2032" layer="21"/>
 <wire x1="1.4" y1="1.4" x2="1.4" y2="-1.4" width="0.2032" layer="21"/>
 <wire x1="1.4" y1="-1.4" x2="-1.4" y2="-1.4" width="0.2032" layer="21"/>
-<rectangle x1="-0.9" y1="1.1" x2="-0.6" y2="1.6" layer="29"/>
-<rectangle x1="-0.4" y1="1.1" x2="-0.1" y2="1.6" layer="29"/>
-<rectangle x1="0.1" y1="1.1" x2="0.4" y2="1.6" layer="29"/>
-<rectangle x1="0.6" y1="1.1" x2="0.9" y2="1.6" layer="29"/>
-<rectangle x1="-0.9" y1="-1.6" x2="-0.6" y2="-1.1" layer="29"/>
-<rectangle x1="-0.4" y1="-1.6" x2="-0.1" y2="-1.1" layer="29"/>
-<rectangle x1="0.1" y1="-1.6" x2="0.4" y2="-1.1" layer="29"/>
-<rectangle x1="0.6" y1="-1.6" x2="0.9" y2="-1.1" layer="29"/>
+<rectangle x1="-0.9" y1="1.025" x2="-0.6" y2="1.775" layer="29"/>
+<rectangle x1="-0.4" y1="1.025" x2="-0.1" y2="1.775" layer="29"/>
+<rectangle x1="0.1" y1="1.025" x2="0.4" y2="1.775" layer="29"/>
+<rectangle x1="0.6" y1="1.025" x2="0.9" y2="1.775" layer="29"/>
+<rectangle x1="-0.9" y1="-1.775" x2="-0.6" y2="-1.025" layer="29"/>
+<rectangle x1="-0.4" y1="-1.775" x2="-0.1" y2="-1.025" layer="29"/>
+<rectangle x1="0.1" y1="-1.775" x2="0.4" y2="-1.025" layer="29"/>
+<rectangle x1="0.6" y1="-1.775" x2="0.9" y2="-1.025" layer="29"/>
 <rectangle x1="-0.85" y1="1.15" x2="-0.65" y2="1.55" layer="31"/>
 <rectangle x1="-0.35" y1="1.15" x2="-0.15" y2="1.55" layer="31"/>
 <rectangle x1="0.15" y1="1.15" x2="0.35" y2="1.55" layer="31"/>
@@ -445,24 +445,18 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <rectangle x1="0.15" y1="-1.55" x2="0.35" y2="-1.15" layer="31"/>
 <rectangle x1="0.65" y1="-1.55" x2="0.85" y2="-1.15" layer="31"/>
 <rectangle x1="-1.1" y1="-0.75" x2="1.125" y2="0.75" layer="31"/>
-<smd name="1" x="-0.75" y="-1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="2" x="-0.25" y="-1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="3" x="0.25" y="-1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="4" x="0.75" y="-1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="5" x="0.75" y="1.35" dx="0.25" dy="0.45" layer="1" roundness="25" rot="R180" stop="no" cream="no"/>
-<smd name="6" x="0.25" y="1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="7" x="-0.25" y="1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="8" x="-0.75" y="1.35" dx="0.25" dy="0.45" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="1" x="-0.75" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="2" x="-0.25" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="3" x="0.25" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="4" x="0.75" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="5" x="0.75" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" rot="R180" stop="no" cream="no"/>
+<smd name="6" x="0.25" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="7" x="-0.25" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="8" x="-0.75" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
 <smd name="EXP" x="0" y="0" dx="2.38" dy="1.65" layer="1" stop="no" cream="no"/>
 <text x="-1.905" y="1.905" size="1.27" layer="25">&gt;NAME</text>
 <text x="-1.905" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
-<polygon width="0.2032" layer="29">
-<vertex x="-1.15" y="0.775"/>
-<vertex x="-1.15" y="-0.615"/>
-<vertex x="-0.965" y="-0.775"/>
-<vertex x="1.125" y="-0.775"/>
-<vertex x="1.125" y="0.775"/>
-</polygon>
+<rectangle x1="-1.225" y1="-0.85" x2="1.225" y2="0.85" layer="29"/>
 </package>
 <package name="TO263-5">
 <description>&lt;b&gt;Transistor Outline Package&lt;/b&gt; P-TO263-5-1</description>
@@ -1542,6 +1536,7 @@ DEVICE</text>
 <text x="-7.112" y="213.106" size="2.54" layer="97">SOURCE</text>
 <text x="135.636" y="47.244" size="2.54" layer="97">DISPLAY</text>
 <text x="78.994" y="57.404" size="2.032" layer="97">Dev</text>
+<text x="273.558" y="7.112" size="2.54" layer="97">C</text>
 </plain>
 <instances>
 <instance part="C6" gate="G$1" x="68.58" y="60.96" smashed="yes" rot="R90">
