@@ -16,8 +16,11 @@
 
 namespace button {
   
+// Button click time high limit in milliseconds.
 static uint16 kMaxClickTimeMillis = 500;
-static uint16 kMinLongPressMillis = 2500;
+
+// Button long press low limit in milliseconds.
+static uint16 kMinLongPressMillis = 2000;
 
 namespace state {
   static const uint8 kIdle = 0;

@@ -26,8 +26,8 @@ namespace display {
 // Requires for the U8Glib graphic lib which accept pin ids using the
 // Arduino digital pin numbering.
 namespace pin_numbers {
-  static const uint8_t kPD6_pin =  6;  
-  static const uint8_t kPD7_pin =  7; 
+  static const uint8 kPD6_pin =  6;  
+  static const uint8 kPD7_pin =  7; 
 }
 
 // Using hardware SPI with 2X buffer which results in 4 drawing
@@ -74,9 +74,10 @@ static inline uint8 currentMilliAmpsToDisplayY(uint16 current_milli_amps) {
   // and increase the gain at the higher end. This function is between linear and 
   // log().
   //
-  // Formulas (depending for a given a)
+  // Formulas (for a given a. Higher a value -> less aggressive logarithmic 
+  // function).
   // b = int(32/(ln(2000+a)-ln(a)))
-  // c = =int(ln(a)*b)
+  // c = int(ln(a)*b)
   //
   static const uint16 kA = 30;
   static const uint16 kB = 7;
@@ -172,9 +173,9 @@ static inline void drawGraphPage(uint8 drawing_stripe_index, uint32 current_micr
 
   if (drawing_stripe_index >= 2) {
     // If the buffer is empty, this is still valid.
-    uint8_t last_y = graph_y_points[graph_first_y_index];
-    uint8_t last_x = 0;
-    uint8_t index = graph_first_y_index;
+    uint8 last_y = graph_y_points[graph_first_y_index];
+    uint8 last_x = 0;
+    uint8 index = graph_first_y_index;
   
     // We iterate starting from the second point.
     // If the buffer has less than two points, this will have zero iterations.
@@ -185,8 +186,8 @@ static inline void drawGraphPage(uint8 drawing_stripe_index, uint32 current_micr
         index = 0;
       }
       
-      uint8_t y = graph_y_points[index];
-      uint8_t x = last_x + 2;
+      uint8 y = graph_y_points[index];
+      uint8 x = last_x + 2;
       u8g.drawLine(last_x, last_y, x, y);
       last_y = y;
       last_x = x;

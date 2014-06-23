@@ -297,12 +297,9 @@ void StateReporting::loop() {
   // TODO: Increase the sio buffer size so we can printf in one statement.
   printf(F("%u.%03u %u.%03u %u.%03u %u.%03u"), 
       timestamp_secs_printable.units,  timestamp_secs_printable.mils, 
-      last_slot_amps_printable.units, 
-      last_slot_amps_printable.mils, 
-      total_charge_amp_hour_printable.units, 
-      total_charge_amp_hour_printable.mils,
-      total_average_current_amps_printable.units, 
-      total_average_current_amps_printable.mils); 
+      last_slot_amps_printable.units, last_slot_amps_printable.mils, 
+      total_charge_amp_hour_printable.units, total_charge_amp_hour_printable.mils,
+      total_average_current_amps_printable.units, total_average_current_amps_printable.mils); 
   printf(F(" %lu %lu %lu %u\n"), 
       slot_tracker.standby_slots_charge_tracker.time_millis,
       slot_tracker.wake_slots_charge_tracker.time_millis,

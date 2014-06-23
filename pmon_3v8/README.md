@@ -64,19 +64,91 @@ Note: the ananlysis also samples and reports the momentary voltage levle at each
 
 ## OPERATION
 
-Operating the POWER PLAY 3V8 is very simple. Connect the POWER PLAY 3V8 to a 5V charger and the device under test as described above, reset the analysis by long pressing the button (~4 seconds) and let the device operate under the desired conditions. The analysis is done is real time and the results are shown on the display. Click the button to switch between display pages to see the desired values. 
+Operating the POWER PLAY 3V8 is very simple. Connect the POWER PLAY 3V8 to a 5V 2A charger and the device under test as described above, reset the analysis by long pressing the button (~4 seconds) and let the device operate under the desired conditions. The analysis is done is real time and the results are shown on the display. Click the button to switch between display pages to see the desired values. 
+
+IMPORTANT: the charger must be able to provide the peak current of the device under test. Make sure to have a brand name charger with sufficient power capabilities (e.g. 2A or larger). If the charger cannot provides the peak current, the device will turn off ocasionally. 
 
 ![](doc/pmon_3v8_with_phone.jpg)
 
 ## LOG FORMAT
-TODO
+POWER PLAY output raw data for loging and offline analysis via the USB port. When connecting to a Linux, Mac OSC or Windows 
+computer, the POWER PLAY appears as a serial port without having to install any special driver (it uses the default FTDI driver).
+The serial port parameters are 115,200 bps, 8 data bit, no parity and it provides text based data (with cr/lf line ending)
+with one record every 100 milliseconds. Each record contains the values listed below with a single space seperator between
+them.
+
+```
+8.200 0.131 0.000 0.163 0 8200 1 1
+8.300 0.155 0.000 0.163 0 8300 1 1
+8.400 0.131 0.000 0.163 0 8400 1 1
+8.500 0.042 0.000 0.161 100 8400 1 0
+8.600 0.018 0.000 0.159 200 8400 1 0
+8.700 0.018 0.000 0.158 300 8400 1 0
+8.800 0.012 0.000 0.156 400 8400 1 0
+8.900 0.018 0.000 0.155 500 8400 1 0
+9.000 0.030 0.000 0.153 600 8400 1 0
+9.100 0.060 0.000 0.152 600 8500 2 1
+9.200 0.042 0.000 0.151 700 8500 2 0
+```
+
+The fields of each log line are as follows
+
+* **T** - Timestamp since the begining of the analysis (long press the button) in milliseconds.
+* **I** - Average current during the last 100ms time slot, in Ampres.
+* **Q** - Total charge since the begining of the analysis in Ampre/Hours.
+* **Iavg** - Average current since the begining of the analysis in millliamps.
+* **Ts** - Total time since the begining of the analysis of 100ms time slot that were classified as 'standby' (average current was lower than a predefined threshold.
+* **Tw** - Total time since the begining of the analysis of 100ms time slot that were classified as 'wake' (average current was higher than a predefined threshold. (this field is redundant since it is always equals T - Ts).
+* **Nw** - number of transitions from a 'standby' (100ms) time slot to a 'wake' time slot. 
+* **W** - a boolean flag that indicates if the last 100ms time slot was classified as 'wake' (value = 1) or as 'standbay' (value = 0).
 
 ## INSTRUMETING A DEVICE
-TODO
+The process of instrumeting a mobile device to be used with POWER PLAY 3.8V varies for each device and should be done only by qualified personal that understand the device and the hazards of dealing with rechargeable Li-Ion batteries (risk or fire, personal injury and death so **beware**). For that reason, it is in out of the scope of this document.
+
+Following are the steps used to instrumeted one specific phone model (Nexus 5) that was used to test the POWER PLAY 3.8V. This is provided as general information only and not as a comprensive guide. The procedure for other devices can be very different, some may require additional capacitors in parallel to the two wires, other can require special 'fake' batteris while others can be completely incomptabible with POWER PLAY 3.8V.
+
+1. Open the back cover (pry around)
+2. Remove the black plastic cover above the battery (require removal of 6 small screws).
+3. Carefully disconnect the battery connector and the large flex connector next to it.
+4. Remove the battery (you need to pry below it, be carefull not to damage the battery).
+5. Place back the large flex cable.
+6. Solder two wires to the points shown the in the picture below.
+7. Put back the black cover and secure with the 6 screws.
+8. Cut a small notch at the edge of the back cover to have clearance for the two wires.
+9. Put back the black cover.
+10. Solder the two wires to a 3 position HiTech/JR (but not Futaba) servoce connector. Connect the center position to the (-) wires and one of the end positions to the (+) wire.
+
+![](doc/nexus_5_001.jpg)
+The Nexus 5 with cover and battery removed and two wires soldered.
+
+![](doc/nexus_5_002.jpg)
+A close up of the two connection points.
+
+![](doc/nexus_5_003.jpg)
+The phone with the black cover back in place and the wires secured with tape.
+
+![](doc/nexus_5_004.jpg)
+The exit point of the two wires.
 
 ## FIRMWARE DEVELOPEMENT
-TODO
+
+POWER PLAY 3.8V is compatible with the Arduino IDE and its firmware is an Arduno sketch whose source code is available in this directory. Here are a few notes that will help you setup the development environment.
+
+* You need to power the POWER PLAY 3.8V via its +5V connector in addition to connecting the USB port to the host computer with the Arduino IDE.
+* The POWER PLAY 3.8V looks to the Arduino IDE as an Arduino Pro Mini 16Mhz 5V ATMEGA328 board. You need to select it in the Tool section of the IDE menu.
+* You can use the IDE serial monitor facility to view output from the POWER PLAY 3.8V.
+* The POWER PLAY 3.8V sketch uses the U8glib graphic library. You need to install it on your Arduino IDE before being to compile the POWER PLAY 3.8V sketch. To do so, follow the 'manual instructions' here https://code.google.com/p/u8glib/wiki/u8glib (using the IDE's library import function results in compilation errors).
 
 ## BUILDING POWER-PLAY 3V8
-TODO
+
+Follow these steps to build your own POWER PLAY: 
+
+* Purchase the electronic components listed in the Bill Of Material (BOM) file. Most components are available from common sources such as digikey.com. You can purchase the OLED display directly from Heltec or from retailers such as eBay sellers. Make sure to purchase a white SPI display with 6 pins that match the pins in the schema (these display use the SSD1306 controller).
+* Order the printed circuit board (PCB). It is a 2 layers PCB with a Sick of Beige 60mm x 60mm form factor. Some vendors such as OSHPark.com accept Eagle .brd files directly. Others such as elecrow.com require you to generate gerber files using their custom Eagle .cam files.
+* Order a SMD stencil (5mil or 0.125mm) for the PCB. For best results, use a metal stencil (e.g. from elecrow.com) rather than mylar.
+(optional) Make the top and bottom laser cut covers. We got the best results with acrylic 1/8” fluoro blue or green. If you do not have access to a laser cutter, you can order online from services such as ponoko.com. 
+* Print, pick-and-place and reflow the SMD components, including the two micro USB connectors (use solder paste, the stencil and the reflow method of your choice such as hot air station, hot plate or a toaster oven).
+* Solder the through-hole components (two 1 pin OLED support posts, OLED display, push button, and 3 pin output header). Connecting the solder jumper SB1 is optional but recommended.
+* Power the board via the +5V connector and use an ICSP programmer of your choice (e.g. Atmel ICSP MKII with pogo pins) to program the MCU  (see the script file icsp_program_all.sh for an example). Alternatively, you can program the MCU before soldering, using a universal programmer. This step programs the MCU fuses, the MCU Arduino bootloader, and the POWER PLAY firmware. 
+* (optional) Assemble the top and bottom covers using the screws and spacers listed in the BOM. If not using the covers, you can use screws and nuts to have the PCB standing on 4 legs.
 
