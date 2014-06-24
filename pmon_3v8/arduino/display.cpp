@@ -164,7 +164,6 @@ static inline void drawGraphPage(uint8 drawing_stripe_index, uint32 current_micr
   }
   
   if (drawing_stripe_index == 1) { 
-//    snprintf_P(bfr, sizeof(bfr), PSTR("%4d ma"), average_current_milli_amps);
     const uint8 kBaseY = 25;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("Iavg"));  
     drawFraction(62, kBaseY, average_current_micro_amps, 100);
