@@ -1354,6 +1354,8 @@ chip</description>
 <part name="U$18" library="pmon_5v" deviceset="NC" device=""/>
 <part name="U$19" library="pmon_5v" deviceset="NC" device=""/>
 <part name="U$21" library="pmon_5v" deviceset="NC" device=""/>
+<part name="R8" library="pmon_5v" deviceset="RES-" device="R0603" value="3K3"/>
+<part name="GND2" library="pmon_5v" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -1507,12 +1509,12 @@ DEVICE</text>
 <instance part="P+6" gate="1" x="45.72" y="215.9" smashed="yes" rot="R270">
 <attribute name="VALUE" x="44.196" y="212.852" size="1.778" layer="96"/>
 </instance>
-<instance part="OLED" gate="G$1" x="129.54" y="71.12" smashed="yes">
-<attribute name="NAME" x="136.144" y="59.944" size="1.778" layer="95"/>
+<instance part="OLED" gate="G$1" x="129.54" y="73.66" smashed="yes">
+<attribute name="NAME" x="136.144" y="87.884" size="1.778" layer="95"/>
 </instance>
 <instance part="GND33" gate="1" x="129.54" y="55.88" smashed="yes"/>
-<instance part="P+7" gate="1" x="129.54" y="88.9" smashed="yes" rot="MR0">
-<attribute name="VALUE" x="125.73" y="85.344" size="1.778" layer="96" rot="MR90"/>
+<instance part="P+7" gate="1" x="129.54" y="91.44" smashed="yes" rot="MR0">
+<attribute name="VALUE" x="125.73" y="87.884" size="1.778" layer="96" rot="MR90"/>
 </instance>
 <instance part="U$9" gate="G$1" x="238.76" y="162.56" rot="R180"/>
 <instance part="R5" gate="G$1" x="76.2" y="73.66" smashed="yes" rot="R180">
@@ -1537,6 +1539,11 @@ DEVICE</text>
 <instance part="U$18" gate="G$1" x="238.76" y="210.82" rot="R180"/>
 <instance part="U$19" gate="G$1" x="238.76" y="208.28" rot="R180"/>
 <instance part="U$21" gate="G$1" x="238.76" y="205.74" rot="R180"/>
+<instance part="R8" gate="G$1" x="144.78" y="63.5" smashed="yes" rot="R90">
+<attribute name="NAME" x="148.082" y="64.7446" size="1.778" layer="95"/>
+<attribute name="VALUE" x="148.082" y="61.468" size="1.778" layer="96"/>
+</instance>
+<instance part="GND2" gate="1" x="144.78" y="55.88" smashed="yes"/>
 </instances>
 <busses>
 </busses>
@@ -1671,8 +1678,12 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="GND"/>
-<wire x1="129.54" y1="60.96" x2="129.54" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="63.5" x2="129.54" y2="58.42" width="0.1524" layer="91"/>
 <pinref part="GND33" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="R8" gate="G$1" pin="1"/>
+<pinref part="GND2" gate="1" pin="GND"/>
 </segment>
 </net>
 <net name="+5V" class="0">
@@ -1719,7 +1730,7 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="VCC"/>
-<wire x1="129.54" y1="83.82" x2="129.54" y2="86.36" width="0.1524" layer="91"/>
+<wire x1="129.54" y1="86.36" x2="129.54" y2="88.9" width="0.1524" layer="91"/>
 <pinref part="P+7" gate="1" pin="+5V"/>
 </segment>
 <segment>
@@ -1774,8 +1785,8 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="SCL"/>
-<wire x1="142.24" y1="76.2" x2="157.48" y2="76.2" width="0.1524" layer="91"/>
-<label x="144.78" y="76.2" size="1.778" layer="95"/>
+<wire x1="142.24" y1="78.74" x2="157.48" y2="78.74" width="0.1524" layer="91"/>
+<label x="147.32" y="78.74" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="226.06" y1="73.66" x2="248.92" y2="73.66" width="0.1524" layer="91"/>
@@ -1848,8 +1859,8 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="SDA"/>
-<wire x1="142.24" y1="73.66" x2="157.48" y2="73.66" width="0.1524" layer="91"/>
-<label x="144.78" y="73.66" size="1.778" layer="95"/>
+<wire x1="142.24" y1="76.2" x2="157.48" y2="76.2" width="0.1524" layer="91"/>
+<label x="147.32" y="76.2" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="226.06" y1="71.12" x2="248.92" y2="71.12" width="0.1524" layer="91"/>
@@ -2004,8 +2015,8 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="D/C"/>
-<wire x1="142.24" y1="68.58" x2="157.48" y2="68.58" width="0.1524" layer="91"/>
-<label x="144.78" y="68.58" size="1.778" layer="95"/>
+<wire x1="142.24" y1="71.12" x2="157.48" y2="71.12" width="0.1524" layer="91"/>
+<label x="147.32" y="71.12" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="OLED_RST" class="0">
@@ -2016,8 +2027,12 @@ DEVICE</text>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="RST"/>
-<wire x1="142.24" y1="71.12" x2="157.48" y2="71.12" width="0.1524" layer="91"/>
-<label x="144.78" y="71.12" size="1.778" layer="95"/>
+<wire x1="142.24" y1="73.66" x2="144.78" y2="73.66" width="0.1524" layer="91"/>
+<label x="147.32" y="73.66" size="1.778" layer="95"/>
+<pinref part="R8" gate="G$1" pin="2"/>
+<wire x1="144.78" y1="73.66" x2="157.48" y2="73.66" width="0.1524" layer="91"/>
+<wire x1="144.78" y1="68.58" x2="144.78" y2="73.66" width="0.1524" layer="91"/>
+<junction x="144.78" y="73.66"/>
 </segment>
 </net>
 <net name="MISO" class="0">
