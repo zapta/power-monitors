@@ -16,11 +16,9 @@
 #include "math.h"
 #include "passive_timer.h"
 #include "U8glib.h"
+#include "version.h"
 
 namespace display {
-  
-// TODO: move to a common file.
-#define FIRMWARE_VERSION "0.210"
   
 // Mapping from AVR port/pin Arduino Mini Pro digital pint number.
 // Requires for the U8Glib graphic lib which accept pin ids using the
@@ -388,14 +386,12 @@ void renderTestPage(
 
 static void drawCurrentDisplayMessage() {
   u8g.setFont(u8g_font_8x13);
-  // NOTE: drawRFrame adds about 600 bytes to the flash size compared to drawFrame.
-  // May be pulling the circle code for the rounded corners.
-  u8g.drawRFrame(0, 0, 128, 64, 5);
+  u8g.drawFrame(0, 0, 128, 64);
   
   if (current_display_message_code == display_messages::code::kSplashScreen) {
     u8g.drawStrP(22, 25, U8G_PSTR("POWER PLAY"));
     // NOTE: using compile time literal string concatenation.
-    u8g.drawStrP(27, 46, U8G_PSTR("Ver " FIRMWARE_VERSION));
+    u8g.drawStrP(27, 46, U8G_PSTR("Ver " POWER_PLAY_VERSION_STRING));
     return;
   }
   

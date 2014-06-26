@@ -29,6 +29,7 @@
 #include "display_messages.h"
 #include "ltc2943.h"
 #include "passive_timer.h"
+#include "version.h"
 
 namespace display_page {
   // Page ids.
@@ -114,7 +115,8 @@ PassiveTimer StateError::time_in_state;
 void setup() {;
   Serial.begin(115200);
   
-  printf(F("\n"));
+  // NOTE: using compile time literal string concatenation.
+  printf(F("\n# Ver " POWER_PLAY_VERSION_STRING "\n"));
 
   button::setup();
   
@@ -141,11 +143,11 @@ void setup() {;
   // Enable global interrupts.
   sei(); 
   
-  if (is_in_test_mode) {
-    display::showMessage(display_messages::code::kTestMode, 2000);
-  } else {
-    display::showMessage(display_messages::code::kSplashScreen, 2500);
-  }
+  // Display startup message.
+  const uint8 startup_message = is_in_test_mode 
+      ? display_messages::code::kTestMode
+      : display_messages::code::kSplashScreen;
+  display::showMessage(startup_message, 1500);
 }
 
 void StateInit::enter() {
