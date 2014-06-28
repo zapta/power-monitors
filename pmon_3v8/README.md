@@ -6,7 +6,7 @@ POWER PLAY 3V8 is an Arduino based measurement tool that is used to measure the 
 
 **WARNING using the POWER PLAY 3.8V required modified devices with batteries removed. This modification should be done by qualified persons only due to the risk of fire, personal injury and even death. The POWER PLAY 3V8 information is provided here as-is and you must consult a qualified person before using it in any way. NEVER operate the POWER PLAY 3V8 with the battery connected to the device under test.**
 
-![](doc/pmon_3v8_closeup_annotated.png)
+![](www/pmon_3v8_closeup_annotated.png)
 
 1. +5V power input micro USB connector. This connector should be connected to a standard 5V charger and is used to power the POWER PLAY 3V8 and the device under test. It is important to use a charger that can provide sufficient current even during peak current consumption by the device under test. When testing a typical smart phone, powering the POWER PLAY 3V8 from a USB port or a small 1A charger typically result in insufficient current and unstable operation.
 
@@ -26,7 +26,7 @@ TODO: add an overall picture with annotation for connectors, display, button and
 
 ## FUNCTIONAL BLOCK DIAGRAM
 
-![](doc/functional_diagram.png)
+![](www/functional_diagram.png)
 
 * **Voltage regulator** - a 5V to 3.8v low dropout (LDO) voltage regulator. The output voltage (nominal 3.8V) can be set by the small multi turn potentiometer on the right hand of the device.
 * **Shunt resistor** - this is a small (25 milliohms) 1% Kelvin resistor that is used to sample the current consumed the the device. The voltage drop on the shunt does not affect the output voltage of the POWER PLAY 3V8 because of the feedback loop between the output voltage and the LDO.
@@ -38,7 +38,7 @@ TODO: add an overall picture with annotation for connectors, display, button and
 
 ## CONNECTION DIAGRAM
 
-![](doc/connection_diagram.png)
+![](www/connection_diagram.png)
 
 Plug the +5V micro usb connector to a USB charger with sufficient current (e.g. 2A). Plug the modified device to the DEVICE connector. Optional: to log the data on a computer connect the USB port to a computer and run a logging program or script (the POWER PLAY 3V8 looks like a 115.2kbs FTDI serial over USB port).
 
@@ -66,7 +66,7 @@ Operating the POWER PLAY 3V8 is very simple. Connect the POWER PLAY 3V8 to a 5V 
 
 IMPORTANT: the charger must be able to provide the peak current of the device under test. Make sure to have a brand name charger with sufficient power capabilities (e.g. 2A or larger). If the charger cannot provides the peak current, the device will turn off occasionally. 
 
-![](doc/pmon_3v8_with_phone.jpg)
+![](www/pmon_3v8_with_phone.jpg)
 
 ## LOG FORMAT
 POWER PLAY output raw data for logging and offline analysis via the USB port. When connecting to a Linux, Mac OSC or Windows 
@@ -116,16 +116,16 @@ Following are the steps used to instrument one specific phone model (Nexus 5) th
 9. Put back the black cover.
 10. Solder the two wires to a 3 position HiTech/JR (but not Futaba) servo connector. Connect the center position to the (-) wires and one of the end positions to the (+) wire.
 
-![](doc/nexus_5_001.jpg)
+![](www/nexus_5_001.jpg)
 The Nexus 5 with cover and battery removed and two wires soldered.
 
-![](doc/nexus_5_002.jpg)
+![](www/nexus_5_002.jpg)
 A close up of the two connection points.
 
-![](doc/nexus_5_003.jpg)
+![](www/nexus_5_003.jpg)
 The phone with the black cover back in place and the wires secured with tape.
 
-![](doc/nexus_5_004.jpg)
+![](www/nexus_5_004.jpg)
 The exit point of the two wires.
 
 ## FIRMWARE DEVELOPMENT

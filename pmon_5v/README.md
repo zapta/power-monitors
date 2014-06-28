@@ -7,7 +7,7 @@ POWER PLAY 5V is identical to the POWER PLAY 3.8V except that it passes through 
 Since many aspects of POWER PLAY 5V are identical to POWER PLAY 3.8V, we list here only the differences.
 
 
-![](doc/pmon_5v_closeup_annotated.png)
+![](www/pmon_5v_closeup_annotated.png)
 
 1. +5V power input micro USB connector. Identical to POWER PLAY 3.8V.
 
