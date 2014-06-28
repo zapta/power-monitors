@@ -52,6 +52,20 @@ static uint8 selected_display_page;
 // test mode power cycle the unit (without having the button pressed).
 static boolean is_in_test_mode;
 
+// Called from the main loop() when in test mode. It echos serial in to serial out.
+// Testing serial in is important because it is used for firmware upgrade via the 
+// serial bootloader.
+static inline void test_mode_serial_echo_loop() {
+  if (Serial.available()) {
+    const unsigned char b = Serial.read();
+    if ((b == '\n') || (b == '\r')) {
+      printf(F("\n"), b);
+    } else {
+      printf(F("[%c]"),  b); 
+    }   
+  } 
+}
+
 // Not used when in test mode.
 // Increment selected_display_page to the next page.
 static inline void incrementCurrentDisplayPage() {
@@ -129,6 +143,9 @@ void setup() {;
     button::loop();
   }
   is_in_test_mode = button::isButtonPressed();
+  if (is_in_test_mode) {
+    printf(F("# Test mode.\n"));
+  }
   
   // Setup display.
   display::setup();
@@ -171,6 +188,10 @@ void StateReporting::enter() {
 void StateReporting::loop() {
   debug_pin.high();
   debug_pin.low();
+  
+  if (is_in_test_mode) {
+    test_mode_serial_echo_loop();
+  }
   
   // Handle button events. We ignore it if in test mode.
   if (!is_in_test_mode) {
@@ -296,17 +317,22 @@ void StateReporting::loop() {
     display::showMessage(display_messages::code::kGeneralError, 100);
   }
   
-  // TODO: Increase the sio buffer size so we can printf in one statement.
-  printf(F("%u.%03u %u.%03u %u.%03u %u.%03u"), 
-      timestamp_secs_printable.units,  timestamp_secs_printable.mils, 
-      last_slot_amps_printable.units, last_slot_amps_printable.mils, 
-      total_charge_amp_hour_printable.units, total_charge_amp_hour_printable.mils,
-      total_average_current_amps_printable.units, total_average_current_amps_printable.mils); 
-  printf(F(" %lu %lu %lu %u\n"), 
-      slot_tracker.standby_slots_charge_tracker.time_millis,
-      slot_tracker.wake_slots_charge_tracker.time_millis,
-      slot_tracker.total_wakes,
-      (slot_tracker.last_slot_was_wake ? 1 : 0)); 
+  // In test mode we echo serial in to serial out so supressing these printouts
+  // to reduce clutter on serial out.
+  if (!is_in_test_mode) {
+    // NOTE: we split the formatting so we don't hit the limit of the static buffer of
+    // avr_util.h/printf(). 
+    printf(F("%u.%03u %u.%03u %u.%03u %u.%03u"), 
+        timestamp_secs_printable.units,  timestamp_secs_printable.mils, 
+        last_slot_amps_printable.units, last_slot_amps_printable.mils, 
+        total_charge_amp_hour_printable.units, total_charge_amp_hour_printable.mils,
+        total_average_current_amps_printable.units, total_average_current_amps_printable.mils); 
+    printf(F(" %lu %lu %lu %u\n"), 
+        slot_tracker.standby_slots_charge_tracker.time_millis,
+        slot_tracker.wake_slots_charge_tracker.time_millis,
+        slot_tracker.total_wakes,
+        (slot_tracker.last_slot_was_wake ? 1 : 0)); 
+  }
 }
 
 inline void StateError::enter() {
