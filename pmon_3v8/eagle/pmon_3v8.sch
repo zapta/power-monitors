@@ -442,24 +442,16 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <rectangle x1="-0.4" y1="-1.775" x2="-0.1" y2="-1.025" layer="29"/>
 <rectangle x1="0.1" y1="-1.775" x2="0.4" y2="-1.025" layer="29"/>
 <rectangle x1="0.6" y1="-1.775" x2="0.9" y2="-1.025" layer="29"/>
-<rectangle x1="-0.85" y1="1.15" x2="-0.65" y2="1.55" layer="31"/>
-<rectangle x1="-0.35" y1="1.15" x2="-0.15" y2="1.55" layer="31"/>
-<rectangle x1="0.15" y1="1.15" x2="0.35" y2="1.55" layer="31"/>
-<rectangle x1="0.65" y1="1.15" x2="0.85" y2="1.55" layer="31"/>
-<rectangle x1="-0.85" y1="-1.55" x2="-0.65" y2="-1.15" layer="31"/>
-<rectangle x1="-0.35" y1="-1.55" x2="-0.15" y2="-1.15" layer="31"/>
-<rectangle x1="0.15" y1="-1.55" x2="0.35" y2="-1.15" layer="31"/>
-<rectangle x1="0.65" y1="-1.55" x2="0.85" y2="-1.15" layer="31"/>
 <rectangle x1="-1.1" y1="-0.75" x2="1.125" y2="0.75" layer="31"/>
 <rectangle x1="-1.225" y1="-0.85" x2="1.225" y2="0.85" layer="29"/>
-<smd name="1" x="-0.75" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="2" x="-0.25" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="3" x="0.25" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="4" x="0.75" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="5" x="0.75" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" rot="R180" stop="no" cream="no"/>
-<smd name="6" x="0.25" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="7" x="-0.25" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
-<smd name="8" x="-0.75" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no" cream="no"/>
+<smd name="1" x="-0.75" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no"/>
+<smd name="2" x="-0.25" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no"/>
+<smd name="3" x="0.25" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no"/>
+<smd name="4" x="0.75" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no"/>
+<smd name="5" x="0.75" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" rot="R180" stop="no"/>
+<smd name="6" x="0.25" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no"/>
+<smd name="7" x="-0.25" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no"/>
+<smd name="8" x="-0.75" y="1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no"/>
 <smd name="EXP" x="0" y="0" dx="2.38" dy="1.65" layer="1" stop="no" cream="no"/>
 <text x="-1.905" y="1.905" size="1.27" layer="25">&gt;NAME</text>
 <text x="-1.905" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
