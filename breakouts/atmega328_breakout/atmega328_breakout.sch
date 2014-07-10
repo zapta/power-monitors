@@ -1244,19 +1244,34 @@ chip</description>
 </sheet>
 </sheets>
 <errors>
-<approved hash="104,1,190.5,160.02,U4,AGND,GND,,,"/>
-<approved hash="104,1,190.5,213.36,U4,AVCC,+5V,,,"/>
-<approved hash="104,1,190.5,210.82,U4,VCC,+5V,,,"/>
-<approved hash="104,1,190.5,208.28,U4,VCC,+5V,,,"/>
-<approved hash="104,1,63.5,48.26,U2,3V3OUT,N$16,,,"/>
-<approved hash="104,1,38.1,78.74,U2,VCC,VUSB,,,"/>
-<approved hash="104,1,45.72,78.74,U2,VCCIO,VUSB,,,"/>
-<approved hash="104,1,129.54,83.82,OLED,VCC,+5V,,,"/>
-<approved hash="117,1,190.5,203.2,AREF,,,,,"/>
-<approved hash="106,1,238.76,180.34,DEBUG,,,,,"/>
-<approved hash="105,1,236.22,83.82,N$3,,,,,"/>
-<approved hash="105,1,237.49,68.58,N$24,,,,,"/>
-<approved hash="105,1,237.49,66.04,N$25,,,,,"/>
+<approved hash="104,1,190.5,73.66,U1,AGND,GND,,,"/>
+<approved hash="104,1,190.5,127,U1,AVCC,VCC,,,"/>
+<approved hash="113,1,107.95,42.0412,J1,,,,,"/>
+<approved hash="113,1,85.6827,127,PC0,,,,,"/>
+<approved hash="113,1,85.6827,124.46,PC1,,,,,"/>
+<approved hash="113,1,85.6827,121.92,PC2,,,,,"/>
+<approved hash="113,1,85.6827,119.38,PC3,,,,,"/>
+<approved hash="113,1,85.6827,116.84,PC4,,,,,"/>
+<approved hash="113,1,85.6827,114.3,PC5,,,,,"/>
+<approved hash="113,1,85.6827,111.76,PC6,,,,,"/>
+<approved hash="113,1,85.6827,109.22,PC7,,,,,"/>
+<approved hash="113,1,85.6827,101.6,PD0,,,,,"/>
+<approved hash="113,1,85.6827,99.06,PD1,,,,,"/>
+<approved hash="113,1,85.6827,96.52,PD2,,,,,"/>
+<approved hash="113,1,85.6827,93.98,PD3,,,,,"/>
+<approved hash="113,1,85.6827,91.44,PD4,,,,,"/>
+<approved hash="113,1,85.6827,88.9,PD5,,,,,"/>
+<approved hash="113,1,85.6827,86.36,PD6,,,,,"/>
+<approved hash="113,1,85.6827,83.82,PD7,,,,,"/>
+<approved hash="113,1,121.243,127,PB0,,,,,"/>
+<approved hash="113,1,121.243,124.46,PB1,,,,,"/>
+<approved hash="113,1,121.243,121.92,PB2,,,,,"/>
+<approved hash="113,1,121.243,119.38,PB3,,,,,"/>
+<approved hash="113,1,121.243,116.84,PB4,,,,,"/>
+<approved hash="113,1,121.243,114.3,PB5,,,,,"/>
+<approved hash="113,1,121.243,101.6,VCC,,,,,"/>
+<approved hash="113,1,121.243,93.98,GND,,,,,"/>
+<approved hash="113,1,121.243,86.36,RST,,,,,"/>
 </errors>
 </schematic>
 </drawing>
