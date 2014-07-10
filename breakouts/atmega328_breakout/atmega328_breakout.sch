@@ -236,11 +236,6 @@ Source: 008-0260-0_E.pdf</description>
 <text x="-1.27" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
 </package>
 <package name="ICSP">
-<circle x="-2.54" y="1.27" radius="0.508" width="1.016" layer="29"/>
-<circle x="0" y="1.27" radius="0.508" width="1.016" layer="29"/>
-<circle x="2.54" y="1.27" radius="0.508" width="1.016" layer="29"/>
-<circle x="0" y="-1.27" radius="0.508" width="1.016" layer="29"/>
-<circle x="2.54" y="-1.27" radius="0.508" width="1.016" layer="29"/>
 <wire x1="-3.81" y1="-1.905" x2="-3.175" y2="-2.54" width="0.1524" layer="21"/>
 <wire x1="-1.905" y1="-2.54" x2="-1.27" y2="-1.905" width="0.1524" layer="21"/>
 <wire x1="-1.27" y1="-1.905" x2="-0.635" y2="-2.54" width="0.1524" layer="21"/>
@@ -263,13 +258,12 @@ Source: 008-0260-0_E.pdf</description>
 <wire x1="3.175" y1="2.54" x2="3.81" y2="1.905" width="0.1524" layer="21"/>
 <wire x1="3.81" y1="1.905" x2="3.81" y2="-1.905" width="0.1524" layer="21"/>
 <wire x1="1.905" y1="-2.54" x2="3.175" y2="-2.54" width="0.1524" layer="21"/>
-<rectangle x1="-3.556" y1="-2.286" x2="-1.524" y2="-0.254" layer="29"/>
-<pad name="GND" x="2.54" y="1.27" drill="1.016" diameter="1.905" stop="no"/>
-<pad name="MISO" x="-2.54" y="-1.27" drill="1.016" diameter="1.905" shape="square" stop="no"/>
-<pad name="MOSI" x="0" y="1.27" drill="1.016" diameter="1.905" stop="no"/>
-<pad name="RESET" x="2.54" y="-1.27" drill="1.016" diameter="1.905" stop="no"/>
-<pad name="SCK" x="0" y="-1.27" drill="1.016" diameter="1.905" stop="no"/>
-<pad name="VCC" x="-2.54" y="1.27" drill="1.016" diameter="1.905" stop="no"/>
+<pad name="GND" x="2.54" y="1.27" drill="1.016"/>
+<pad name="MISO" x="-2.54" y="-1.27" drill="1.016" shape="square"/>
+<pad name="MOSI" x="0" y="1.27" drill="1.016"/>
+<pad name="RESET" x="2.54" y="-1.27" drill="1.016"/>
+<pad name="SCK" x="0" y="-1.27" drill="1.016"/>
+<pad name="VCC" x="-2.54" y="1.27" drill="1.016"/>
 <text x="-3.81" y="3.175" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 </package>
 <package name="R0603">
