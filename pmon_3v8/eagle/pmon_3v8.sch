@@ -1083,10 +1083,10 @@ Source: http://www.taiwansemi.com .. 5205_0409c.pdf</description>
 <text x="-7.62" y="8.255" size="1.778" layer="95">&gt;NAME</text>
 <text x="-7.62" y="-10.16" size="1.778" layer="96">&gt;VALUE</text>
 </symbol>
-<symbol name="+4V">
+<symbol name="VCC">
 <wire x1="1.27" y1="0.635" x2="0" y2="2.54" width="0.254" layer="94"/>
 <wire x1="0" y1="2.54" x2="-1.27" y2="0.635" width="0.254" layer="94"/>
-<pin name="+4V" x="0" y="0" visible="off" length="short" direction="sup" rot="R90"/>
+<pin name="VCC" x="0" y="0" visible="off" length="short" direction="sup" rot="R90"/>
 <text x="-2.54" y="-2.54" size="1.778" layer="96" rot="R90">&gt;VALUE</text>
 </symbol>
 <symbol name="OSH">
@@ -1536,9 +1536,9 @@ Source: http://www.taiwansemi.com .. 5205_0409c.pdf</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="+4V">
+<deviceset name="VCC">
 <gates>
-<gate name="G$1" symbol="+4V" x="0" y="0"/>
+<gate name="G$1" symbol="VCC" x="0" y="0"/>
 </gates>
 <devices>
 <device name="">
@@ -1657,14 +1657,14 @@ Source: http://www.taiwansemi.com .. 5205_0409c.pdf</description>
 <part name="R11" library="pmon_3v8" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="GND2" library="pmon_3v8" deviceset="GND" device=""/>
 <part name="U5" library="pmon_3v8" deviceset="TC1015" device=""/>
-<part name="U$1" library="pmon_3v8" deviceset="+4V" device=""/>
-<part name="U$21" library="pmon_3v8" deviceset="+4V" device=""/>
-<part name="U$22" library="pmon_3v8" deviceset="+4V" device=""/>
-<part name="U$23" library="pmon_3v8" deviceset="+4V" device=""/>
-<part name="U$24" library="pmon_3v8" deviceset="+4V" device=""/>
-<part name="U$25" library="pmon_3v8" deviceset="+4V" device=""/>
-<part name="U$26" library="pmon_3v8" deviceset="+4V" device=""/>
-<part name="U$27" library="pmon_3v8" deviceset="+4V" device=""/>
+<part name="U$1" library="pmon_3v8" deviceset="VCC" device=""/>
+<part name="U$21" library="pmon_3v8" deviceset="VCC" device=""/>
+<part name="U$22" library="pmon_3v8" deviceset="VCC" device=""/>
+<part name="U$23" library="pmon_3v8" deviceset="VCC" device=""/>
+<part name="U$24" library="pmon_3v8" deviceset="VCC" device=""/>
+<part name="U$25" library="pmon_3v8" deviceset="VCC" device=""/>
+<part name="U$26" library="pmon_3v8" deviceset="VCC" device=""/>
+<part name="U$27" library="pmon_3v8" deviceset="VCC" device=""/>
 <part name="P+1" library="pmon_3v8" deviceset="+5V" device=""/>
 <part name="GND3" library="pmon_3v8" deviceset="GND" device=""/>
 <part name="C13" library="pmon_3v8" deviceset="CAP-" device="C0603" value="1uF"/>
@@ -1692,7 +1692,7 @@ Source: http://www.taiwansemi.com .. 5205_0409c.pdf</description>
 <text x="-15.24" y="43.18" size="2.54" layer="97">USB</text>
 <text x="134.62" y="194.056" size="2.54" layer="97">TO
 DEVICE</text>
-<text x="104.648" y="208.026" size="2.54" layer="97">3.8V</text>
+<text x="104.648" y="213.106" size="2.54" layer="97">3.8V</text>
 <text x="208.534" y="77.978" size="1.778" layer="97">1</text>
 <text x="208.534" y="75.438" size="1.778" layer="97">2</text>
 <text x="208.534" y="72.898" size="1.778" layer="97">3</text>
@@ -1713,7 +1713,8 @@ DEVICE</text>
 <text x="140.716" y="47.244" size="2.54" layer="97">DISPLAY</text>
 <text x="78.994" y="57.404" size="2.032" layer="97">Dev</text>
 <text x="273.558" y="7.112" size="2.54" layer="97">D</text>
-<text x="101.854" y="104.14" size="2.54" layer="97">+4V LDO</text>
+<text x="94.234" y="104.14" size="2.54" layer="97">VCC LDO (4V)</text>
+<text x="104.648" y="208.026" size="2.54" layer="97">(3.6V-4.2V)</text>
 </plain>
 <instances>
 <instance part="C6" gate="G$1" x="68.58" y="60.96" smashed="yes" rot="R90">
@@ -2522,11 +2523,11 @@ DEVICE</text>
 <wire x1="73.66" y1="60.96" x2="76.2" y2="60.96" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="+4V" class="0">
+<net name="VCC" class="0">
 <segment>
 <pinref part="U5" gate="G$1" pin="VOUT"/>
 <wire x1="121.92" y1="132.08" x2="129.54" y2="132.08" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="+4V"/>
+<pinref part="U$1" gate="G$1" pin="VCC"/>
 <pinref part="C13" gate="G$1" pin="1"/>
 <wire x1="129.54" y1="132.08" x2="134.62" y2="132.08" width="0.1524" layer="91"/>
 <wire x1="129.54" y1="127" x2="129.54" y2="132.08" width="0.1524" layer="91"/>
@@ -2535,17 +2536,17 @@ DEVICE</text>
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
 <wire x1="43.18" y1="144.78" x2="43.18" y2="142.24" width="0.1524" layer="91"/>
-<pinref part="U$21" gate="G$1" pin="+4V"/>
+<pinref part="U$21" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="R2" gate="G$1" pin="2"/>
 <wire x1="48.26" y1="144.78" x2="48.26" y2="142.24" width="0.1524" layer="91"/>
-<pinref part="U$22" gate="G$1" pin="+4V"/>
+<pinref part="U$22" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="R3" gate="G$1" pin="2"/>
 <wire x1="53.34" y1="144.78" x2="53.34" y2="142.24" width="0.1524" layer="91"/>
-<pinref part="U$23" gate="G$1" pin="+4V"/>
+<pinref part="U$23" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <wire x1="190.5" y1="208.28" x2="187.96" y2="208.28" width="0.1524" layer="91"/>
@@ -2561,41 +2562,41 @@ DEVICE</text>
 <pinref part="U4" gate="G$1" pin="AVCC"/>
 <pinref part="U4" gate="G$1" pin="VCC@1"/>
 <pinref part="U4" gate="G$1" pin="VCC@2"/>
-<pinref part="U$24" gate="G$1" pin="+4V"/>
+<pinref part="U$24" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="J5" gate="A" pin="2"/>
 <wire x1="218.44" y1="121.92" x2="233.68" y2="121.92" width="0.1524" layer="91"/>
 <wire x1="233.68" y1="121.92" x2="233.68" y2="124.46" width="0.1524" layer="91"/>
-<pinref part="U$25" gate="G$1" pin="+4V"/>
+<pinref part="U$25" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="R10" gate="G$1" pin="2"/>
-<pinref part="U$26" gate="G$1" pin="+4V"/>
+<pinref part="U$26" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="VCC"/>
 <wire x1="142.24" y1="83.82" x2="142.24" y2="86.36" width="0.1524" layer="91"/>
-<pinref part="U$27" gate="G$1" pin="+4V"/>
+<pinref part="U$27" gate="G$1" pin="VCC"/>
 </segment>
 </net>
 </nets>
 </sheet>
 </sheets>
 <errors>
+<approved hash="102,1,121.92,132.08,VOUT,VCC,,,,"/>
 <approved hash="104,1,190.5,160.02,U4,AGND,GND,,,"/>
-<approved hash="104,1,190.5,213.36,U4,AVCC,+5V,,,"/>
-<approved hash="104,1,190.5,210.82,U4,VCC,+5V,,,"/>
-<approved hash="104,1,190.5,208.28,U4,VCC,+5V,,,"/>
+<approved hash="104,1,190.5,213.36,U4,AVCC,VCC,,,"/>
 <approved hash="104,1,63.5,48.26,U2,3V3OUT,N$16,,,"/>
 <approved hash="104,1,38.1,78.74,U2,VCC,VUSB,,,"/>
 <approved hash="104,1,45.72,78.74,U2,VCCIO,VUSB,,,"/>
-<approved hash="104,1,129.54,83.82,OLED,VCC,+5V,,,"/>
+<approved hash="202,1,121.92,124.46,U5,FB,,,,"/>
+<approved hash="104,1,101.6,132.08,U5,VIN,+5V,,,"/>
 <approved hash="117,1,190.5,203.2,AREF,,,,,"/>
 <approved hash="106,1,238.76,180.34,DEBUG,,,,,"/>
-<approved hash="105,1,236.22,83.82,N$3,,,,,"/>
-<approved hash="105,1,237.49,68.58,N$24,,,,,"/>
-<approved hash="105,1,237.49,66.04,N$25,,,,,"/>
+<approved hash="105,1,222.25,78.74,N$3,,,,,"/>
+<approved hash="105,1,222.25,63.5,N$24,,,,,"/>
+<approved hash="105,1,222.25,60.96,N$25,,,,,"/>
 </errors>
 </schematic>
 </drawing>

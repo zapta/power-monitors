@@ -989,10 +989,10 @@ Source: http://www.taiwansemi.com .. 5205_0409c.pdf</description>
 <text x="-7.62" y="8.255" size="1.778" layer="95">&gt;NAME</text>
 <text x="-7.62" y="-10.16" size="1.778" layer="96">&gt;VALUE</text>
 </symbol>
-<symbol name="+4V">
+<symbol name="VCC">
 <wire x1="1.27" y1="0.635" x2="0" y2="2.54" width="0.254" layer="94"/>
 <wire x1="0" y1="2.54" x2="-1.27" y2="0.635" width="0.254" layer="94"/>
-<pin name="+4V" x="0" y="0" visible="off" length="short" direction="sup" rot="R90"/>
+<pin name="VCC" x="0" y="0" visible="off" length="short" direction="sup" rot="R90"/>
 <text x="-2.54" y="-2.54" size="1.778" layer="96" rot="R90">&gt;VALUE</text>
 </symbol>
 <symbol name="OSH">
@@ -1404,9 +1404,9 @@ Source: http://www.taiwansemi.com .. 5205_0409c.pdf</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="+4V">
+<deviceset name="VCC">
 <gates>
-<gate name="G$1" symbol="+4V" x="0" y="0"/>
+<gate name="G$1" symbol="VCC" x="0" y="0"/>
 </gates>
 <devices>
 <device name="">
@@ -1515,20 +1515,20 @@ Source: http://www.taiwansemi.com .. 5205_0409c.pdf</description>
 <part name="R8" library="pmon_5v" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="GND2" library="pmon_5v" deviceset="GND" device=""/>
 <part name="U4" library="pmon_5v" deviceset="TC1015" device=""/>
-<part name="U$1" library="pmon_5v" deviceset="+4V" device=""/>
+<part name="U$1" library="pmon_5v" deviceset="VCC" device=""/>
 <part name="C11" library="pmon_5v" deviceset="CAP-" device="C0603" value="1uF"/>
 <part name="C12" library="pmon_5v" deviceset="CAP-" device="C0603" value="1uF"/>
 <part name="GND3" library="pmon_5v" deviceset="GND" device=""/>
 <part name="GND18" library="pmon_5v" deviceset="GND" device=""/>
 <part name="GND19" library="pmon_5v" deviceset="GND" device=""/>
 <part name="P+3" library="pmon_5v" deviceset="+5V" device=""/>
-<part name="U$15" library="pmon_5v" deviceset="+4V" device=""/>
-<part name="U$22" library="pmon_5v" deviceset="+4V" device=""/>
-<part name="U$23" library="pmon_5v" deviceset="+4V" device=""/>
-<part name="U$24" library="pmon_5v" deviceset="+4V" device=""/>
-<part name="U$25" library="pmon_5v" deviceset="+4V" device=""/>
-<part name="U$26" library="pmon_5v" deviceset="+4V" device=""/>
-<part name="U$27" library="pmon_5v" deviceset="+4V" device=""/>
+<part name="U$15" library="pmon_5v" deviceset="VCC" device=""/>
+<part name="U$22" library="pmon_5v" deviceset="VCC" device=""/>
+<part name="U$23" library="pmon_5v" deviceset="VCC" device=""/>
+<part name="U$24" library="pmon_5v" deviceset="VCC" device=""/>
+<part name="U$25" library="pmon_5v" deviceset="VCC" device=""/>
+<part name="U$26" library="pmon_5v" deviceset="VCC" device=""/>
+<part name="U$27" library="pmon_5v" deviceset="VCC" device=""/>
 <part name="U$28" library="pmon_5v" deviceset="OSH" device=""/>
 </parts>
 <sheets>
@@ -1568,7 +1568,7 @@ DEVICE</text>
 <text x="122.936" y="49.784" size="2.54" layer="97">DISPLAY</text>
 <text x="78.994" y="57.404" size="2.032" layer="97">Dev</text>
 <text x="272.034" y="7.62" size="2.54" layer="97">C</text>
-<text x="101.6" y="104.14" size="2.54" layer="97">+4V LDO</text>
+<text x="96.52" y="104.14" size="2.54" layer="97">VCC LDO (4V)</text>
 </plain>
 <instances>
 <instance part="C6" gate="G$1" x="68.58" y="60.96" smashed="yes" rot="R90">
@@ -2282,21 +2282,21 @@ DEVICE</text>
 <wire x1="55.88" y1="195.58" x2="58.42" y2="195.58" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="+4V" class="0">
+<net name="VCC" class="0">
 <segment>
 <pinref part="R1" gate="G$1" pin="2"/>
 <wire x1="43.18" y1="144.78" x2="43.18" y2="142.24" width="0.1524" layer="91"/>
-<pinref part="U$15" gate="G$1" pin="+4V"/>
+<pinref part="U$15" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="R2" gate="G$1" pin="2"/>
 <wire x1="48.26" y1="144.78" x2="48.26" y2="142.24" width="0.1524" layer="91"/>
-<pinref part="U$22" gate="G$1" pin="+4V"/>
+<pinref part="U$22" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="R3" gate="G$1" pin="2"/>
 <wire x1="53.34" y1="144.78" x2="53.34" y2="142.24" width="0.1524" layer="91"/>
-<pinref part="U$23" gate="G$1" pin="+4V"/>
+<pinref part="U$23" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <wire x1="190.5" y1="208.28" x2="187.96" y2="208.28" width="0.1524" layer="91"/>
@@ -2312,29 +2312,29 @@ DEVICE</text>
 <pinref part="U3" gate="G$1" pin="AVCC"/>
 <pinref part="U3" gate="G$1" pin="VCC@1"/>
 <pinref part="U3" gate="G$1" pin="VCC@2"/>
-<pinref part="U$24" gate="G$1" pin="+4V"/>
+<pinref part="U$24" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="R7" gate="G$1" pin="2"/>
-<pinref part="U$25" gate="G$1" pin="+4V"/>
+<pinref part="U$25" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="OLED" gate="G$1" pin="VCC"/>
 <wire x1="129.54" y1="86.36" x2="129.54" y2="88.9" width="0.1524" layer="91"/>
-<pinref part="U$26" gate="G$1" pin="+4V"/>
+<pinref part="U$26" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="J4" gate="A" pin="2"/>
 <wire x1="218.44" y1="121.92" x2="233.68" y2="121.92" width="0.1524" layer="91"/>
 <wire x1="233.68" y1="121.92" x2="233.68" y2="124.46" width="0.1524" layer="91"/>
-<pinref part="U$27" gate="G$1" pin="+4V"/>
+<pinref part="U$27" gate="G$1" pin="VCC"/>
 </segment>
 <segment>
 <pinref part="U4" gate="G$1" pin="VOUT"/>
 <pinref part="C12" gate="G$1" pin="1"/>
 <wire x1="119.38" y1="129.54" x2="127" y2="129.54" width="0.1524" layer="91"/>
 <wire x1="127" y1="129.54" x2="127" y2="121.92" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="+4V"/>
+<pinref part="U$1" gate="G$1" pin="VCC"/>
 <wire x1="127" y1="129.54" x2="132.08" y2="129.54" width="0.1524" layer="91"/>
 <junction x="127" y="129.54"/>
 </segment>
@@ -2343,17 +2343,17 @@ DEVICE</text>
 </sheet>
 </sheets>
 <errors>
+<approved hash="102,1,119.38,129.54,VOUT,VCC,,,,"/>
 <approved hash="104,1,190.5,160.02,U3,AGND,GND,,,"/>
-<approved hash="104,1,190.5,213.36,U3,AVCC,+5V,,,"/>
-<approved hash="104,1,190.5,210.82,U3,VCC,+5V,,,"/>
-<approved hash="104,1,190.5,208.28,U3,VCC,+5V,,,"/>
+<approved hash="104,1,190.5,213.36,U3,AVCC,VCC,,,"/>
 <approved hash="104,1,63.5,48.26,U2,3V3OUT,N$16,,,"/>
 <approved hash="104,1,38.1,78.74,U2,VCC,VUSB,,,"/>
 <approved hash="104,1,45.72,78.74,U2,VCCIO,VUSB,,,"/>
-<approved hash="104,1,129.54,83.82,OLED,VCC,+5V,,,"/>
+<approved hash="202,1,119.38,121.92,U4,FB,,,,"/>
+<approved hash="104,1,99.06,129.54,U4,VIN,+5V,,,"/>
 <approved hash="117,1,190.5,203.2,AREF,,,,,"/>
 <approved hash="106,1,238.76,180.34,DEBUG,,,,,"/>
-<approved hash="105,1,236.22,83.82,N$3,,,,,"/>
+<approved hash="105,1,237.49,83.82,N$3,,,,,"/>
 <approved hash="105,1,237.49,68.58,N$24,,,,,"/>
 <approved hash="105,1,237.49,66.04,N$25,,,,,"/>
 </errors>
