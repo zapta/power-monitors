@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="100" unitdist="mil" unit="mil" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
+<grid distance="25" unitdist="mil" unit="mil" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -112,14 +112,14 @@
 </layers>
 <board>
 <plain>
-<wire x1="1.27" y1="26.1311875" x2="1.27" y2="1.8088125" width="0" layer="20"/>
-<wire x1="1.27" y1="1.8088125" x2="1.8088125" y2="1.27" width="0" layer="20" curve="90"/>
-<wire x1="1.8088125" y1="1.27" x2="26.1311875" y2="1.27" width="0" layer="20"/>
-<wire x1="26.1311875" y1="1.27" x2="26.67" y2="1.8088125" width="0" layer="20" curve="90"/>
-<wire x1="26.67" y1="1.8088125" x2="26.67" y2="26.1311875" width="0" layer="20"/>
-<wire x1="26.67" y1="26.1311875" x2="26.1311875" y2="26.67" width="0" layer="20" curve="90"/>
-<wire x1="26.1311875" y1="26.67" x2="1.8088125" y2="26.67" width="0" layer="20"/>
-<wire x1="1.8088125" y1="26.67" x2="1.27" y2="26.1311875" width="0" layer="20" curve="90"/>
+<wire x1="2.168025" y1="1.27" x2="25.771975" y2="1.27" width="0" layer="20"/>
+<wire x1="25.771975" y1="1.27" x2="26.67" y2="2.168025" width="0" layer="20" curve="90"/>
+<wire x1="26.67" y1="2.168025" x2="26.67" y2="25.771975" width="0" layer="20"/>
+<wire x1="26.67" y1="25.771975" x2="25.771975" y2="26.67" width="0" layer="20" curve="90"/>
+<wire x1="25.771975" y1="26.67" x2="2.168025" y2="26.67" width="0" layer="20"/>
+<wire x1="2.168025" y1="26.67" x2="1.27" y2="25.771975" width="0" layer="20" curve="90"/>
+<wire x1="1.27" y1="25.771975" x2="1.27" y2="2.168025" width="0" layer="20"/>
+<wire x1="1.27" y1="2.168025" x2="2.168025" y2="1.27" width="0" layer="20" curve="90"/>
 <text x="4.572" y="20.193" size="0.889" layer="21" font="vector" ratio="10" rot="SR270" align="center">D7</text>
 <text x="4.572" y="17.653" size="0.889" layer="21" font="vector" ratio="10" rot="SR270" align="center">D6</text>
 <text x="4.572" y="15.113" size="0.889" layer="21" font="vector" ratio="10" rot="SR270" align="center">D5</text>
