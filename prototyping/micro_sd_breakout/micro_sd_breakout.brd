@@ -141,8 +141,8 @@
 <text x="12.446" y="4.191" size="0.889" layer="21" font="vector" ratio="10">1</text>
 <text x="8.255" y="5.334" size="0.889" layer="21" font="vector" ratio="10">REV1</text>
 <text x="7.493" y="14.859" size="0.889" layer="21" font="vector" ratio="10">Github OSH</text>
-<text x="5.08" y="9.398" size="0.8128" layer="21" font="vector" ratio="10">WM19114CT-ND</text>
-<text x="5.08" y="7.62" size="0.8128" layer="21" font="vector" ratio="10">PRT-00127</text>
+<text x="5.08" y="9.398" size="0.889" layer="21" font="vector" ratio="10">WM19114CT-ND</text>
+<text x="5.08" y="7.62" size="0.889" layer="21" font="vector" ratio="10">PRT-00127</text>
 <text x="7.493" y="13.335" size="0.889" layer="21" font="vector" ratio="10">microSD</text>
 </plain>
 <libraries>
