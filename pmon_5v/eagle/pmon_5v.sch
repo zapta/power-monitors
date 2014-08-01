@@ -329,6 +329,7 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <rectangle x1="0.1" y1="-1.775" x2="0.4" y2="-1.025" layer="29"/>
 <rectangle x1="0.6" y1="-1.775" x2="0.9" y2="-1.025" layer="29"/>
 <rectangle x1="-1.1" y1="-0.75" x2="1.125" y2="0.75" layer="31"/>
+<rectangle x1="-1.225" y1="-0.85" x2="1.225" y2="0.85" layer="29"/>
 <smd name="1" x="-0.75" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no"/>
 <smd name="2" x="-0.25" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no"/>
 <smd name="3" x="0.25" y="-1.4" dx="0.25" dy="0.7" layer="1" roundness="25" stop="no"/>
@@ -340,7 +341,6 @@ Source: http://cds.linear.com/docs/Datasheet/623012fb.pdf</description>
 <smd name="EXP" x="0" y="0" dx="2.38" dy="1.65" layer="1" stop="no" cream="no"/>
 <text x="-1.905" y="1.905" size="1.27" layer="25">&gt;NAME</text>
 <text x="-1.905" y="-3.175" size="1.27" layer="27">&gt;VALUE</text>
-<rectangle x1="-1.225" y1="-0.85" x2="1.225" y2="0.85" layer="29"/>
 </package>
 <package name="OLED">
 <description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
@@ -566,6 +566,10 @@ chip</description>
 <pad name="D" x="4.175" y="2.625" drill="1.016" diameter="1.778" shape="square"/>
 <text x="-12.7" y="5.08" size="1.27" layer="27">&gt;VALUE</text>
 <text x="-12.7" y="2.54" size="1.27" layer="25">&gt;NAME</text>
+<rectangle x1="-5.07" y1="1.74" x2="-3.29" y2="3.51" layer="31"/>
+<rectangle x1="3.29" y1="1.74" x2="5.07" y2="3.51" layer="31"/>
+<rectangle x1="1.77" y1="5.29" x2="2.68" y2="6.21" layer="31"/>
+<rectangle x1="-2.685" y1="5.285" x2="-1.765" y2="6.21" layer="31"/>
 </package>
 <package name="USB_A">
 <wire x1="-6.75" y1="-1.5" x2="6.75" y2="-1.5" width="0.127" layer="21"/>
