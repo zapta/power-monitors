@@ -314,6 +314,10 @@ Metric Code Size 1005</description>
 <pad name="D" x="4.175" y="2.625" drill="1.016" diameter="1.778" shape="square"/>
 <text x="-12.7" y="5.08" size="1.27" layer="27">&gt;VALUE</text>
 <text x="-12.7" y="2.54" size="1.27" layer="25">&gt;NAME</text>
+<rectangle x1="-5.06" y1="1.74" x2="-3.29" y2="3.51" layer="31"/>
+<rectangle x1="3.29" y1="1.74" x2="5.06" y2="3.51" layer="31"/>
+<rectangle x1="1.77" y1="5.29" x2="2.68" y2="6.21" layer="31"/>
+<rectangle x1="-2.68" y1="5.29" x2="-1.77" y2="6.21" layer="31"/>
 </package>
 </packages>
 </library>
@@ -542,11 +546,11 @@ design rules under a new name.</description>
 <element name="JP1" library="ft232rl_breakout" package="1X01" value="" x="7.62" y="15.24" smashed="yes">
 <attribute name="VALUE" x="6.35" y="12.065" size="1.27" layer="27"/>
 </element>
-<element name="R1" library="ft232rl_breakout" package="R0402" value="" x="20.701" y="2.286" smashed="yes">
+<element name="R1" library="ft232rl_breakout" package="R0402" value="1K" x="20.701" y="2.286" smashed="yes">
 <attribute name="NAME" x="21.9964" y="1.8542" size="0.8128" layer="25" font="vector" ratio="10"/>
 <attribute name="VALUE" x="20.066" y="0.381" size="1.27" layer="27"/>
 </element>
-<element name="R2" library="ft232rl_breakout" package="R0402" value="" x="11.43" y="2.286" smashed="yes" rot="R180">
+<element name="R2" library="ft232rl_breakout" package="R0402" value="1K" x="11.43" y="2.286" smashed="yes" rot="R180">
 <attribute name="NAME" x="11.5316" y="3.7084" size="0.8128" layer="25" font="vector" ratio="10" rot="R180"/>
 <attribute name="VALUE" x="12.065" y="4.191" size="1.27" layer="27" rot="R180"/>
 </element>
