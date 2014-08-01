@@ -655,6 +655,10 @@ Source: smt-pots.pdf</description>
 <pad name="D" x="4.175" y="2.625" drill="1.016" diameter="1.778" shape="square"/>
 <text x="-12.7" y="5.08" size="1.27" layer="27">&gt;VALUE</text>
 <text x="-12.7" y="2.54" size="1.27" layer="25">&gt;NAME</text>
+<rectangle x1="-5.06" y1="1.74" x2="-3.29" y2="3.51" layer="31"/>
+<rectangle x1="3.29" y1="1.74" x2="5.07" y2="3.51" layer="31"/>
+<rectangle x1="1.77" y1="5.29" x2="2.68" y2="6.21" layer="31"/>
+<rectangle x1="-2.68" y1="5.29" x2="-1.76" y2="6.21" layer="31"/>
 </package>
 <package name="TLE1105">
 <description>&lt;b&gt;TACT SWITCH&lt;/b&gt; (EARTH TERMINAL)&lt;p&gt;
