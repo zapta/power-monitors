@@ -476,6 +476,10 @@ chip</description>
 <wire x1="205.74" y1="0" x2="0" y2="0" width="0.1524" layer="94"/>
 <wire x1="0" y1="0" x2="0" y2="129.54" width="0.1524" layer="94"/>
 <text x="197.358" y="7.112" size="2.54" layer="97">1</text>
+<text x="35.56" y="106.68" size="1.778" layer="91">Digikey FC4L64R025FERCT-ND </text>
+<text x="10.16" y="60.96" size="1.778" layer="91">Digikey 445-1604-1-ND </text>
+<text x="66.04" y="50.8" size="1.778" layer="91">Digikey LTC2943CDD#PBF-ND</text>
+<text x="114.3" y="83.82" size="1.778" layer="91">Digikey P3.30KHCT-ND </text>
 </plain>
 <instances>
 <instance part="U$20" gate="G$1" x="104.14" y="0"/>
@@ -485,8 +489,8 @@ chip</description>
 <attribute name="VALUE" x="46.228" y="64.135" size="1.778" layer="96"/>
 </instance>
 <instance part="R1" gate="G$1" x="53.34" y="99.06" smashed="yes" rot="MR0">
-<attribute name="NAME" x="55.372" y="95.3516" size="1.778" layer="95" rot="MR0"/>
-<attribute name="VALUE" x="77.216" y="95.123" size="1.778" layer="96" rot="MR0"/>
+<attribute name="NAME" x="56.388" y="94.5896" size="1.778" layer="95" rot="MR0"/>
+<attribute name="VALUE" x="61.468" y="101.473" size="1.778" layer="96" rot="MR0"/>
 </instance>
 <instance part="R3" gate="G$1" x="106.68" y="83.82" smashed="yes" rot="R90">
 <attribute name="NAME" x="105.4354" y="78.232" size="1.778" layer="95" rot="R90"/>
@@ -504,10 +508,10 @@ chip</description>
 </instance>
 <instance part="JP1" gate="G$1" x="33.02" y="99.06" rot="R180"/>
 <instance part="JP2" gate="G$1" x="78.74" y="99.06"/>
-<instance part="JP4" gate="G$1" x="132.08" y="71.12"/>
-<instance part="JP5" gate="G$1" x="132.08" y="68.58"/>
-<instance part="JP3" gate="G$1" x="132.08" y="91.44"/>
-<instance part="JP6" gate="G$1" x="132.08" y="63.5"/>
+<instance part="JP4" gate="G$1" x="132.08" y="71.12" smashed="yes"/>
+<instance part="JP5" gate="G$1" x="132.08" y="68.58" smashed="yes"/>
+<instance part="JP3" gate="G$1" x="132.08" y="91.44" smashed="yes"/>
+<instance part="JP6" gate="G$1" x="132.08" y="63.5" smashed="yes"/>
 <instance part="GND1" gate="1" x="124.46" y="58.42"/>
 </instances>
 <busses>

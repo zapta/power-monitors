@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="25" unitdist="mil" unit="mil" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
+<grid distance="100" unitdist="mil" unit="mil" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -121,13 +121,13 @@
 <wire x1="18.151975" y1="16.51" x2="2.168025" y2="16.51" width="0" layer="20"/>
 <wire x1="2.168025" y1="16.51" x2="1.27" y2="15.611975" width="0" layer="20" curve="90"/>
 <text x="4.191" y="15.24" size="0.8128" layer="21" font="vector" ratio="10">VIN</text>
-<text x="8.89" y="15.24" size="0.8128" layer="21" font="vector" ratio="10">VOUT</text>
+<text x="8.509" y="15.24" size="0.8128" layer="21" font="vector" ratio="10">VOUT</text>
 <text x="16.637" y="14.224" size="0.8128" layer="21" font="vector" ratio="10">VCC</text>
 <text x="16.637" y="9.144" size="0.8128" layer="21" font="vector" ratio="10">DAT</text>
 <text x="16.637" y="4.064" size="0.8128" layer="21" font="vector" ratio="10">CLK</text>
 <text x="4.064" y="1.651" size="0.8128" layer="21" font="vector" ratio="10">GND</text>
 <text x="2.54" y="8.382" size="0.8128" layer="21" font="vector" ratio="10" rot="R90">LTC2943</text>
-<text x="3.81" y="8.382" size="0.8128" layer="21" font="vector" ratio="10" rot="R90">REV1</text>
+<text x="3.81" y="8.382" size="0.8128" layer="21" font="vector" ratio="10" rot="R90">REV1(B)</text>
 </plain>
 <libraries>
 <library name="ltc2943_breakout">
@@ -439,8 +439,8 @@ design rules under a new name.</description>
 <element name="JP1" library="ltc2943_breakout" package="1X01" value="" x="2.54" y="15.24" smashed="yes">
 <attribute name="VALUE" x="1.27" y="12.065" size="1.27" layer="27"/>
 </element>
-<element name="JP2" library="ltc2943_breakout" package="1X01" value="" x="13.335" y="15.24" smashed="yes">
-<attribute name="VALUE" x="12.065" y="12.065" size="1.27" layer="27"/>
+<element name="JP2" library="ltc2943_breakout" package="1X01" value="" x="12.7" y="15.24" smashed="yes">
+<attribute name="VALUE" x="11.43" y="12.065" size="1.27" layer="27"/>
 </element>
 <element name="JP4" library="ltc2943_breakout" package="1X01" value="" x="17.78" y="7.62" smashed="yes">
 <attribute name="VALUE" x="16.51" y="4.445" size="1.27" layer="27"/>
@@ -530,7 +530,7 @@ design rules under a new name.</description>
 <signal name="VOUT">
 <contactref element="R1" pad="I1"/>
 <contactref element="JP2" pad="1"/>
-<wire x1="13.335" y1="15.24" x2="10.16" y2="15.24" width="1.016" layer="1"/>
+<wire x1="12.7" y1="15.24" x2="10.16" y2="15.24" width="1.016" layer="1"/>
 <wire x1="10.16" y1="15.24" x2="9.22" y2="14.3" width="1.016" layer="1"/>
 <wire x1="9.22" y1="14.3" x2="9.22" y2="11.27" width="1.016" layer="1"/>
 </signal>
