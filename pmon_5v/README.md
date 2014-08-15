@@ -1,5 +1,5 @@
-POWER PLAY 3V8
-==============
+POWER PLAY 5V
+=============
 
 ## OVERVIEW
 POWER PLAY 5V is identical to the POWER PLAY 3.8V except that it passes through the input 5V instead of down regulating it to 3.8V. This allows to use unmodified test devices (that is, no need to remove the battery) and the cost of slightly less accurate results do the quiescent current of the internal charger circuitry of the test devices and potential difference is software behavior due to the detection of the charger power. 

@@ -1,5 +1,5 @@
-POWER PLAY 3V8
-==============
+POWER PLAY 3.8V
+===============
 
 ## OVERVIEW
 POWER PLAY 3V8 is an Arduino based measurement tool that is used to measure the power consumption of mobile devices under different conditions and software versions. It provides 3.8V 2A DC power that simulates a single cell Li-ion battery and is connected to the device **instead of the battery**. The POWER PLAY 3V8 analyzes the current pattern consumed by the device and provides aggregated data on an integral a 1.3" OLED display. It also output the data to a USB/Serial port so it can be logged by a computer for further analysis. The computer based logging is optional and in most cases not consumed since the POWER PLAY 3V8 provides the key results on the display in real time (e.g. the average current consumption over the measurement period).
