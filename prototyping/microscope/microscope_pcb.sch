@@ -60,36 +60,16 @@
 </layers>
 <schematic xreflabel="%F%N/%S.%C%R" xrefpart="/%S.%C%R">
 <libraries>
-<library name="microscope_board">
+<library name="microscope_pcb">
+<description>Generated from &lt;b&gt;microscope_pcb.sch&lt;/b&gt;&lt;p&gt;
+by exp-lbrs-filter.ulp</description>
 <packages>
 <package name="DC_DC">
+<circle x="5.4356" y="-0.0508" radius="0.254" width="0.635" layer="21"/>
 <pad name="1" x="3.81" y="0" drill="0.8" diameter="1.778" shape="long" rot="R90"/>
 <pad name="2" x="1.27" y="0" drill="0.8" diameter="1.778" shape="long" rot="R90"/>
 <pad name="3" x="-1.27" y="0" drill="0.8" diameter="1.778" shape="long" rot="R90"/>
 <pad name="4" x="-3.81" y="0" drill="0.8" diameter="1.778" shape="long" rot="R90"/>
-<circle x="5.4356" y="-0.0508" radius="0.254" width="0.635" layer="21"/>
-</package>
-<package name="USB_CONNECTOR">
-<wire x1="-10" y1="-4.58" x2="10" y2="-4.58" width="0.02" layer="48"/>
-<wire x1="3.75" y1="0.55" x2="4.75" y2="0.55" width="0.02" layer="20" curve="-180"/>
-<wire x1="4.75" y1="-2.15" x2="3.75" y2="-2.15" width="0.02" layer="20" curve="-180"/>
-<wire x1="3.75" y1="0.55" x2="3.75" y2="-2.15" width="0.02" layer="20"/>
-<wire x1="4.75" y1="0.55" x2="4.75" y2="-2.15" width="0.02" layer="20"/>
-<wire x1="-4.75" y1="0.55" x2="-3.75" y2="0.55" width="0.02" layer="20" curve="-180"/>
-<wire x1="-3.75" y1="-2.15" x2="-4.75" y2="-2.15" width="0.02" layer="20" curve="-180"/>
-<wire x1="-4.75" y1="0.55" x2="-4.75" y2="-2.15" width="0.02" layer="20"/>
-<wire x1="-3.75" y1="0.55" x2="-3.75" y2="-2.15" width="0.02" layer="20"/>
-<wire x1="10" y1="-4.55" x2="10" y2="1.07" width="0.02" layer="48"/>
-<wire x1="-10" y1="1.07" x2="10" y2="1.07" width="0.02" layer="48"/>
-<wire x1="-10" y1="-4.55" x2="-10" y2="1.07" width="0.02" layer="48"/>
-<pad name="1" x="-1.3" y="0" drill="0.7" diameter="1" shape="offset" rot="R90"/>
-<pad name="2" x="-0.65" y="-1.6" drill="0.7" diameter="1" shape="long" rot="R90"/>
-<pad name="3" x="0" y="0" drill="0.7" diameter="1" shape="offset" rot="R90"/>
-<pad name="4" x="0.65" y="-1.6" drill="0.7" diameter="1" shape="long" rot="R90"/>
-<pad name="5" x="1.3" y="0" drill="0.7" diameter="1" shape="offset" rot="R90"/>
-<pad name="P$1" x="-4.245" y="-0.765" drill="0.3302" diameter="2.794" shape="long" rot="R90"/>
-<pad name="P$2" x="4.245" y="-0.815" drill="0.3302" diameter="2.794" shape="long" rot="R90"/>
-<circle x="-2.3368" y="1.9812" radius="0.254" width="0.635" layer="21"/>
 </package>
 <package name="1X01">
 <description>&lt;b&gt;PIN HEADER&lt;/b&gt;</description>
@@ -115,6 +95,28 @@ chip</description>
 <text x="-0.762" y="1.016" size="1.27" layer="25">&gt;NAME</text>
 <text x="-0.762" y="-2.286" size="1.27" layer="27">&gt;VALUE</text>
 </package>
+<package name="USB_CONNECTOR">
+<circle x="-2.3368" y="1.9812" radius="0.254" width="0.635" layer="21"/>
+<wire x1="-10" y1="-4.58" x2="10" y2="-4.58" width="0.02" layer="48"/>
+<wire x1="3.75" y1="0.55" x2="4.75" y2="0.55" width="0.02" layer="20" curve="-180"/>
+<wire x1="4.75" y1="-2.15" x2="3.75" y2="-2.15" width="0.02" layer="20" curve="-180"/>
+<wire x1="3.75" y1="0.55" x2="3.75" y2="-2.15" width="0.02" layer="20"/>
+<wire x1="4.75" y1="0.55" x2="4.75" y2="-2.15" width="0.02" layer="20"/>
+<wire x1="-4.75" y1="0.55" x2="-3.75" y2="0.55" width="0.02" layer="20" curve="-180"/>
+<wire x1="-3.75" y1="-2.15" x2="-4.75" y2="-2.15" width="0.02" layer="20" curve="-180"/>
+<wire x1="-4.75" y1="0.55" x2="-4.75" y2="-2.15" width="0.02" layer="20"/>
+<wire x1="-3.75" y1="0.55" x2="-3.75" y2="-2.15" width="0.02" layer="20"/>
+<wire x1="10" y1="-4.55" x2="10" y2="1.07" width="0.02" layer="48"/>
+<wire x1="-10" y1="1.07" x2="10" y2="1.07" width="0.02" layer="48"/>
+<wire x1="-10" y1="-4.55" x2="-10" y2="1.07" width="0.02" layer="48"/>
+<pad name="1" x="-1.3" y="0" drill="0.7" diameter="1" shape="offset" rot="R90"/>
+<pad name="2" x="-0.65" y="-1.6" drill="0.7" diameter="1" shape="long" rot="R90"/>
+<pad name="3" x="0" y="0" drill="0.7" diameter="1" shape="offset" rot="R90"/>
+<pad name="4" x="0.65" y="-1.6" drill="0.7" diameter="1" shape="long" rot="R90"/>
+<pad name="5" x="1.3" y="0" drill="0.7" diameter="1" shape="offset" rot="R90"/>
+<pad name="P$1" x="-4.245" y="-0.765" drill="0.3302" diameter="2.794" shape="long" rot="R90"/>
+<pad name="P$2" x="4.245" y="-0.815" drill="0.3302" diameter="2.794" shape="long" rot="R90"/>
+</package>
 </packages>
 <symbols>
 <symbol name="DC_DC">
@@ -126,17 +128,6 @@ chip</description>
 <pin name="IN-" x="-17.78" y="-5.08" length="short"/>
 <pin name="OUT+" x="10.16" y="7.62" length="short" rot="R180"/>
 <pin name="OUT-" x="10.16" y="-7.62" length="short" rot="R180"/>
-</symbol>
-<symbol name="USB_CONNECTOR">
-<wire x1="5.08" y1="10.16" x2="5.08" y2="-10.16" width="0.254" layer="94"/>
-<wire x1="5.08" y1="-10.16" x2="-5.08" y2="-10.16" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="-10.16" x2="-5.08" y2="10.16" width="0.254" layer="94"/>
-<wire x1="-5.08" y1="10.16" x2="5.08" y2="10.16" width="0.254" layer="94"/>
-<pin name="1" x="7.62" y="5.08" length="short" rot="R180"/>
-<pin name="2" x="7.62" y="2.54" length="short" rot="R180"/>
-<pin name="3" x="7.62" y="0" length="short" rot="R180"/>
-<pin name="4" x="7.62" y="-2.54" length="short" rot="R180"/>
-<pin name="5" x="7.62" y="-5.08" length="short" rot="R180"/>
 </symbol>
 <symbol name="PINHD1">
 <wire x1="-6.35" y1="-2.54" x2="1.27" y2="-2.54" width="0.4064" layer="94"/>
@@ -162,6 +153,17 @@ chip</description>
 <text x="-3.81" y="1.4986" size="1.778" layer="95">&gt;NAME</text>
 <text x="-3.81" y="-3.302" size="1.778" layer="96">&gt;VALUE</text>
 </symbol>
+<symbol name="USB_CONNECTOR">
+<wire x1="5.08" y1="10.16" x2="5.08" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="5.08" y1="-10.16" x2="-5.08" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="-10.16" x2="-5.08" y2="10.16" width="0.254" layer="94"/>
+<wire x1="-5.08" y1="10.16" x2="5.08" y2="10.16" width="0.254" layer="94"/>
+<pin name="1" x="7.62" y="5.08" length="short" rot="R180"/>
+<pin name="2" x="7.62" y="2.54" length="short" rot="R180"/>
+<pin name="3" x="7.62" y="0" length="short" rot="R180"/>
+<pin name="4" x="7.62" y="-2.54" length="short" rot="R180"/>
+<pin name="5" x="7.62" y="-5.08" length="short" rot="R180"/>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="DC_DC">
@@ -175,25 +177,6 @@ chip</description>
 <connect gate="G$1" pin="IN-" pad="1"/>
 <connect gate="G$1" pin="OUT+" pad="4"/>
 <connect gate="G$1" pin="OUT-" pad="3"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="USB_CONNECTOR">
-<gates>
-<gate name="G$1" symbol="USB_CONNECTOR" x="5.08" y="-5.08"/>
-</gates>
-<devices>
-<device name="" package="USB_CONNECTOR">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-<connect gate="G$1" pin="3" pad="3"/>
-<connect gate="G$1" pin="4" pad="4"/>
-<connect gate="G$1" pin="5" pad="5"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -234,6 +217,25 @@ chip</description>
 </device>
 </devices>
 </deviceset>
+<deviceset name="USB_CONNECTOR">
+<gates>
+<gate name="G$1" symbol="USB_CONNECTOR" x="5.08" y="-5.08"/>
+</gates>
+<devices>
+<device name="" package="USB_CONNECTOR">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+<connect gate="G$1" pin="3" pad="3"/>
+<connect gate="G$1" pin="4" pad="4"/>
+<connect gate="G$1" pin="5" pad="5"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 </libraries>
@@ -246,13 +248,13 @@ chip</description>
 </class>
 </classes>
 <parts>
-<part name="U$1" library="microscope_board" deviceset="DC_DC" device=""/>
-<part name="VOUT+" library="microscope_board" deviceset="PINHD-1X1" device=""/>
-<part name="VOUT-" library="microscope_board" deviceset="PINHD-1X1" device=""/>
-<part name="U$2" library="microscope_board" deviceset="USB_CONNECTOR" device=""/>
-<part name="R1" library="microscope_board" deviceset="R-US_" device="R0805" value="2K2"/>
-<part name="SW1" library="microscope_board" deviceset="PINHD-1X1" device=""/>
-<part name="SW2" library="microscope_board" deviceset="PINHD-1X1" device=""/>
+<part name="U$1" library="microscope_pcb" deviceset="DC_DC" device=""/>
+<part name="VOUT+" library="microscope_pcb" deviceset="PINHD-1X1" device=""/>
+<part name="VOUT-" library="microscope_pcb" deviceset="PINHD-1X1" device=""/>
+<part name="U$2" library="microscope_pcb" deviceset="USB_CONNECTOR" device=""/>
+<part name="R1" library="microscope_pcb" deviceset="R-US_" device="R0805" value="2K2"/>
+<part name="SW1" library="microscope_pcb" deviceset="PINHD-1X1" device=""/>
+<part name="SW2" library="microscope_pcb" deviceset="PINHD-1X1" device=""/>
 </parts>
 <sheets>
 <sheet>
