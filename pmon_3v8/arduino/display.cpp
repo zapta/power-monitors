@@ -278,8 +278,8 @@ static inline void drawSummary2Page(
   if (drawing_stripe_index == 0) {
     const uint8 kBaseY = 10;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("V"));
-    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%u.%03u"), printable_voltage.units, printable_voltage.mils);
-    u8g.drawStr(57, kBaseY, formatting_buffer);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%2u.%03u"), printable_voltage.units, printable_voltage.mils);
+    u8g.drawStr(49, kBaseY, formatting_buffer);
     u8g.drawStrP(103, kBaseY, U8G_PSTR("v"));
   }
   
@@ -340,8 +340,8 @@ static inline void drawTestPage(
   if (drawing_stripe_index == 0) {
     const uint8 kBaseY = 10;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("V"));
-    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%u.%03u"), printable_voltage.units, printable_voltage.mils);
-    u8g.drawStr(57, kBaseY, formatting_buffer);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%2u.%03u"), printable_voltage.units, printable_voltage.mils);
+    u8g.drawStr(49, kBaseY, formatting_buffer);
   }
   
   if (drawing_stripe_index == 1) {

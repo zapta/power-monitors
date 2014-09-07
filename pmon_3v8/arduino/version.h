@@ -13,7 +13,7 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-#define POWER_PLAY_VERSION_STRING "0.215"
+#define POWER_PLAY_VERSION_STRING "0.216"
 
 #endif
 
