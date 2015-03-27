@@ -1,0 +1,29 @@
+Quantity,Description,Part Designators,Digikey Part Number,Comments
+1,0.025 ohm 1% Kelvin,R6,FC4L64R025FERCT-ND,Ohmite FC4L64R025FER
+5,3.3K 1% 1/10W 0603,R1  R2  R3  R9  R11,P3.30KHCT-ND,
+1,8.2K 1% 1/10W 0603,R8,P8.20KHCT-ND,
+3,10k 5% 1/10W 0603,R4  R5  R10,311-10KGRCT-ND,
+1,1K 12 turns  side adjustment,R7,3224J-102ECT-ND,Bourns 3224J-1-102E
+2,20pF 50V 5% 0603,C11  C12,311-1424-1-ND,
+6,0.1uf 10% 25V 0603,C4  C5  C6  C7  C9  C10,311-1344-1-ND,Reduce C7 if interferes with ICSP reset (e.g. to 0.01)
+3,Ceramic cap 1uF 16V 5% 0603,C1  C13  C14,445-1604-1-ND,
+3,Tantalum cap 10uF 10%  16V 1206,C2  C3  C8,399-3684-1-ND,
+1,"Heltec 1.3"" SPI 128X64 OLED WHITE monochrome display with RST pin.",OLED,,"http://www.heltec.diytrade.comor http://r.ebay.com/bVQ2CYMust have SSD1306 controller and these 6 pins: GND  VCC  SCL  SDA  RST  D/C (picture here  http://i.imgur.com/y3cWazS.jpg).  Manufacturer is http://www.heltec.cn. Heltec also similar blue models (with sh1063 controller) and 'new' models with different 6 pins (VCC and GND swapped  no RST pin)  these two models are incompatible with the current POWER PLAY design."
+1,16Mhz crystal,Q1,CTX732CT-ND,CTS 403 Series  20pF.
+1,ATMEGA328P TQFP32,U4,ATMEGA328P-AURCT-ND,Atmel AVR328P
+1,FT232RL  SSOP28,U2,768-1007-1-ND,
+1,LTC2943  DFN8,U1,LTC2943CDD#PBF-ND,
+1,LT1764AEQ TO263,U3,LT1764AEQ#TRPBFCT-ND,Adjustable LDO 3A.
+1,TC1015 SOT23-5,U5,TC10154.0VCT713CT-ND,Fixed LDO 4.0V.
+1,Push button,S1,P12197S-ND        ,Panasonic EVQ-PAG09K
+1,"3 positions  0.1"" header  straight",J4,S1011E-36-ND,Generic part. Height above board should be at most 8.5mm. The part number here is for a 36 position breakable strip so it can be used for multiple boards.
+2,"1 position  0.1"" header straight",OLED mechanical support.,S1011E-36-ND,Generic part. Height above board should be at most 8.5mm. The part number here is for a 36 position breakable strip so it can be used for multiple boards.
+1,RC Hitech/JR servo 3 positions male connector + 2 pins,Mates with J3,,Any RC store or ebay. The top cover laser cut was design for JR/Hitech housings  not Futaba.
+2,Micro USB 'reversed' connector,J1 J2,H11611CT-ND,Hirose ZX62RD-AB-5P8.  Make sure it is a 'reversed' connector  otherwise the signals will be in reversed order.
+1,PCB,,,Order the PCB from your favorite PCB manufacturer (2 layers  60x60mm).  Make sure to order a SMD stencil  preferably 5mil stainless steal but even a 5 mil stencil from oshstencils.com should work.
+1,Top cover custom acrylic,,,"Laser cut fluorescent green 1/8"" acryilic."
+1,Bottom cover custom acrylic,,,"Laser cut fluorescent green 1/8"" acryilic."
+4,M3x6mm  pan head  philips machine screw,,335-1156-ND,Top cover screws
+4,M3x10mm  pan head  philips machine screw,,335-1148-ND,Bottom cover screws
+4,M3x6mm  round  threaded  female/female metal standoff,,952-1515-ND        ,Top cover standoff
+4,M3x3mm round  non threaded nylon or metal spacer,,952-1526-ND,Bottom cover spacer
