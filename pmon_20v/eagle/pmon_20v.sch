@@ -1916,7 +1916,7 @@ Source: http://www.onsemi.com/pub/Collateral/LP2950-D.PDF</description>
 <pinref part="C4" gate="G$1" pin="2"/>
 </segment>
 </net>
-<net name="+5V" class="0">
+<net name="VIN" class="0">
 <segment>
 <wire x1="17.78" y1="205.74" x2="35.56" y2="205.74" width="0.4064" layer="91"/>
 <wire x1="7.62" y1="205.74" x2="17.78" y2="205.74" width="0.4064" layer="91"/>
@@ -2313,13 +2313,14 @@ Source: http://www.onsemi.com/pub/Collateral/LP2950-D.PDF</description>
 </sheet>
 </sheets>
 <errors>
+<approved hash="102,1,20.32,215.9,+5V,VIN,,,,"/>
+<approved hash="102,1,83.82,134.62,+5V,VIN,,,,"/>
 <approved hash="104,1,190.5,160.02,U3,AGND,GND,,,"/>
 <approved hash="104,1,190.5,213.36,U3,AVCC,VCC,,,"/>
 <approved hash="104,1,63.5,48.26,U2,3V3OUT,N$16,,,"/>
 <approved hash="104,1,38.1,78.74,U2,VCC,VUSB,,,"/>
 <approved hash="104,1,45.72,78.74,U2,VCCIO,VUSB,,,"/>
 <approved hash="117,1,190.5,203.2,AREF,,,,,"/>
-<approved hash="106,1,238.76,180.34,DEBUG,,,,,"/>
 </errors>
 </schematic>
 </drawing>
