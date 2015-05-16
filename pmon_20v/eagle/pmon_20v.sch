@@ -1818,12 +1818,14 @@ Source: http://www.onsemi.com/pub/Collateral/LP2950-D.PDF</description>
 <wire x1="7.62" y1="190.5" x2="7.62" y2="185.42" width="0.4064" layer="91"/>
 <pinref part="GND21" gate="1" pin="GND"/>
 <pinref part="J2" gate="-2" pin="S"/>
+<label x="-2.54" y="190.5" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="GND23" gate="1" pin="GND"/>
 <wire x1="63.5" y1="190.5" x2="55.88" y2="190.5" width="0.4064" layer="91"/>
 <wire x1="55.88" y1="190.5" x2="55.88" y2="185.42" width="0.4064" layer="91"/>
 <pinref part="J3" gate="-2" pin="S"/>
+<label x="58.42" y="190.5" size="1.778" layer="95"/>
 </segment>
 <segment>
 <pinref part="GND17" gate="1" pin="GND"/>
@@ -1928,6 +1930,7 @@ Source: http://www.onsemi.com/pub/Collateral/LP2950-D.PDF</description>
 <wire x1="7.62" y1="200.66" x2="-2.54" y2="200.66" width="0.4064" layer="91"/>
 <pinref part="R4" gate="G$1" pin="I2"/>
 <pinref part="J2" gate="-1" pin="S"/>
+<label x="-2.54" y="200.66" size="1.778" layer="95"/>
 </segment>
 <segment>
 <wire x1="99.06" y1="129.54" x2="93.98" y2="129.54" width="0.1524" layer="91"/>
@@ -2118,13 +2121,14 @@ Source: http://www.onsemi.com/pub/Collateral/LP2950-D.PDF</description>
 <wire x1="43.18" y1="129.54" x2="43.18" y2="132.08" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$22" class="0">
+<net name="VOUT" class="0">
 <segment>
 <wire x1="48.26" y1="205.74" x2="55.88" y2="205.74" width="0.4064" layer="91"/>
 <wire x1="55.88" y1="205.74" x2="55.88" y2="200.66" width="0.4064" layer="91"/>
 <wire x1="55.88" y1="200.66" x2="63.5" y2="200.66" width="0.4064" layer="91"/>
 <pinref part="R4" gate="G$1" pin="I1"/>
 <pinref part="J3" gate="-1" pin="S"/>
+<label x="58.42" y="200.66" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="N$2" class="0">
