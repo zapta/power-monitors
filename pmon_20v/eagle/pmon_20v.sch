@@ -1491,7 +1491,7 @@ Source: http://www.onsemi.com/pub/Collateral/LP2950-D.PDF</description>
 <part name="GND21" library="pmon_20v" deviceset="GND" device=""/>
 <part name="GND23" library="pmon_20v" deviceset="GND" device=""/>
 <part name="C5" library="pmon_20v" deviceset="CAP-" device="C0603" value="0.1uF 50V"/>
-<part name="C1" library="pmon_20v" deviceset="CAP-" device="C0603" value="1uF"/>
+<part name="C1" library="pmon_20v" deviceset="CAP-" device="C0603" value="1uF 50V"/>
 <part name="R4" library="pmon_20v" deviceset="RES-SHUNT-" device="6432" value="0.025R 1%"/>
 <part name="R2" library="pmon_20v" deviceset="RES-" device="R0603" value="3K3"/>
 <part name="R3" library="pmon_20v" deviceset="RES-" device="R0603" value="3K3"/>
