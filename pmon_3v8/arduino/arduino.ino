@@ -29,6 +29,7 @@
 #include "display_messages.h"
 #include "ltc2943.h"
 #include "passive_timer.h"
+#include "U8glib.h"
 #include "version.h"
 
 namespace display_page {
@@ -118,7 +119,7 @@ analysis::SlotTracker StateReporting::slot_tracker;
 // ERROR state declaration.
 class StateError {
   public:
-    static inline void enter();
+    static inline void enter(uint8_t displayMessageCode);
     static inline void loop(); 
   private:
     static PassiveTimer time_in_state; 
@@ -176,7 +177,7 @@ void StateInit::loop() {
     StateReporting::enter();
   } else {
     printf(F("# LTC2943 init failed (is power connected?)\n"));
-    StateError::enter();
+    StateError::enter(display_messages::code::kLtc2943InitError);
   }
 }
 
@@ -215,7 +216,7 @@ void StateReporting::loop() {
   if (!has_last_reading) {
     if (!ltc2943::readAccumCharge(&last_slot_charge_ticks_reading)) {
       printf(F("# LTC2943 charge reading failed (1)\n"));
-      StateError::enter();
+      StateError::enter(display_messages::code::kLtc2943InitError);
       return;
     }
     has_last_reading = true;
@@ -243,23 +244,30 @@ void StateReporting::loop() {
   uint16 this_slot_charge_ticks_reading;
   if (!ltc2943::readAccumCharge(&this_slot_charge_ticks_reading)) {
       printf(F("# LTC2943 charge reading failed (2)\n"));
-      StateError::enter();
+      StateError::enter(display_messages::code::kGeneralError);
       return;
   }
   // NOTE: this should handle correctly charge register wraps around.
   const uint16 charge_ticks_in_this_slot = 
       (this_slot_charge_ticks_reading - last_slot_charge_ticks_reading);
   last_slot_charge_ticks_reading = this_slot_charge_ticks_reading;
-
+  
+  // Error if the current is reversed. 
+  if (charge_ticks_in_this_slot >= 0x8000) {
+    printf(F("# Reversed current\n"));
+    StateError::enter(display_messages::code::kCheckReverseCurrentError);
+    return;
+  }
+  
   // Update analysis with slot data.
   slot_tracker.AddSlot(charge_ticks_in_this_slot);
 
-  // Read also the current voltage
+  // Read also the voltage
   uint16 voltage_raw_register_value;
   uint16 voltage_mv;
   if (!ltc2943::readVoltage(&voltage_raw_register_value, &voltage_mv)) {
     printf(F("# LTC2943 voltage reading failed\n"));
-    StateError::enter();
+    StateError::enter(display_messages::code::kGeneralError);
     return;
   }
   const analysis::PrintableMilsValue printable_voltage(voltage_mv);
@@ -335,13 +343,15 @@ void StateReporting::loop() {
   }
 }
 
-inline void StateError::enter() {
+inline void StateError::enter(uint8 displayMessageCode) {
   state = states::ERROR;
   time_in_state.restart(); 
   // NOTE: to trigger this error for testing, short the 8.2k resistor between the 
   // device (+) output and the voltage adjustment potentiometer. 
   // This will reduce the output voltage to ~1.5V and will make the LTC2942 non responsive. 
-  display::showMessage(display_messages::code::kLtc2943InitError, 1500);
+  // Or, with the 5V or 20V versions, feed the power through the output to generate a reversed
+  // current.
+  display::showMessage(displayMessageCode, 1500);
 }
 
 inline void StateError::loop() {
@@ -373,7 +383,7 @@ void loop() {
       break;
     default:
       printf(F("# Unknown state: %d\n"), state);
-      StateError::enter();
+      StateError::enter(display_messages::code::kGeneralError);
       break;  
   }
 }

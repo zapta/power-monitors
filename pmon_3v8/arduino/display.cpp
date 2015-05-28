@@ -278,8 +278,8 @@ static inline void drawSummary2Page(
   if (drawing_stripe_index == 0) {
     const uint8 kBaseY = 10;
     u8g.drawStrP(0, kBaseY, U8G_PSTR("V"));
-    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%2u.%03u"), printable_voltage.units, printable_voltage.mils);
-    u8g.drawStr(49, kBaseY, formatting_buffer);
+    snprintf_P(formatting_buffer, sizeof(formatting_buffer), PSTR("%2u.%02u"), printable_voltage.units, printable_voltage.mils/10);
+    u8g.drawStr(57, kBaseY, formatting_buffer);
     u8g.drawStrP(103, kBaseY, U8G_PSTR("v"));
   }
   
@@ -398,6 +398,12 @@ static void drawCurrentDisplayMessage() {
   if (current_display_message_code == display_messages::code::kAnalysisReset) {
     u8g.drawStrP(21, 26, U8G_PSTR("Restarting"));
     u8g.drawStrP(21, 45, U8G_PSTR("analysis..."));
+    return;
+  }
+  
+  if (current_display_message_code == display_messages::code::kCheckReverseCurrentError) {
+    u8g.drawStrP(21, 26, U8G_PSTR("Reversed"));
+    u8g.drawStrP(21, 45, U8G_PSTR("Current!!!"));
     return;
   }
   
