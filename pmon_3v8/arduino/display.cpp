@@ -402,8 +402,8 @@ static void drawCurrentDisplayMessage() {
   }
   
   if (current_display_message_code == display_messages::code::kCheckReverseCurrentError) {
-    u8g.drawStrP(21, 26, U8G_PSTR("Reversed"));
-    u8g.drawStrP(21, 45, U8G_PSTR("Current!!!"));
+    u8g.drawStrP(21, 26, U8G_PSTR("Reverse"));
+    u8g.drawStrP(21, 45, U8G_PSTR("Current"));
     return;
   }
   
